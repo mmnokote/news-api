@@ -30,12 +30,18 @@ export class AppService {
     const book1 = this.booksRepository.create({
       name: 'How to make money',
       description: 'Mony Dillers55',
+      author: 'Mawazo Jonasi',
+      releaseYear: 20003,
+      sbn: 'NKOMN12',
     });
     await this.booksRepository.save(book1);
 
     const book2 = this.booksRepository.create({
       name: 'How code Nest JS',
       description: 'Become a Node gurru4',
+      author: 'Mtonyi shalungu',
+      releaseYear: 20003,
+      sbn: 'MN13NKO',
     });
     await this.booksRepository.save(book2);
 
