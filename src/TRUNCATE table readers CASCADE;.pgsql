@@ -1,0 +1,1 @@
+TRUNCATE table readers CASCADE;

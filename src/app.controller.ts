@@ -5,8 +5,17 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  // @Get()
+  // getHello(): string {
+  //   return this.appService.getHello();
+  // }
+  @Get('/mnokote')
+  mnokote(): string {
+    return this.appService.getMnokote();
+  }
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  async syncData(): Promise<any> {
+    await this.appService.seeder();
+    return 'seed completed';
   }
 }
