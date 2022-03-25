@@ -76,12 +76,4 @@ export class AppService {
     ceoContactInfo.reader = ceo;
     await this.contactsRepository.save(ceoContactInfo);
   }
-
-  getHello(): string {
-    return 'Hello World!';
-  }
-
-  getMnokote(): string {
-    return 'Hello No demon!';
-  }
 }

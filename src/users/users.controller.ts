@@ -6,21 +6,37 @@ import {
   Patch,
   Param,
   Delete,
-  UseFilters,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { HttpExceptionFilter } from '../filters/http-exception.filter';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @UseFilters(HttpExceptionFilter)
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return this.usersService
+      .create(createUserDto)
+      .then((response) => {
+        if (response) {
+          return response;
+        } else {
+          throw new HttpException(
+            'something Wrong with a body',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+      })
+      .catch(() => {
+        throw new HttpException(
+          'something Wrong with a body',
+          HttpStatus.BAD_REQUEST,
+        );
+      });
   }
 
   @Get()
@@ -30,7 +46,18 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService
+      .findOne(+id)
+      .then((response) => {
+        if (response) {
+          return response;
+        } else {
+          throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+        }
+      })
+      .catch(() => {
+        throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+      });
   }
 
   @Patch(':id')

@@ -7,7 +7,7 @@ const config: PostgresConnectionOptions = {
   port: 5432,
   host: 'localhost',
   database: 'nestjsm',
-  synchronize: false,
+  synchronize: true,
   migrations: ['dist/db/migrations/*.js'],
   cli: { migrationsDir: 'src/db/migrations' },
 
