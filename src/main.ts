@@ -7,7 +7,8 @@ import {
   SwaggerDocumentOptions,
 } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { ValidationPipe } from './pipes/validation.pipe';
+// import { ValidationPipe } from './pipes/validation.pipe';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,7 +26,7 @@ async function bootstrap() {
     .setTitle('Learning Node Js in Nest Framework')
     .setDescription('Swagger API Documenat')
     .setVersion('v1')
-    .addTag('')
+    .addTag('List of APIs', 'Restful APIs')
     .build();
 
   const options: SwaggerDocumentOptions = {

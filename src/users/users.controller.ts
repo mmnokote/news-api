@@ -25,17 +25,11 @@ export class UsersController {
         if (response) {
           return response;
         } else {
-          throw new HttpException(
-            'something Wrong with a body',
-            HttpStatus.BAD_REQUEST,
-          );
+          throw new HttpException('message', HttpStatus.BAD_REQUEST);
         }
       })
       .catch(() => {
-        throw new HttpException(
-          'something Wrong with a body',
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new HttpException('message', HttpStatus.BAD_REQUEST);
       });
   }
 
