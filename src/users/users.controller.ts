@@ -6,8 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  HttpException,
-  HttpStatus,
+  ConflictException,
+  NotFoundException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -25,11 +26,14 @@ export class UsersController {
         if (response) {
           return response;
         } else {
-          throw new HttpException('message', HttpStatus.BAD_REQUEST);
+          throw new InternalServerErrorException();
         }
       })
-      .catch(() => {
-        throw new HttpException('message', HttpStatus.BAD_REQUEST);
+      .catch((error) => {
+        // console.log(error);
+        if (error.code === '23505') {
+          throw new ConflictException(error.detail);
+        }
       });
   }
 
@@ -46,11 +50,26 @@ export class UsersController {
         if (response) {
           return response;
         } else {
-          throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+          throw new InternalServerErrorException();
         }
       })
-      .catch(() => {
-        throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+      .catch((error) => {
+        throw new NotFoundException(error.detail);
+      });
+  }
+  @Get(':username')
+  findOneUser(@Param('username') username: string) {
+    return this.usersService
+      .findOne(+username)
+      .then((response) => {
+        if (response) {
+          return response;
+        } else {
+          throw new InternalServerErrorException();
+        }
+      })
+      .catch((error) => {
+        throw new NotFoundException(error.detail);
       });
   }
 

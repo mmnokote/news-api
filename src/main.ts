@@ -7,21 +7,26 @@ import {
   SwaggerDocumentOptions,
 } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import * as session from 'express-session';
+import * as passport from 'passport';
+
+////validation pipes
 // import { ValidationPipe } from './pipes/validation.pipe';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  //using filters and pipes
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
 
+  ///using API version
   app.enableVersioning({
     type: VersioningType.URI,
   });
-
   app.setGlobalPrefix('api/v1');
 
+  //swagger configuration
   const config = new DocumentBuilder()
     .setTitle('Learning Node Js in Nest Framework')
     .setDescription('Swagger API Documenat')
@@ -32,9 +37,20 @@ async function bootstrap() {
   const options: SwaggerDocumentOptions = {
     deepScanRoutes: true,
   };
-
   const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('api', app, document);
+
+  //session ***express uses in memory ,bt it not working in production(use redis eg)
+  app.use(
+    session({
+      secret: 'secret', ///put in enviroment variable
+      resave: false,
+      saveUninitialized: false,
+      cookie: { maxAge: 3600000 },
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   await app.listen(3200);
 }

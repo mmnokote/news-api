@@ -12,23 +12,41 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
+  private readonly users: User[] = [
+    {
+      id: 1,
+      age: 20,
+      sex: 'm',
+      first_name: '',
+      middle_name: '',
+      last_name: '',
+      username: 'mm',
+      password: 'string',
+      email: 'string@g.com',
+    },
+  ];
+
   async create(createUserDto: CreateUserDto) {
     return this.usersRepository.save(createUserDto);
   }
 
-  findAll() {
+  async findAll() {
     return this.usersRepository.find();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.usersRepository.findOne(id);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async findOneUser(username: string): Promise<User> {
+    return this.users.find((user) => user.username === username);
+  }
+
+  async update(id: number, updateUserDto: UpdateUserDto) {
     return this.usersRepository.update(id, updateUserDto);
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.usersRepository.delete(id);
   }
 }
