@@ -1,6 +1,6 @@
 import { BaseEntity } from 'src/base-entity';
 import { Reader } from 'src/readers/entities/reader.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('books')
 export class Book extends BaseEntity {
@@ -19,6 +19,9 @@ export class Book extends BaseEntity {
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   description: string;
 
-  @ManyToOne(() => Reader, (reader) => reader.books, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Reader, (reader) => reader.books, {
+    onDelete: 'CASCADE',
+    // eager: true,
+  })
   reader: Reader;
 }

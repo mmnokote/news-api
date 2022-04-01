@@ -17,7 +17,9 @@ export class ReadersService {
   }
 
   findAll() {
-    return this.readersRepository.find();
+    return this.readersRepository.find({
+      relations: ['books'],
+    });
   }
 
   findOne(id: number) {

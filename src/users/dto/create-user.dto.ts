@@ -10,6 +10,7 @@ export class CreateUserDto extends BaseEntity {
   @IsNotEmpty({ message: 'First Name is missing.' })
   first_name: string;
 
+  @IsNotEmpty()
   @ApiProperty({
     description: 'User second name',
   })
