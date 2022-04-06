@@ -13,6 +13,7 @@ import { Reader } from './readers/entities/reader.entity';
 import { Contact } from './contacts/entities/contact.entity';
 import { Meeting } from './meetings/entities/meeting.entity';
 import { AuthModule } from './auth/auth.module';
+import { CategoriesModule } from './categories/categories.module';
 import config from './orm.config';
 
 @Module({
@@ -26,6 +27,7 @@ import config from './orm.config';
     RolesModule,
     MeetingsModule,
     AuthModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,6 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  InternalServerErrorException,
+  ConflictException,
+  NotFoundException,
 } from '@nestjs/common';
 import { ReadersService } from './readers.service';
 import { CreateReaderDto } from './dto/create-reader.dto';
@@ -22,7 +25,23 @@ export class ReadersController {
 
   @Get()
   findAll() {
-    return this.readersService.findAll();
+    return this.readersService
+      .findAll()
+      .then((response) => {
+        if (response) {
+          return response;
+        } else {
+          throw new NotFoundException();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.code === '23505') {
+          throw new ConflictException(error.detail);
+        }
+
+        throw new InternalServerErrorException();
+      });
   }
 
   @Get(':id')
