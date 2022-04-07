@@ -29,10 +29,33 @@ export class CategoriesService {
     const allDescendantTree =
       await this.categoryRepository2.findDescendantsTree(await parentCategory);
 
-    // findDescendants return child without parent
+    // findDescendants return child without parent of a given category
     const childrenOnly = await this.categoryRepository2.findDescendants(
       await parentCategory,
     );
+
+    // createAncestorsQueryBuilder - Creates a query builder used to get ancestors of the entities in a tree.
+    const xxx = await this.categoryRepository2
+      .createAncestorsQueryBuilder(
+        'category',
+        'categoryClosure',
+        await parentCategory,
+      )
+      .leftJoinAndSelect('category.level', 'level')
+      .getMany();
+
+    //use createDescendantsQueryBuilder - Creates a query builder used to get descendants of the entities in a tree.
+    const leveId = 1;
+    const ddd = await this.categoryRepository2
+      .createDescendantsQueryBuilder(
+        'category',
+        'categoryClosure',
+        await parentCategory,
+      )
+      .leftJoinAndSelect('category.level', 'level')
+      // .andWhere("category.type = 'primary'")
+      // .orWhere('category.levelId = :level', { level: leveId })
+      .getMany();
 
     return findTrees;
   }

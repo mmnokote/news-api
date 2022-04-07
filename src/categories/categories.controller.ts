@@ -26,7 +26,7 @@ export class CategoriesController {
   }
 
   @Get('/seed-category')
-  seedcategory() {
+  seedCategory() {
     return this.categoriesService.seedCategory();
   }
 

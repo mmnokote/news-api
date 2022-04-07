@@ -14,6 +14,7 @@ import { Contact } from './contacts/entities/contact.entity';
 import { Meeting } from './meetings/entities/meeting.entity';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
+import { LevelsModule } from './levels/levels.module';
 import config from './orm.config';
 
 @Module({
@@ -28,6 +29,7 @@ import config from './orm.config';
     MeetingsModule,
     AuthModule,
     CategoriesModule,
+    LevelsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

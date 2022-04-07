@@ -1,3 +1,4 @@
+import { Level } from 'src/levels/entities/level.entity';
 import {
   Entity,
   Tree,
@@ -6,6 +7,8 @@ import {
   TreeChildren,
   TreeParent,
   TreeLevelColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity()
@@ -22,4 +25,11 @@ export class Category {
 
   @TreeParent()
   parent: Category;
+
+  @Column({ default: 'primary' })
+  type: string;
+
+  @OneToOne(() => Level, (level) => level.category)
+  @JoinColumn()
+  level: Level;
 }
