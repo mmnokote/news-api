@@ -45,7 +45,6 @@ export class CategoriesService {
       .getMany();
 
     //use createDescendantsQueryBuilder - Creates a query builder used to get descendants of the entities in a tree.
-    const leveId = 1;
     const ddd = await this.categoryRepository2
       .createDescendantsQueryBuilder(
         'category',
