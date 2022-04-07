@@ -12,26 +12,13 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  private readonly users: User[] = [
-    {
-      id: 1,
-      age: 20,
-      sex: 'm',
-      first_name: '',
-      middle_name: '',
-      last_name: '',
-      username: 'mm',
-      password: 'string',
-      email: 'string@g.com',
-    },
-  ];
-
   async create(createUserDto: CreateUserDto) {
     return this.usersRepository.save(createUserDto);
   }
 
   async findAll() {
-    return this.usersRepository.find();
+    const users = this.usersRepository.createQueryBuilder('user').getMany();
+    return users;
   }
 
   async findOne(id: number) {
@@ -39,7 +26,10 @@ export class UsersService {
   }
 
   async findOneUser(username: string): Promise<User> {
-    return this.users.find((user) => user.username === username);
+    const user = await this.usersRepository.findOneOrFail({
+      username,
+    });
+    return user;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

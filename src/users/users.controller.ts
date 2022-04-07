@@ -26,7 +26,7 @@ export class UsersController {
         if (response) {
           return response;
         } else {
-          throw new InternalServerErrorException();
+          throw new NotFoundException();
         }
       })
       .catch((error) => {
@@ -34,12 +34,20 @@ export class UsersController {
         if (error.code === '23505') {
           throw new ConflictException(error.detail);
         }
+        throw new InternalServerErrorException();
       });
   }
 
   @Get()
   findAll() {
-    return this.usersService.findAll();
+    return this.usersService
+      .findAll()
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        throw new NotFoundException(error.detail);
+      });
   }
 
   @Get(':id')

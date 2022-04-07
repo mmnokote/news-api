@@ -17,7 +17,15 @@ export class BooksService {
   }
 
   findAll() {
-    return `This action returns all books`;
+    const id = 2;
+    // return this.booksRepository.find({
+    //   relations: ['reader'],
+    // });
+    return this.booksRepository
+      .createQueryBuilder('book')
+      .leftJoinAndSelect('book.reader', 'reader')
+      .where('reader.id = :readerId', { readerId: id })
+      .getMany();
   }
 
   findOne(id: number) {
