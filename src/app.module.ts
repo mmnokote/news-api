@@ -15,6 +15,7 @@ import { Meeting } from './meetings/entities/meeting.entity';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { LevelsModule } from './levels/levels.module';
+import { ActivitiesModule } from './activities/activities.module';
 import config from './orm.config';
 
 @Module({
@@ -30,6 +31,7 @@ import config from './orm.config';
     AuthModule,
     CategoriesModule,
     LevelsModule,
+    ActivitiesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

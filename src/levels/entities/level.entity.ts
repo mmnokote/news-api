@@ -7,6 +7,12 @@ export class Level extends BaseEntity {
   @Column()
   name: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  description: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  code: string;
+
   @OneToOne(() => Category, (category) => category.level)
   category: Category;
 }
