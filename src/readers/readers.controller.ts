@@ -9,11 +9,13 @@ import {
   InternalServerErrorException,
   ConflictException,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { ReadersService } from './readers.service';
 import { CreateReaderDto } from './dto/create-reader.dto';
 import { UpdateReaderDto } from './dto/update-reader.dto';
-
+import { JwtAuthGuard } from 'src/auth/jwt-auth-guard';
+@UseGuards(JwtAuthGuard)
 @Controller('readers')
 export class ReadersController {
   constructor(private readonly readersService: ReadersService) {}
