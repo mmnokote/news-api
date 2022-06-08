@@ -16,7 +16,11 @@ import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { LevelsModule } from './levels/levels.module';
 import { ActivitiesModule } from './activities/activities.module';
+import { FileuploadsModule } from './fileuploads/fileuploads.module';
+import { PermissionsModule } from './permissions/permissions.module';
 import config from './orm.config';
+import { RolesGuard } from './roles/permissions.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -32,8 +36,16 @@ import config from './orm.config';
     CategoriesModule,
     LevelsModule,
     ActivitiesModule,
+    FileuploadsModule,
+    PermissionsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // },
+  ],
 })
 export class AppModule {}

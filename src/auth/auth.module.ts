@@ -10,7 +10,7 @@ import { LocalStrategy } from './local.strategy';
     UsersModule,
     JwtModule.register({
       secret: 'SECRET',
-      signOptions: { expiresIn: '60s' },
+      // signOptions: { expiresIn: '5000s' },
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],

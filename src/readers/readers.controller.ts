@@ -15,14 +15,28 @@ import { ReadersService } from './readers.service';
 import { CreateReaderDto } from './dto/create-reader.dto';
 import { UpdateReaderDto } from './dto/update-reader.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth-guard';
-@UseGuards(JwtAuthGuard)
+
+// @UseGuards(JwtAuthGuard)
 @Controller('readers')
 export class ReadersController {
   constructor(private readonly readersService: ReadersService) {}
 
   @Post()
   create(@Body() createReaderDto: CreateReaderDto) {
-    return this.readersService.create(createReaderDto);
+    return this.readersService
+      .create(createReaderDto)
+      .then((response) => {
+        if (response) {
+          return response;
+        } else {
+          throw new InternalServerErrorException();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+
+        throw new InternalServerErrorException();
+      });
   }
 
   @Get()

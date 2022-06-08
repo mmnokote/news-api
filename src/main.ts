@@ -7,18 +7,17 @@ import {
   SwaggerDocumentOptions,
 } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import * as session from 'express-session';
-import * as passport from 'passport';
+import { static as expose } from 'express';
 
 ////validation pipes
 // import { ValidationPipe } from './pipes/validation.pipe';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   //using filters and pipes
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   ///using API version
   app.enableVersioning({
@@ -40,18 +39,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('api', app, document);
 
-  //session ***express uses in memory ,bt it not working in production(use redis eg)
-  // app.use(
-  //   session({
-  //     secret: 'secret', ///put in enviroment variable
-  //     resave: false,
-  //     saveUninitialized: false,
-  //     cookie: { maxAge: 3600000 },
-  //   }),
-  // );
-  // app.use(passport.initialize());
-  // app.use(passport.session());
-
-  await app.listen(3200);
+  app.use(expose('public'));
+  await app.listen(3300);
 }
 bootstrap();

@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -10,10 +11,34 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private eventEmitter: EventEmitter2,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
-    return this.usersRepository.save(createUserDto);
+  @OnEvent('user.created')
+  handleOrderCreatedEvent(payload: any) {
+    console.log('dataxxxxxxx', payload);
+  }
+
+  async create(createUserDto: CreateUserDto, roles: any) {
+    const newUser = await this.usersRepository.create({
+      ...createUserDto,
+      roles,
+    });
+    await this.usersRepository
+      .save(newUser)
+      .then((response) => {
+        if (response) {
+          this.eventEmitter.emit('user.created', response);
+
+          return response;
+        }
+      })
+      .catch((error) => {
+        return error;
+
+        // throw new InternalServerErrorException();
+      });
+    return newUser;
   }
 
   async findAll() {

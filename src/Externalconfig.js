@@ -12,4 +12,7 @@
 
 // Validation
 // install class validator and class transformer
-// use @decorators
+// use @decorators in dtos
+
+// // fileuploads dependance,,,, multer uuid and platform expres
+//npm install --save @types/multer AND npm i uuid AND npm i @types/uuid AND  npm i @nestjs/platform-express

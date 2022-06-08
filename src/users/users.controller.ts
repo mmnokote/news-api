@@ -4,24 +4,41 @@ import {
   Post,
   Body,
   Patch,
+  Request,
   Param,
   Delete,
   ConflictException,
   NotFoundException,
   InternalServerErrorException,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth-guard';
+import { PermissionsPost } from 'src/roles/permissions.decoretor';
+import { Permission } from 'src/roles/entities/role.enam';
+import { RolesGuard } from 'src/roles/permissions.guard';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @PermissionsPost(Permission.BOOKPOST)
   create(@Body() createUserDto: CreateUserDto) {
+    const roles = createUserDto.roles;
+    if (!roles) {
+      throw new NotFoundException(`Roles not found.`);
+    }
+    const data = {
+      ...createUserDto,
+      roles,
+    };
+
     return this.usersService
-      .create(createUserDto)
+      .create(createUserDto, roles)
       .then((response) => {
         if (response) {
           return response;
@@ -30,7 +47,7 @@ export class UsersController {
         }
       })
       .catch((error) => {
-        // console.log(error);
+        // console.log('ressssssssssssssssss', error);
         if (error.code === '23505') {
           throw new ConflictException(error.detail);
         }
@@ -39,7 +56,8 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
+  @PermissionsPost(Permission.BOOKGET)
+  findAll(@Request() req) {
     return this.usersService
       .findAll()
       .then((response) => {
