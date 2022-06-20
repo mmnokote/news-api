@@ -5,4 +5,6 @@ export enum Permission {
   BOOKPOST = 'bookpost',
   BOOKDELETE = 'deleteBook',
   BOOKGET = 'Baraka',
+  USERGET = 'Baraka',
+  USERPOST = 'Baraka',
 }

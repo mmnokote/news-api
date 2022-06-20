@@ -21,6 +21,8 @@ import { PermissionsModule } from './permissions/permissions.module';
 import config from './orm.config';
 import { RolesGuard } from './roles/permissions.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { RoomsModule } from './rooms/rooms.module';
+import { RoomCategoriesModule } from './room-categories/room-categories.module';
 
 @Module({
   imports: [
@@ -38,6 +40,8 @@ import { APP_GUARD } from '@nestjs/core';
     ActivitiesModule,
     FileuploadsModule,
     PermissionsModule,
+    RoomsModule,
+    RoomCategoriesModule,
   ],
   controllers: [AppController],
   providers: [

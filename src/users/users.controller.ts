@@ -26,7 +26,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @PermissionsPost(Permission.BOOKPOST)
+  @PermissionsPost(Permission.USERGET)
   create(@Body() createUserDto: CreateUserDto) {
     const roles = createUserDto.roles;
     if (!roles) {
@@ -56,7 +56,7 @@ export class UsersController {
   }
 
   @Get()
-  @PermissionsPost(Permission.BOOKGET)
+  @PermissionsPost(Permission.USERPOST)
   findAll(@Request() req) {
     return this.usersService
       .findAll()
