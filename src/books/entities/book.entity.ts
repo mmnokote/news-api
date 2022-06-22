@@ -7,13 +7,13 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 @Entity('books')
 export class Book extends BaseEntity {
   @Column({ type: 'varchar', nullable: true, length: 1000 })
-  name: string;
+  bookName: string;
 
   @Column({ type: 'varchar', nullable: true, length: 1000 })
   author: string;
 
-  @Column({ nullable: false })
-  releaseYear: number;
+  @Column({ nullable: true })
+  releaseYear: string;
 
   @Column({ type: 'varchar' })
   sbn: string;
@@ -21,14 +21,13 @@ export class Book extends BaseEntity {
   @Column({ nullable: true })
   description: string;
 
-  @Expose()
-  @IsNumber()
+  @Column({ nullable: true })
   readerId: number;
 
   @ManyToOne(() => Reader, (reader) => reader.books, {
     onDelete: 'CASCADE',
     nullable: true,
-    // eager: true,
+    eager: true,
   })
   reader: Reader;
 }

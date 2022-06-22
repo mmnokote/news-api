@@ -9,7 +9,7 @@ export class CreateBookDto extends BaseEntity {
   })
   @IsString()
   @IsNotEmpty({ message: 'Name is missing.' })
-  name: string;
+  bookName: string;
 
   @IsNotEmpty()
   @ApiProperty({
@@ -17,12 +17,12 @@ export class CreateBookDto extends BaseEntity {
   })
   author: string;
 
+  @IsString()
   @ApiProperty({
     description: 'Book release year',
   })
-  @IsInt()
   @IsNotEmpty({ message: 'Release year is missing.' })
-  releaseYear: number;
+  releaseYear: string;
 
   @IsString()
   @ApiProperty({
@@ -36,6 +36,6 @@ export class CreateBookDto extends BaseEntity {
   sbn: string;
 
   @Expose()
-  @IsNumber()
+  @IsInt()
   readerId: number;
 }

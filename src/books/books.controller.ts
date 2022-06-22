@@ -35,10 +35,6 @@ export class BooksController {
         `Reader with id ${createBookDto.readerId} not found.`,
       );
     }
-    const data = {
-      ...createBookDto,
-      reader,
-    };
 
     return this.booksService
       .create(createBookDto, reader)
@@ -52,7 +48,7 @@ export class BooksController {
           return response;
         }
       })
-      .catch((error) => {
+      .catch(() => {
         throw new InternalServerErrorException();
       });
   }
@@ -69,8 +65,11 @@ export class BooksController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.booksService.update(+id, updateBookDto);
+  async update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
+    const data = {
+      ...updateBookDto,
+    };
+    return this.booksService.patch(+id, data);
   }
 
   @Delete(':id')

@@ -1,10 +1,8 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Cron, SchedulerRegistry } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
-// import { ReadersService } from 'src/readers/readers.service';
 import { Repository } from 'typeorm';
 import { CreateBookDto } from './dto/create-book.dto';
-import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
 
 @Injectable()
@@ -35,11 +33,18 @@ export class BooksService {
   }
 
   findAll() {
+    const data = this.booksRepository
+      .createQueryBuilder('book')
+      .leftJoinAndSelect('book.reader', 'reader')
+      .getMany();
+    return data;
+  }
+
+  findAllx() {
     const id = 21;
     // return this.booksRepository.find({
     //   relations: ['reader'],
     // });
-
     const data = this.booksRepository
       .createQueryBuilder('book')
       .leftJoinAndSelect('book.reader', 'reader')
@@ -52,8 +57,9 @@ export class BooksService {
     return `This action returns a #${id} book`;
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return this.booksRepository.update(id, updateBookDto);
+  async patch(id: number, data) {
+    const dataToUpdate = await this.booksRepository.update(id, data);
+    return dataToUpdate;
   }
 
   remove(id: number) {
