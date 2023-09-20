@@ -1,6 +1,5 @@
 import { BaseEntity } from 'src/base-entity';
 import { Book } from 'src/books/entities/book.entity';
-import { Contact } from 'src/contacts/entities/contact.entity';
 import { Meeting } from 'src/meetings/entities/meeting.entity';
 import {
   Column,
@@ -30,9 +29,6 @@ export class Reader extends BaseEntity {
 
   @OneToMany(() => Reader, (reader) => reader.manager)
   readers: Reader[];
-
-  @OneToOne(() => Contact, (contact) => contact.reader)
-  contact: Contact;
 
   @OneToMany(() => Book, (book) => book.reader)
   books: Book[];

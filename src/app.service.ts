@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Book } from './books/entities/book.entity';
-import { Contact } from './contacts/entities/contact.entity';
 import { Meeting } from './meetings/entities/meeting.entity';
 import { Reader } from './readers/entities/reader.entity';
 
@@ -11,8 +10,7 @@ export class AppService {
   constructor(
     @InjectRepository(Book)
     private booksRepository: Repository<Book>,
-    @InjectRepository(Contact)
-    private contactsRepository: Repository<Contact>,
+
     @InjectRepository(Meeting)
     private meetingsRepository: Repository<Meeting>,
     @InjectRepository(Reader)
@@ -28,19 +26,19 @@ export class AppService {
 
     //Create Books
     const book1 = this.booksRepository.create({
-      bookName: 'How to make money',
+      name: 'How to make money',
       description: 'Mony Dillers55',
       author: 'Mawazo Jonasi',
-      releaseYear: '20003',
+      releaseYear: 20003,
       sbn: 'NKOMN12',
     });
     await this.booksRepository.save(book1);
 
     const book2 = this.booksRepository.create({
-      bookName: 'How code Nest JS',
+      name: 'How code Nest JS',
       description: 'Become a Node gurru4',
       author: 'Mtonyi shalungu',
-      releaseYear: '20003',
+      releaseYear: 20003,
       sbn: 'MN13NKO',
     });
     await this.booksRepository.save(book2);
@@ -65,15 +63,5 @@ export class AppService {
     });
     meeting1.attendees = [ceo, director];
     await this.meetingsRepository.save(meeting1);
-
-    const ceoContactInfo = this.contactsRepository.create({
-      email: 'mmnokote@gmail.com',
-      phone: '123',
-      // readerId: ceo.id, you can do this also
-    });
-
-    //save CEO contact Info
-    ceoContactInfo.reader = ceo;
-    await this.contactsRepository.save(ceoContactInfo);
   }
 }

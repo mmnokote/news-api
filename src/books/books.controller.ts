@@ -6,55 +6,24 @@ import {
   Patch,
   Param,
   Delete,
-  InternalServerErrorException,
-  NotFoundException,
-  Inject,
+  UseGuards,
 } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-import { ReadersService } from 'src/readers/readers.service';
-import { Permission } from 'src/roles/entities/role.enam';
-import { PermissionsPost } from 'src/roles/permissions.decoretor';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 
 @Controller('books')
 export class BooksController {
-  constructor(
-    private readonly booksService: BooksService,
-    private readersService: ReadersService,
-    @Inject('BOOK_SERVICE') private readonly booksClient: ClientProxy,
-  ) {}
-
+  constructor(private readonly booksService: BooksService) {}
+  //@UseGuards(AuthenticatedGuard) //check if the user is loged in
   @Post()
-  @PermissionsPost(Permission.BOOKPOST)
-  async create(@Body() createBookDto: CreateBookDto) {
-    const reader = await this.readersService.findOne(createBookDto.readerId);
-    if (!reader) {
-      throw new NotFoundException(
-        `Reader with id ${createBookDto.readerId} not found.`,
-      );
-    }
-
-    return this.booksService
-      .create(createBookDto, reader)
-      .then((response) => {
-        if (response) {
-          this.booksClient.emit(
-            'book_created',
-            response,
-            // new CreateUserEvent(createUserDto.email),
-          );
-          return response;
-        }
-      })
-      .catch(() => {
-        throw new InternalServerErrorException();
-      });
+  create(@Body() createBookDto: CreateBookDto) {
+    return this.booksService.create(createBookDto);
   }
 
+  @UseGuards(AuthenticatedGuard) //check if the user is loged in
   @Get()
-  @PermissionsPost(Permission.BOOKGET)
   findAll() {
     return this.booksService.findAll();
   }
@@ -65,11 +34,8 @@ export class BooksController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    const data = {
-      ...updateBookDto,
-    };
-    return this.booksService.patch(+id, data);
+  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
+    return this.booksService.update(+id, updateBookDto);
   }
 
   @Delete(':id')

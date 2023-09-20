@@ -33,7 +33,6 @@ export class CreateUserDto extends BaseEntity {
   @ApiProperty({
     description: 'User gendar',
   })
-  @IsNotEmpty()
   sex: string;
 
   @ApiProperty({
@@ -51,10 +50,4 @@ export class CreateUserDto extends BaseEntity {
 
   @IsEmail()
   email: string;
-
-  @IsNotEmpty()
-  @ApiProperty({
-    description: 'user roles',
-  })
-  roles: [];
 }

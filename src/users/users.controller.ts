@@ -4,41 +4,25 @@ import {
   Post,
   Body,
   Patch,
-  Request,
   Param,
   Delete,
+  Query as QR,
   ConflictException,
   NotFoundException,
   InternalServerErrorException,
-  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth-guard';
-import { PermissionsPost } from 'src/roles/permissions.decoretor';
-import { Permission } from 'src/roles/entities/role.enam';
-import { RolesGuard } from 'src/roles/permissions.guard';
 
-@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @PermissionsPost(Permission.USERGET)
   create(@Body() createUserDto: CreateUserDto) {
-    const roles = createUserDto.roles;
-    if (!roles) {
-      throw new NotFoundException(`Roles not found.`);
-    }
-    const data = {
-      ...createUserDto,
-      roles,
-    };
-
     return this.usersService
-      .create(createUserDto, roles)
+      .create(createUserDto)
       .then((response) => {
         if (response) {
           return response;
@@ -47,7 +31,7 @@ export class UsersController {
         }
       })
       .catch((error) => {
-        // console.log('ressssssssssssssssss', error);
+        // console.log(error);
         if (error.code === '23505') {
           throw new ConflictException(error.detail);
         }
@@ -55,9 +39,8 @@ export class UsersController {
       });
   }
 
-  @Get()
-  @PermissionsPost(Permission.USERPOST)
-  findAll(@Request() req) {
+  @Get('all')
+  findAll() {
     return this.usersService
       .findAll()
       .then((response) => {
@@ -98,6 +81,28 @@ export class UsersController {
         throw new NotFoundException(error.detail);
       });
   }
+
+  @Get()
+  searchUser(@QR('regSearchTerm') regSearchTerm: string) {
+    // return `Search=${regSearchTerm}`;
+    return this.usersService
+      .seachOne(`${regSearchTerm}`)
+      .then((response) => {
+        if (response) {
+          return response;
+        } else {
+          throw new InternalServerErrorException();
+        }
+      })
+      .catch((error) => {
+        throw new NotFoundException(error.detail);
+      });
+  }
+
+  // @Get('getQueryDocumentTypesByCategory/:id')
+  // findAllByid(@Param('id') id: string) {
+  //   return this.queryDocumentTypesService.findAllById(+id);
+  // }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

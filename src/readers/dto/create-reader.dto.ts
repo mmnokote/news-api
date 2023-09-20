@@ -7,7 +7,5 @@ export class CreateReaderDto {
 
   name?: string;
 
-  username?: string;
-
   description?: string;
 }

@@ -1,4 +1,4 @@
-import { CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class BaseEntity {
@@ -11,4 +11,7 @@ export class BaseEntity {
 
   @CreateDateColumn({ nullable: true })
   updatedAt?: Date;
+
+  @Column({ nullable: true })
+  createdBy?: number;
 }

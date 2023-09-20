@@ -5,51 +5,50 @@ import { UsersModule } from './users/users.module';
 import { BooksModule } from './books/books.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ReadersModule } from './readers/readers.module';
-import { ContactsModule } from './contacts/contacts.module';
 import { RolesModule } from './roles/roles.module';
 import { MeetingsModule } from './meetings/meetings.module';
 import { Book } from './books/entities/book.entity';
 import { Reader } from './readers/entities/reader.entity';
-import { Contact } from './contacts/entities/contact.entity';
 import { Meeting } from './meetings/entities/meeting.entity';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { LevelsModule } from './levels/levels.module';
-import { ActivitiesModule } from './activities/activities.module';
-import { FileuploadsModule } from './fileuploads/fileuploads.module';
-import { PermissionsModule } from './permissions/permissions.module';
+import { QueriesModule } from './queries/queries.module';
+import { QueryCategoriesModule } from './query-categories/query-categories.module';
+import { UserQueriesModule } from './user-queries/user-queries.module';
+import { QueryStatusesModule } from './query-statuses/query-statuses.module';
+import { QueryFeedbackAttachmentsModule } from './query-feedback-attachments/query-feedback-attachments.module';
+import { QueryClaimAttachmentsModule } from './query-claim-attachments/query-claim-attachments.module';
+import { QueryDocumentTypesModule } from './query-document-types/query-document-types.module';
+import { MenusModule } from './menus/menus.module';
+import { UserMenusModule } from './user-menus/user-menus.module';
+import { FilesModule } from './files/files.module';
 import config from './orm.config';
-import { RolesGuard } from './roles/permissions.guard';
-import { APP_GUARD } from '@nestjs/core';
-import { RoomsModule } from './rooms/rooms.module';
-import { RoomCategoriesModule } from './room-categories/room-categories.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(config),
-    TypeOrmModule.forFeature([Contact, Reader, Book, Meeting]),
+    TypeOrmModule.forFeature([Reader, Book, Meeting]),
     UsersModule,
     BooksModule,
     ReadersModule,
-    ContactsModule,
     RolesModule,
     MeetingsModule,
     AuthModule,
     CategoriesModule,
     LevelsModule,
-    ActivitiesModule,
-    FileuploadsModule,
-    PermissionsModule,
-    RoomsModule,
-    RoomCategoriesModule,
+    QueriesModule,
+    QueryCategoriesModule,
+    UserQueriesModule,
+    QueryStatusesModule,
+    QueryFeedbackAttachmentsModule,
+    QueryClaimAttachmentsModule,
+    QueryDocumentTypesModule,
+    MenusModule,
+    UserMenusModule,
+    FilesModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // },
-  ],
+  providers: [AppService],
 })
 export class AppModule {}

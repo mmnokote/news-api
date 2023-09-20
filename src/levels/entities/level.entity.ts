@@ -1,7 +1,6 @@
 import { BaseEntity } from 'src/base-entity';
 import { Category } from 'src/categories/entities/category.entity';
-import { Role } from 'src/roles/entities/role.entity';
-import { Entity, Column, OneToOne, ManyToMany } from 'typeorm';
+import { Entity, Column, OneToOne } from 'typeorm';
 
 @Entity('levels')
 export class Level extends BaseEntity {
@@ -16,7 +15,4 @@ export class Level extends BaseEntity {
 
   @OneToOne(() => Category, (category) => category.level)
   category: Category;
-
-  @ManyToMany(() => Role, (role) => role.level)
-  roles: Role[];
 }

@@ -7,17 +7,18 @@ import {
   SwaggerDocumentOptions,
 } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { static as expose } from 'express';
+import * as session from 'express-session';
+import * as passport from 'passport';
 
 ////validation pipes
 // import { ValidationPipe } from './pipes/validation.pipe';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
   //using filters and pipes
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.useGlobalPipes(new ValidationPipe());
 
   ///using API version
   app.enableVersioning({
@@ -27,7 +28,7 @@ async function bootstrap() {
 
   //swagger configuration
   const config = new DocumentBuilder()
-    .setTitle('Learning Node Js in Nest Framework')
+    .setTitle('GRM Node Js in Nest Framework')
     .setDescription('Swagger API Documenat')
     .setVersion('v1')
     .addTag('List of APIs', 'Restful APIs')
@@ -37,9 +38,21 @@ async function bootstrap() {
     deepScanRoutes: true,
   };
   const document = SwaggerModule.createDocument(app, config, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('list-of-api', app, document);
 
-  app.use(expose('public'));
-  await app.listen(3300);
+  //session ***express uses in memory ,bt it not working in production(use redis eg)
+  app.use(
+    session({
+      secret: 'secret', ///put in enviroment variable
+      resave: false,
+      saveUninitialized: false,
+      cookie: { maxAge: 3600000 },
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.enableCors();
+
+  await app.listen(3200);
 }
 bootstrap();
