@@ -16,9 +16,14 @@ export class QueryFeedbackAttachment extends BaseEntity {
 
   @ManyToOne(
     () => QueryDocumentType,
-    (attachmentType) => attachmentType.queryDocumentFeedback,
+    (queryDocumentType) => queryDocumentType.queryDocumentFeedback,
+    {
+      onDelete: 'CASCADE',
+      eager: true,
+    },
   )
+  queryDocumentType: QueryDocumentType;
+
   @Column({ nullable: true })
   queryDocumentTypeId: number;
-  queryDocumentType: QueryDocumentType;
 }

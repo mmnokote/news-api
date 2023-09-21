@@ -21,9 +21,12 @@ export class QueriesService {
   ) {}
 
   async create(createQueryDto) {
+    const randomNumber = Math.floor(Math.random() * 9000) + 1000; // Generates a 4-digit random number
+
     const querydata: any = this.queriesRepository.create({
       queryCategoryId: createQueryDto.queryCategoryId,
       description: createQueryDto.description,
+      tracknumber: 'MSIMBAZI' + randomNumber,
       queryStatusId: 1,
     });
     console.log('data', querydata);
@@ -45,6 +48,7 @@ export class QueriesService {
     const querydata: any = this.queriesRepository.create({
       queryCategoryId: updateQueryDto.queryCategoryId,
       description: updateQueryDto.description,
+      tracknumber: updateQueryDto.tracknumber,
       feedbackdescription: updateQueryDto.feedbackdescription,
       userId: updateQueryDto.userId,
       closedAt: new Date(),
@@ -68,7 +72,7 @@ export class QueriesService {
 
   findAll() {
     return this.queriesRepository.find({
-      relations: ['claimAttachment'],
+      // relations: ['claimAttachment'],
     });
 
     // const queries = this.queriesRepository
@@ -86,6 +90,23 @@ export class QueriesService {
 
   findOne(id: number) {
     return this.queriesRepository.findOne(id);
+  }
+
+  async seachOne(data: string) {
+    const tn = data;
+    return this.queriesRepository
+      .createQueryBuilder('query')
+      .leftJoinAndSelect('query.queryCategory', 'queryCategory')
+      .leftJoinAndSelect('query.queryStatus', 'queryStatus')
+      .leftJoinAndSelect('query.feedbackAttachment', 'feedbackAttachment')
+      .leftJoinAndSelect(
+        'feedbackAttachment.queryDocumentType',
+        'query.feedbackAttachment',
+      )
+      .where('query.tracknumber = :data', { data: tn })
+      .getMany();
+
+    // return this.usersRepository.findOne(id);
   }
 
   update(id: number, updateQueryDto: UpdateQueryDto) {

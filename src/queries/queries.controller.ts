@@ -6,6 +6,10 @@ import {
   Patch,
   Param,
   Delete,
+  ConflictException,
+  NotFoundException,
+  InternalServerErrorException,
+  Query as QR,
 } from '@nestjs/common';
 import { QueriesService } from './queries.service';
 import { CreateQueryDto } from './dto/create-query.dto';
@@ -31,6 +35,22 @@ export class QueriesController {
     console.log('xxxxxxxxFeedback', updateQueryDto);
 
     return this.queriesService.createFeedback(+id, data);
+  }
+  @Get('oneQuery')
+  searchUser(@QR('regSearchTerm') regSearchTerm: string) {
+    // return `Search=${regSearchTerm}`;
+    return this.queriesService
+      .seachOne(`${regSearchTerm}`)
+      .then((response) => {
+        if (response) {
+          return response;
+        } else {
+          throw new InternalServerErrorException();
+        }
+      })
+      .catch((error) => {
+        throw new NotFoundException(error.detail);
+      });
   }
 
   @Get()
