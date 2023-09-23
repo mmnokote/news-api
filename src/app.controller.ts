@@ -12,6 +12,7 @@ export class AppController {
     await this.appService.seeder();
     return 'seed completed';
   }
+
   //PostLogin
   @UseGuards(LocalAuthGuard)
   @Post('/login')

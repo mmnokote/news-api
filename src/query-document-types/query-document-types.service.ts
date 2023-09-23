@@ -21,15 +21,19 @@ export class QueryDocumentTypesService {
   }
 
   findAllById(d: number) {
-    const id = d;
+    // console.log('mmmmmm', d);
+    const categoryId = d;
     const is_claim = true;
     return this.queryDocumentTypeRepository
       .createQueryBuilder('doctype')
       .leftJoinAndSelect('doctype.queryCategory', 'queryCategory')
-      .where('queryCategory.id = :doctypeId', { doctypeId: id })
-      .where('is_claim = :is_claim', { is_claim: is_claim })
+      .where('queryCategory.id = :categoryId', {
+        categoryId: categoryId,
+      })
+      .andWhere('is_claim = :is_claim', { is_claim: is_claim })
       .getMany();
   }
+
   findAllNFQ() {
     const is_claim = false;
     return this.queryDocumentTypeRepository

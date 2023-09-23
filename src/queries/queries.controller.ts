@@ -36,6 +36,7 @@ export class QueriesController {
 
     return this.queriesService.createFeedback(+id, data);
   }
+
   @Get('oneQuery')
   searchUser(@QR('regSearchTerm') regSearchTerm: string) {
     // return `Search=${regSearchTerm}`;

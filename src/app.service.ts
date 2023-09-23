@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Book } from './books/entities/book.entity';
 import { Meeting } from './meetings/entities/meeting.entity';
 import { Reader } from './readers/entities/reader.entity';
+// import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class AppService {
@@ -14,8 +15,18 @@ export class AppService {
     @InjectRepository(Meeting)
     private meetingsRepository: Repository<Meeting>,
     @InjectRepository(Reader)
-    private readersRepository: Repository<Reader>,
+    private readersRepository: Repository<Reader>, // private readonly mailerService: MailerService,
   ) {}
+
+  // sendMail() {
+  //   this.mailerService.sendMail({
+  //     to: 'tkibiriti@gmail.com',
+  //     from: 'mmnokote@gmail.com',
+  //     subject: 'TEST',
+  //     text: 'WOOZA',
+  //     html: '<b> wellcome to the mail nest</b>',
+  //   });
+  // }
 
   async seeder() {
     //create CEO Reader

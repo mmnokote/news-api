@@ -14,19 +14,30 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   last_name: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
-  age: number;
+  @Column({ type: 'varchar', nullable: true, length: 1000 })
+  age: string;
+
+  @Column({ type: 'varchar', nullable: true, length: 1000 })
+  phone_number: string;
+
+  @Column({ type: 'varchar', nullable: true, length: 1000 })
+  nin_number: string;
 
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   sex: string;
 
-  @Column({ type: 'varchar', nullable: true, length: 1000 })
+  @Column({
+    type: 'varchar',
+    nullable: true,
+    length: 1000,
+    unique: true,
+  })
   username: string;
 
   @Column({ type: 'varchar', nullable: true, default: 'Evlina@1990' })
   password: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000, unique: true })
+  @Column({ type: 'varchar', nullable: false, length: 1000 })
   email: string;
 
   @OneToMany(() => Query, (query) => query.user, {})

@@ -14,10 +14,49 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { EmailService } from '../mail.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly emailService: EmailService,
+  ) {}
+
+  @Post('sendMail')
+  async sendEmail(@Body() body) {
+    // const { to, subject, text } = body;
+    await this.emailService.sendMail(body);
+    return { message: 'Email sent successfully' };
+  }
+
+  @Get()
+  findAll() {
+    return this.usersService
+      .findAll()
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        throw new NotFoundException(error.detail);
+      });
+  }
+  @Get('users/oneUser')
+  searchUserByIdentification(@QR('regSearchTerm') regSearchTerm: string) {
+    // return `Search=${regSearchTerm}`;
+    return this.usersService
+      .seachOneByID(`${regSearchTerm}`)
+      .then((response) => {
+        if (response) {
+          return response;
+        } else {
+          throw new InternalServerErrorException();
+        }
+      })
+      .catch((error) => {
+        throw new NotFoundException(error.detail);
+      });
+  }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -36,18 +75,6 @@ export class UsersController {
           throw new ConflictException(error.detail);
         }
         throw new InternalServerErrorException();
-      });
-  }
-
-  @Get('all')
-  findAll() {
-    return this.usersService
-      .findAll()
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        throw new NotFoundException(error.detail);
       });
   }
 

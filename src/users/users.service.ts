@@ -18,7 +18,7 @@ export class UsersService {
   }
 
   async findAll() {
-    const users = this.usersRepository.find({ relations: ['query'] });
+    const users = this.usersRepository.find();
     return users;
   }
 
@@ -36,6 +36,18 @@ export class UsersService {
     return this.usersRepository
       .createQueryBuilder('user')
       .where('user.first_name = :data', { data: data })
+      .orWhere('user.last_name = :data', { data: data })
+      .orWhere('user.middle_name = :data', { data: data })
+      .orWhere('user.email = :data', { data: data })
+      .getMany();
+
+    // return this.usersRepository.findOne(id);
+  }
+  async seachOneByID(data: any) {
+    console.log('dataz', data);
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.first_name = :data', { data: data })
       .getMany();
 
     // return this.usersRepository.findOne(id);
@@ -49,6 +61,7 @@ export class UsersService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
+    console.log('updateUserDto', updateUserDto);
     return this.usersRepository.update(id, updateUserDto);
   }
 

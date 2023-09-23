@@ -26,6 +26,7 @@ export class QueriesService {
     const querydata: any = this.queriesRepository.create({
       queryCategoryId: createQueryDto.queryCategoryId,
       description: createQueryDto.description,
+      queryofUserId: createQueryDto.queryof_user_id,
       tracknumber: 'MSIMBAZI' + randomNumber,
       queryStatusId: 1,
     });
@@ -48,6 +49,7 @@ export class QueriesService {
     const querydata: any = this.queriesRepository.create({
       queryCategoryId: updateQueryDto.queryCategoryId,
       description: updateQueryDto.description,
+      queryofUserId: updateQueryDto.queryofUserId,
       tracknumber: updateQueryDto.tracknumber,
       feedbackdescription: updateQueryDto.feedbackdescription,
       userId: updateQueryDto.userId,
@@ -104,7 +106,7 @@ export class QueriesService {
         'query.feedbackAttachment',
       )
       .where('query.tracknumber = :data', { data: tn })
-      .getMany();
+      .getOne();
 
     // return this.usersRepository.findOne(id);
   }

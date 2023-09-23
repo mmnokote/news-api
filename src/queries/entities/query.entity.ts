@@ -49,6 +49,9 @@ export class Query extends BaseEntity {
   @Column({ nullable: true })
   queryStatusId: number;
 
+  @Column({ type: 'int', nullable: true, unique: true })
+  queryofUserId: number;
+
   @Column({ nullable: true })
   tracknumber: string;
 

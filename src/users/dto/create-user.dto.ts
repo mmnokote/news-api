@@ -25,18 +25,18 @@ export class CreateUserDto extends BaseEntity {
 
   @ApiProperty({
     description: 'User age',
-    type: Number,
+    type: String,
   })
-  @IsInt()
-  age: number;
+  @IsString()
+  age: string;
 
   @ApiProperty({
-    description: 'User gendar',
+    description: 'User sex',
   })
   sex: string;
 
   @ApiProperty({
-    description: 'User email',
+    description: 'User name',
   })
   @ApiProperty({
     description: 'Username',
