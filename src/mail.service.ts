@@ -20,7 +20,8 @@ export class EmailService {
       from: 'msimbazi@gmail.com',
       to: body.email,
       subject: 'Umejisajili kikamilifu',
-      html: `
+      html:
+        `
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -33,7 +34,10 @@ export class EmailService {
         <h1>Welcome to Our Service!</h1>
         <p>Your sign-up was successful.</p>
         <p>Your identification number is:</p>
-        <h2 style="color: #007bff;">[INSERT IDENTIFICATION NUMBER]</h2>
+        <h2 style="color: #007bff;">` +
+        body.user_identification +
+        `</p>
+</h2>
         <p>Thank you for joining our platform. We are excited to have you as a member.</p>
         <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
         <p>Best regards,<br>Your Team</p>

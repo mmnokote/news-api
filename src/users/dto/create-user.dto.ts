@@ -36,6 +36,11 @@ export class CreateUserDto extends BaseEntity {
   sex: string;
 
   @ApiProperty({
+    description: 'User Identification',
+  })
+  user_identification: string;
+
+  @ApiProperty({
     description: 'User name',
   })
   @ApiProperty({

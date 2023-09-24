@@ -23,6 +23,9 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', nullable: true, length: 1000 })
   nin_number: string;
 
+  @Column({ type: 'varchar', nullable: true, length: 1000 })
+  user_identification: string;
+
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   sex: string;
 

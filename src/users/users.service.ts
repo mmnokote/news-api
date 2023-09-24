@@ -14,6 +14,9 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     console.log(createUserDto);
+    const randomNumber = Math.floor(Math.random() * 9000) + 1000; // Generates a 4-digit random number
+
+    createUserDto.user_identification = 'MS' + randomNumber;
     return this.usersRepository.save(createUserDto);
   }
 
@@ -47,7 +50,7 @@ export class UsersService {
     console.log('dataz', data);
     return this.usersRepository
       .createQueryBuilder('user')
-      .where('user.first_name = :data', { data: data })
+      .where('user.user_identification = :data', { data: data })
       .getMany();
 
     // return this.usersRepository.findOne(id);
