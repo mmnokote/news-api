@@ -15,12 +15,14 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { EmailService } from '../mail.service';
+import { TwilioService } from 'twilio.service';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly emailService: EmailService,
+    private readonly twilioService: TwilioService,
   ) {}
 
   @Post('sendMail')
@@ -28,6 +30,23 @@ export class UsersController {
     // const { to, subject, text } = body;
     await this.emailService.sendMail(body);
     return { message: 'Email sent successfully' };
+  }
+
+  @Post('sendSubmissionMail')
+  async sendsubmissionEmail(@Body() body) {
+    console.log('bbbbbody', body);
+    await this.emailService.sendSubmissionMail(body);
+    return { message: 'Email sent successfully' };
+  }
+
+  @Post('sendSms')
+  async sendSms(@Body() data: { to: string; message: string }) {
+    try {
+      await this.twilioService.sendSms(data.to, data.message);
+      return { success: true, message: 'SMS sent successfully' };
+    } catch (error) {
+      return { success: false, message: 'Failed to send SMS' };
+    }
   }
 
   @Get()

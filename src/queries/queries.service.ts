@@ -44,6 +44,7 @@ export class QueriesService {
         });
       this.queryClaimAttachmentsRepository.save(queryClaimAttachements);
     }
+    return querydata;
   }
   async createFeedback(id, updateQueryDto) {
     const querydata: any = this.queriesRepository.create({

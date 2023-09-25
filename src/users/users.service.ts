@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -35,7 +35,7 @@ export class UsersService {
   }
 
   async seachOne(data: any) {
-    console.log('dataz', data);
+    // console.log('dataz', data);
     return this.usersRepository
       .createQueryBuilder('user')
       .where('user.first_name = :data', { data: data })
@@ -47,11 +47,17 @@ export class UsersService {
     // return this.usersRepository.findOne(id);
   }
   async seachOneByID(data: any) {
+    // console.log('dataz', data);
     console.log('dataz', data);
-    return this.usersRepository
+    const user = this.usersRepository
       .createQueryBuilder('user')
       .where('user.user_identification = :data', { data: data })
       .getMany();
+    if ((await user).length > 0) {
+      return user;
+    } else {
+      throw new NotFoundException();
+    }
 
     // return this.usersRepository.findOne(id);
   }
