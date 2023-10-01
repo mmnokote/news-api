@@ -3,7 +3,7 @@ import { CreateQueryDto } from './dto/create-query.dto';
 import { UpdateQueryDto } from './dto/update-query.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Query } from './entities/query.entity';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder, getManager } from 'typeorm';
 import { QueryClaimAttachment } from 'src/query-claim-attachments/entities/query-claim-attachment.entity';
 import { QueryClaimAttachmentsService } from 'src/query-claim-attachments/query-claim-attachments.service';
 import { QueryFeedbackAttachment } from 'src/query-feedback-attachments/entities/query-feedback-attachment.entity';
@@ -73,22 +73,54 @@ export class QueriesService {
     }
   }
 
-  findAll() {
-    return this.queriesRepository.find({
-      // relations: ['claimAttachment'],
-    });
+  async findAll() {
+    const entityManager = getManager();
 
-    // const queries = this.queriesRepository
-    //   .createQueryBuilder('queries')
-    //   .getMany();
-    // return queries;
+    const rawQuery = `
+  SELECT DISTINCT ON (q.id)
+    q.id,
+    q."createdAt" as created,
+    q.description,
+    q.tracknumber,
+    qs.name as status,
+    u.first_name as assignedToF,
+    u.last_name as assignedToL,
+    qc.name as category,
+    ARRAY_AGG(qca.file_path) as queryClaimAttachments, 
+    ARRAY_AGG(qdt.name) as documentTypes, 
+    DATE_PART('day', NOW() - q."createdAt") AS days_passed
+  FROM
+    queries q
 
-    // const id = 3;
-    // return this.queriesRepository
-    //   .createQueryBuilder('queries')
-    //   .leftJoinAndSelect('queries.reader', 'reader')
-    //   .where('reader.id = :readerId', { readerId: id })
-    //   .getMany();
+  LEFT JOIN
+    queries_statuses qs 
+  ON
+    q."queryStatusId" = qs."id"
+  LEFT JOIN
+    query_categories qc 
+  ON
+    q."queryCategoryId" = qc."id"
+  LEFT JOIN
+    users u 
+  ON
+    q."userId" = u."id"
+  LEFT JOIN
+    query_claim_attachments qca 
+  ON
+    qca."queryId" = q.id
+  LEFT JOIN
+    query_document_types qdt 
+  ON
+    qca."queryDocumentTypeId" = qdt.id
+  GROUP BY
+    q.id, created, q.description, q.tracknumber, status, assignedToF, assignedToL, category, days_passed -- Group by all selected columns
+  ORDER BY
+    q.id;
+`;
+
+    const queries: any[] = await entityManager.query(rawQuery);
+
+    return queries;
   }
 
   findOne(id: number) {

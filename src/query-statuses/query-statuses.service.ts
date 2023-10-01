@@ -4,6 +4,11 @@ import { UpdateQueryStatusDto } from './dto/update-query-status.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { QueryStatus } from './entities/query-status.entity';
+import {
+  IPaginationOptions,
+  Pagination,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class QueryStatusesService {
@@ -14,6 +19,15 @@ export class QueryStatusesService {
 
   create(createBookDto: CreateQueryStatusDto) {
     return this.queryStatusRepository.save(createBookDto);
+  }
+
+  async paginate(
+    options: IPaginationOptions,
+  ): Promise<Pagination<QueryStatus>> {
+    const queryBuilder = this.queryStatusRepository.createQueryBuilder('c');
+    queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
+
+    return paginate<QueryStatus>(queryBuilder, options);
   }
 
   findAll() {

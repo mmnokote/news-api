@@ -16,10 +16,10 @@ export class UserMenusController {
 
   @Post()
   create() {
-    const userId = 1;
-    const menusId = [3, 4, 5, 6, 7, 8];
-    // const userId = 16;
-    // const menusId = [7];
+    // const userId = 1;
+    // const menusId = [3, 4, 5, 6, 7, 8];
+    const userId = 28;
+    const menusId = [7];
     return this.userMenusService.assignMenuToUser(userId, menusId);
   }
 

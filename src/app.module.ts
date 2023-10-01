@@ -23,6 +23,7 @@ import { QueryDocumentTypesModule } from './query-document-types/query-document-
 import { MenusModule } from './menus/menus.module';
 import { UserMenusModule } from './user-menus/user-menus.module';
 import { FilesModule } from './files/files.module';
+import { FilelinksModule } from './filelinks/filelinks.module';
 import config from './orm.config';
 
 @Module({
@@ -47,6 +48,7 @@ import config from './orm.config';
     MenusModule,
     UserMenusModule,
     FilesModule,
+    FilelinksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

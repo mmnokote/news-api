@@ -4,6 +4,11 @@ import { Repository } from 'typeorm';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { Book } from './entities/book.entity';
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class BooksService {
@@ -28,6 +33,13 @@ export class BooksService {
       .leftJoinAndSelect('book.reader', 'reader')
       .where('reader.id = :readerId', { readerId: id })
       .getMany();
+  }
+
+  async paginate(options: IPaginationOptions): Promise<Pagination<Book>> {
+    const queryBuilder = this.booksRepository.createQueryBuilder('c');
+    queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
+
+    return paginate<Book>(queryBuilder, options);
   }
 
   findOne(id: number) {
