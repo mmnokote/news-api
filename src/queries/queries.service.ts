@@ -26,6 +26,7 @@ export class QueriesService {
     const querydata: any = this.queriesRepository.create({
       queryCategoryId: createQueryDto.queryCategoryId,
       description: createQueryDto.description,
+      usersource: createQueryDto.usersource,
       queryofUserId: createQueryDto.queryof_user_id,
       tracknumber: 'MSIMBAZI' + randomNumber,
       queryStatusId: 1,
@@ -49,8 +50,9 @@ export class QueriesService {
   async createFeedback(id, updateQueryDto) {
     const querydata: any = this.queriesRepository.create({
       queryCategoryId: updateQueryDto.queryCategoryId,
+      usersource: updateQueryDto.usersource,
       description: updateQueryDto.description,
-      queryofUserId: updateQueryDto.queryofUserId,
+      queryofUserId: updateQueryDto.queryof_user_id,
       tracknumber: updateQueryDto.tracknumber,
       feedbackdescription: updateQueryDto.feedbackdescription,
       userId: updateQueryDto.userId,
@@ -116,6 +118,128 @@ export class QueriesService {
     q.id, created, q.description, q.tracknumber, status, assignedToF, assignedToL, category, days_passed -- Group by all selected columns
   ORDER BY
     q.id;
+`;
+
+    const queries: any[] = await entityManager.query(rawQuery);
+
+    return queries;
+  }
+  async findAllByCategory() {
+    const entityManager = getManager();
+
+    const rawQuery = `
+  SELECT
+    qc.name as category,
+    COUNT(q.id) as record_count
+FROM
+    queries q
+LEFT JOIN
+    query_categories qc 
+ON
+    q."queryCategoryId" = qc."id"
+GROUP BY
+    qc.name
+ORDER BY
+    qc.name;
+`;
+
+    const queries: any[] = await entityManager.query(rawQuery);
+
+    return queries;
+  }
+
+  async findAllByNature() {
+    const entityManager = getManager();
+
+    const rawQuery = `
+  SELECT
+    q.usersource as category,
+    COUNT(q.id) as record_count
+FROM
+    queries q
+
+GROUP BY
+    q.usersource
+ORDER BY
+    q.usersource;
+`;
+
+    const queries: any[] = await entityManager.query(rawQuery);
+
+    return queries;
+  }
+  async queryByGender() {
+    const entityManager = getManager();
+
+    const rawQuery = `
+  SELECT
+    u.sex as category,
+    COUNT(u.id) as record_count
+FROM
+    queries q
+JOIN
+    users u 
+ON
+    q."queryofUserId" = u."id"
+GROUP BY
+    category
+ORDER BY
+    category DESC
+
+`;
+
+    const queries: any[] = await entityManager.query(rawQuery);
+
+    return queries;
+  }
+
+  async querySummary() {
+    const entityManager = getManager();
+
+    const rawQuery = `
+SELECT
+    (SELECT COUNT(id) FROM queries WHERE "userId" IS NULL) AS pending_query_count,
+(
+  SELECT COUNT(id)
+  FROM queries
+  WHERE "userId" IS NOT NULL
+    AND "feedbackdescription" IS NOT NULL
+) AS replied_queries,
+(
+  SELECT COUNT(id)
+  FROM queries
+  WHERE "userId" IS NOT NULL
+    AND "feedbackdescription" IS NULL
+) AS underprocessing_queries,
+    COUNT(id) AS total_query_count
+FROM
+    queries;
+
+`;
+
+    const queries: any[] = await entityManager.query(rawQuery);
+
+    return queries;
+  }
+
+  async findAllTopFive() {
+    const entityManager = getManager();
+
+    const rawQuery = `
+SELECT
+    CONCAT(u.first_name, ' ', u.last_name) as category,
+    COUNT(u.id) as record_count
+FROM
+    queries q
+JOIN
+    users u 
+ON
+    q."queryofUserId" = u."id"
+GROUP BY
+    category
+ORDER BY
+    record_count DESC
+LIMIT 5;
 `;
 
     const queries: any[] = await entityManager.query(rawQuery);

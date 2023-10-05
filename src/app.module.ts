@@ -25,6 +25,8 @@ import { UserMenusModule } from './user-menus/user-menus.module';
 import { FilesModule } from './files/files.module';
 import { FilelinksModule } from './filelinks/filelinks.module';
 import config from './orm.config';
+import { AuthService } from './auth/auth.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [

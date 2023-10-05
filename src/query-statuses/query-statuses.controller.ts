@@ -9,13 +9,15 @@ import {
   DefaultValuePipe,
   ParseIntPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { QueryStatusesService } from './query-statuses.service';
 import { CreateQueryStatusDto } from './dto/create-query-status.dto';
 import { UpdateQueryStatusDto } from './dto/update-query-status.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { QueryStatus } from './entities/query-status.entity';
-
+import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
+@UseGuards(JwtAuthGuard)
 @Controller('query-statuses')
 export class QueryStatusesController {
   constructor(private readonly queryStatusesService: QueryStatusesService) {}

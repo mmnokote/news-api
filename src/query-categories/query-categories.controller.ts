@@ -8,12 +8,14 @@ import {
   Delete,
   HttpStatus,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { QueryCategoriesService } from './query-categories.service';
 import { CreateQueryCategoryDto } from './dto/create-query-category.dto';
 import { UpdateQueryCategoryDto } from './dto/update-query-category.dto';
 import { Response } from 'express'; // Import the Response object
-
+import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
+@UseGuards(JwtAuthGuard)
 @Controller('query-categories')
 export class QueryCategoriesController {
   constructor(

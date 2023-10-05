@@ -55,6 +55,9 @@ export class Query extends BaseEntity {
   @Column({ nullable: true })
   tracknumber: string;
 
+  @Column({ nullable: true })
+  usersource: string;
+
   @OneToMany(
     () => QueryClaimAttachment,
     (claimAttachment) => claimAttachment.query,

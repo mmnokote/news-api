@@ -10,10 +10,12 @@ import {
   NotFoundException,
   InternalServerErrorException,
   Query as QR,
+  UseGuards,
 } from '@nestjs/common';
 import { QueriesService } from './queries.service';
 import { CreateQueryDto } from './dto/create-query.dto';
 import { UpdateQueryDto } from './dto/update-query.dto';
+import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
 
 @Controller('queries')
 export class QueriesController {
@@ -53,10 +55,39 @@ export class QueriesController {
         throw new NotFoundException(error.detail);
       });
   }
-
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.queriesService.findAll();
+  }
+  @UseGuards(JwtAuthGuard)
+  @Get('querybyCategory')
+  findAllByCategory() {
+    return this.queriesService.findAllByCategory();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('querybyNature')
+  findAllByNature() {
+    return this.queriesService.findAllByNature();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('queryTopFive')
+  findAllTopFive() {
+    return this.queriesService.findAllTopFive();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('queryByGender')
+  queryByGender() {
+    return this.queriesService.queryByGender();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('querySummary')
+  querySummary() {
+    return this.queriesService.querySummary();
   }
 
   @Get(':id')
@@ -68,7 +99,7 @@ export class QueriesController {
   // update(@Param('id') id: string, @Body() updateQueryDto: UpdateQueryDto) {
   //   return this.queriesService.update(+id, updateQueryDto);
   // }
-
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.queriesService.remove(+id);

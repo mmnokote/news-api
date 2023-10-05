@@ -6,11 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { QueryDocumentTypesService } from './query-document-types.service';
 import { CreateQueryDocumentTypeDto } from './dto/create-query-document-type.dto';
 import { UpdateQueryDocumentTypeDto } from './dto/update-query-document-type.dto';
+import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('query-document-types')
 export class QueryDocumentTypesController {
   constructor(
