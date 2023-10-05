@@ -3,11 +3,11 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 const config: TypeOrmModuleOptions = {
   type: 'postgres',
   username: 'postgres',
-  password: 'p@ssw0rd',
+  password: 'P@ssw0rd@098',
   port: 5432,
   host: 'localhost',
-  database: 'nestjsm0',
-  synchronize: true,
+  database: 'bonde2',
+  synchronize: false,
   migrations: ['dist/db/migrations/*.js'],
   cli: { migrationsDir: 'src/db/migrations' },
 
