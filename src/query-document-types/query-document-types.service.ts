@@ -24,14 +24,18 @@ export class QueryDocumentTypesService {
     // console.log('mmmmmm', d);
     const categoryId = d;
     const is_claim = true;
-    return this.queryDocumentTypeRepository
-      .createQueryBuilder('doctype')
-      .leftJoinAndSelect('doctype.queryCategory', 'queryCategory')
-      .where('queryCategory.id = :categoryId', {
-        categoryId: categoryId,
-      })
-      .andWhere('is_claim = :is_claim', { is_claim: is_claim })
-      .getMany();
+    return (
+      this.queryDocumentTypeRepository
+        .createQueryBuilder('doctype')
+        .leftJoinAndSelect('doctype.queryCategory', 'queryCategory')
+
+        .where('is_claim = :is_claim', { is_claim: is_claim })
+        // .where('queryCategory.id = :categoryId', {
+        //   categoryId: categoryId,
+        // })
+        // .andWhere('is_claim = :is_claim', { is_claim: is_claim })
+        .getMany()
+    );
   }
 
   findAllNFQ() {

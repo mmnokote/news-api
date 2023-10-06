@@ -8,6 +8,7 @@ import { User } from 'src/users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryStatus } from 'src/query-statuses/entities/query-status.entity';
 import { UserQuery } from './entities/user-query.entity';
+import { QueryCategory } from 'src/query-categories/entities/query-category.entity';
 
 @Injectable()
 export class UserQueriesService {
@@ -18,25 +19,37 @@ export class UserQueriesService {
     private userRepository: Repository<User>,
     @InjectRepository(Query)
     private queryRepository: Repository<Query>,
+    @InjectRepository(QueryCategory)
+    private queryCategoryRepository: Repository<QueryCategory>,
 
     @InjectRepository(QueryStatus)
     private querySatatusRepository: Repository<QueryStatus>,
   ) {}
 
-  async assignQueryToUser(userId: number, queriesId: number): Promise<User> {
+  async assignQueryToUser(
+    userId: number,
+    queriesId: number,
+    queryCategoryId: number,
+  ): Promise<User> {
     // const user = await this.userRepository.findOne(userId);
     const queries = await this.queryRepository.findOne(queriesId);
     const users = await this.userRepository.findOne(userId);
+    const querycategory = await this.queryCategoryRepository.findOne(
+      queryCategoryId,
+    );
 
     const id = queries.id;
     const idu = users.id;
+    const qcid = querycategory.id;
 
     // console.log('qqqq', user.id);
 
     const query = await this.queryRepository.findOne(id);
     const user = await this.userRepository.findOne(idu);
+    const category = await this.queryCategoryRepository.findOne(qcid);
     const queryStatus = await this.querySatatusRepository.findOne(2);
 
+    query.queryCategory = category;
     query.queryStatus = queryStatus;
     query.user = user;
     // query.users = queryStatus;

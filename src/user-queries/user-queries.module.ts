@@ -8,10 +8,11 @@ import { User } from 'src/users/entities/user.entity';
 import { Query } from 'src/queries/entities/query.entity';
 import { QueryStatus } from 'src/query-statuses/entities/query-status.entity';
 import { QueryStatusesModule } from 'src/query-statuses/query-statuses.module';
+import { QueryCategory } from 'src/query-categories/entities/query-category.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Query, QueryStatus]),
+    TypeOrmModule.forFeature([User, Query, QueryStatus, QueryCategory]),
     UsersModule,
     QueriesModule,
     QueryStatusesModule,

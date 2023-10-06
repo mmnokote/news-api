@@ -5,4 +5,6 @@ export class CreateUserQueryDto {
   user_id: any;
 
   queryId: any;
+
+  queryCategoryId: any;
 }

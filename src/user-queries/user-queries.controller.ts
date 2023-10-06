@@ -19,8 +19,13 @@ export class UserQueriesController {
   create(@Body() createUserQueryDto: CreateUserQueryDto) {
     const userId = createUserQueryDto.user_id;
     const queriesId = createUserQueryDto.queryId;
+    const queryCategoryId = createUserQueryDto.queryCategoryId;
     // console.log('mmmmmm', queriesId);
-    return this.userQueriesService.assignQueryToUser(userId, queriesId);
+    return this.userQueriesService.assignQueryToUser(
+      userId,
+      queriesId,
+      queryCategoryId,
+    );
   }
 
   @Get()

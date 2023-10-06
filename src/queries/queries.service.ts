@@ -24,7 +24,7 @@ export class QueriesService {
     const randomNumber = Math.floor(Math.random() * 9000) + 1000; // Generates a 4-digit random number
 
     const querydata: any = this.queriesRepository.create({
-      queryCategoryId: createQueryDto.queryCategoryId,
+      // queryCategoryId: createQueryDto.queryCategoryId,
       description: createQueryDto.description,
       usersource: createQueryDto.usersource,
       queryofUserId: createQueryDto.queryof_user_id,
