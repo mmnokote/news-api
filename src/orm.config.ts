@@ -23,7 +23,7 @@ const config: TypeOrmModuleOptions = {
   port: 5432,
   host: 'localhost',
   database: 'bonde',
-  synchronize: false,
+  synchronize: true,
   migrations: ['dist/db/migrations/*.js'],
   cli: { migrationsDir: 'src/db/migrations' },
 
