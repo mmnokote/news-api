@@ -49,17 +49,17 @@ export class UsersController {
     }
   }
 
-  @Get()
-  findAll() {
-    return this.usersService
-      .findAll()
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        throw new NotFoundException(error.detail);
-      });
-  }
+  // @Get()
+  // findAll() {
+  //   return this.usersService
+  //     .findAll()
+  //     .then((response) => {
+  //       return response;
+  //     })
+  //     .catch((error) => {
+  //       throw new NotFoundException(error.detail);
+  //     });
+  // }
   @Get('users/oneUser')
   searchUserByIdentification(@QR('regSearchTerm') regSearchTerm: string) {
     // return `Search=${regSearchTerm}`;
@@ -132,7 +132,7 @@ export class UsersController {
   searchUser(@QR('regSearchTerm') regSearchTerm: string) {
     // return `Search=${regSearchTerm}`;
     return this.usersService
-      .seachOne(`${regSearchTerm}`)
+      .searchOne(`${regSearchTerm}`)
       .then((response) => {
         if (response) {
           return response;

@@ -82,6 +82,7 @@ export class QueriesService {
   SELECT DISTINCT ON (q.id)
     q.id,
     q."createdAt" as created,
+    q."closedAt" as resolved,
     q.description,
     q.tracknumber,
     qs.name as status,

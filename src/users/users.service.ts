@@ -34,18 +34,16 @@ export class UsersService {
     return this.usersRepository.findOne(id, { relations: ['queries'] });
   }
 
-  async seachOne(data: any) {
-    // console.log('dataz', data);
+  async searchOne(data: string) {
     return this.usersRepository
       .createQueryBuilder('user')
-      .where('user.first_name = :data', { data: data })
-      .orWhere('user.last_name = :data', { data: data })
-      .orWhere('user.middle_name = :data', { data: data })
-      .orWhere('user.email = :data', { data: data })
+      .where('user.first_name ILIKE :data', { data: `%${data}%` })
+      .orWhere('user.last_name ILIKE :data', { data: `%${data}%` })
+      .orWhere('user.middle_name ILIKE :data', { data: `%${data}%` })
+      .orWhere('user.email ILIKE :data', { data: `%${data}%` })
       .getMany();
-
-    // return this.usersRepository.findOne(id);
   }
+
   async seachOneByID(data: any) {
     // console.log('dataz', data);
     console.log('dataz', data);
