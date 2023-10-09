@@ -10,12 +10,17 @@ import {
   ConflictException,
   NotFoundException,
   InternalServerErrorException,
+  SetMetadata,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { EmailService } from '../mail.service';
 import { TwilioService } from 'twilio.service';
+import { Role } from './entities/role.enum';
+import { Roles } from './roles.decorator';
+import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -49,17 +54,20 @@ export class UsersController {
     }
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.usersService
-  //     .findAll()
-  //     .then((response) => {
-  //       return response;
-  //     })
-  //     .catch((error) => {
-  //       throw new NotFoundException(error.detail);
-  //     });
-  // }
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  @Roles(Role.ADMIN)
+  findAll() {
+    return this.usersService
+      .findAll()
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        throw new NotFoundException(error.detail);
+      });
+  }
+
   @Get('users/oneUser')
   searchUserByIdentification(@QR('regSearchTerm') regSearchTerm: string) {
     // return `Search=${regSearchTerm}`;
@@ -98,6 +106,8 @@ export class UsersController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @Roles(Role.ATENDEE)
   findOne(@Param('id') id: string) {
     return this.usersService
       .findOne(+id)
@@ -112,6 +122,7 @@ export class UsersController {
         throw new NotFoundException(error.detail);
       });
   }
+
   @Get(':username')
   findOneUser(@Param('username') username: string) {
     return this.usersService
@@ -127,8 +138,9 @@ export class UsersController {
         throw new NotFoundException(error.detail);
       });
   }
-
-  @Get()
+  @Get('users/search')
+  @UseGuards(JwtAuthGuard)
+  @Roles(Role.USER)
   searchUser(@QR('regSearchTerm') regSearchTerm: string) {
     // return `Search=${regSearchTerm}`;
     return this.usersService

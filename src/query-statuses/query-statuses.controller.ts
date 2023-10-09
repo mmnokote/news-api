@@ -17,7 +17,10 @@ import { UpdateQueryStatusDto } from './dto/update-query-status.dto';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { QueryStatus } from './entities/query-status.entity';
 import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
+import { Role } from 'src/users/entities/role.enum';
+import { Roles } from 'src/users/roles.decorator';
 @UseGuards(JwtAuthGuard)
+@Roles(Role.ADMIN)
 @Controller('query-statuses')
 export class QueryStatusesController {
   constructor(private readonly queryStatusesService: QueryStatusesService) {}

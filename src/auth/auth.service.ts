@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
+import * as jwt from 'jsonwebtoken';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -23,5 +25,16 @@ export class AuthService {
     const userx = user;
     userx.token = access_token;
     return userx;
+  }
+
+  private readonly secretKey = 'SECRET'; // Replace with your actual secret key
+
+  verifyToken(token: string): any {
+    try {
+      const decoded = jwt.verify(token, this.secretKey);
+      return decoded;
+    } catch (error) {
+      throw new Error('Invalid token');
+    }
   }
 }

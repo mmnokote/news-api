@@ -27,6 +27,9 @@ import { FilelinksModule } from './filelinks/filelinks.module';
 import config from './orm.config';
 import { AuthService } from './auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
+import { RolesGuard } from './users/roles.gaurd';
+import { APP_GUARD } from '@nestjs/core';
+import { UserRolesModule } from './user-roles/user-roles.module';
 
 @Module({
   imports: [
@@ -51,8 +54,15 @@ import { JwtService } from '@nestjs/jwt';
     UserMenusModule,
     FilesModule,
     FilelinksModule,
+    UserRolesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {}

@@ -9,6 +9,7 @@ import {
   HttpStatus,
   Res,
   UseGuards,
+  SetMetadata,
 } from '@nestjs/common';
 import { QueryCategoriesService } from './query-categories.service';
 import { CreateQueryCategoryDto } from './dto/create-query-category.dto';
