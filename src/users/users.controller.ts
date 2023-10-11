@@ -56,7 +56,7 @@ export class UsersController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  @Roles(Role.ADMIN)
+  // @Roles(Role.ADMIN)
   findAll() {
     return this.usersService
       .findAll()
@@ -107,7 +107,7 @@ export class UsersController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  @Roles(Role.ATENDEE)
+  // @Roles(Role.ATENDEE)
   findOne(@Param('id') id: string) {
     return this.usersService
       .findOne(+id)
@@ -140,7 +140,7 @@ export class UsersController {
   }
   @Get('users/search')
   @UseGuards(JwtAuthGuard)
-  @Roles(Role.USER)
+  // @Roles(Role.USER)
   searchUser(@QR('regSearchTerm') regSearchTerm: string) {
     // return `Search=${regSearchTerm}`;
     return this.usersService
