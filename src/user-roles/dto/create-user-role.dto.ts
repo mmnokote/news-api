@@ -1,1 +1,5 @@
-export class CreateUserRoleDto {}
+export class CreateUserRoleDto {
+  id: string;
+  roles: [];
+  menus: [];
+}

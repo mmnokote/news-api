@@ -16,12 +16,15 @@ export class UserRolesController {
   constructor(private readonly userRolesService: UserRolesService) {}
 
   @Post()
-  create() {
+  create(@Body() createUserRoleDto: CreateUserRoleDto) {
+    const userId: any = createUserRoleDto.id;
+    const roleId: any = createUserRoleDto.roles;
+    const menuId: any = createUserRoleDto.menus;
+    console.log('roles', roleId);
+
     // const userId = 1;
     // const menusId = [3, 4, 5, 6, 7, 8];
-    const userId = 1;
-    const roleId = [1, 2, 3];
-    return this.userRolesService.assignMenuToUser(userId, roleId);
+    return this.userRolesService.assignMenuToUser(userId, roleId, menuId);
   }
 
   @Get()

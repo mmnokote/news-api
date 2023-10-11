@@ -18,18 +18,19 @@ export class MenusService {
   }
 
   findAll() {
-    return `This action returns all menus`;
+    const menus = this.menusRepository.createQueryBuilder('menu').getMany();
+    return menus;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} menu`;
+    return this.menusRepository.findOne(id);
   }
 
-  async update(id: number, updateMenuDto: UpdateMenuDto) {
+  update(id: number, updateMenuDto: UpdateMenuDto) {
     return this.menusRepository.update(id, updateMenuDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} menu`;
+    return this.menusRepository.delete(id);
   }
 }
