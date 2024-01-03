@@ -1,6 +1,4 @@
 import { BaseEntity } from 'src/base-entity';
-import { Menu } from 'src/menus/entities/menu.entity';
-import { Query } from 'src/queries/entities/query.entity';
 import { Role } from 'src/roles/entities/role.entity';
 import { Column, Entity, JoinTable, OneToMany, ManyToMany } from 'typeorm';
 
@@ -44,15 +42,7 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', nullable: false, length: 1000, unique: true })
   email: string;
 
-  @OneToMany(() => Query, (query) => query.user, {})
-  @JoinTable()
-  queries: Query[];
-
   @ManyToMany(() => Role, (role) => role.user, { eager: true })
   @JoinTable()
   roles: Role[];
-
-  @ManyToMany(() => Menu, (menu) => menu.users, { eager: true })
-  @JoinTable()
-  menus: Menu[];
 }

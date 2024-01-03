@@ -26,12 +26,7 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    // return this.usersRepository
-    //   .createQueryBuilder('user')
-    //   .leftJoinAndSelect('user.queries', 'queries')
-    //   .where('user.id = :id', { id: id })
-    //   .getMany();
-    return this.usersRepository.findOne(id, { relations: ['queries'] });
+    return this.usersRepository.findOne(id);
   }
 
   async searchOne(data: string) {

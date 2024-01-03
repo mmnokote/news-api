@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Role } from 'src/roles/entities/role.entity';
-import { Menu } from 'src/menus/entities/menu.entity';
 
 @Injectable()
 export class UserRolesService {
@@ -14,8 +13,6 @@ export class UserRolesService {
     private userRepository: Repository<User>,
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
-    @InjectRepository(Menu)
-    private menuRepository: Repository<Menu>,
   ) {}
   create(createUserRoleDto: CreateUserRoleDto) {
     return 'This action adds a new userRole';
@@ -43,9 +40,7 @@ export class UserRolesService {
   ): Promise<User> {
     const user = await this.userRepository.findOne(userId);
     const roles = await this.roleRepository.findByIds(roleId);
-    const menus = await this.menuRepository.findByIds(menuId);
     user.roles = roles;
-    user.menus = menus;
     return this.userRepository.save(user);
   }
 }

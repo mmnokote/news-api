@@ -1,16 +1,27 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-// import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+// const config: TypeOrmModuleOptions = {
+//   type: 'postgres',
+//   username: 'postgres',
+//   password: 'p@ssw0rd',
+//   port: 5432,
+//   host: 'localhost',
+//   database: 'confecence',
+//   synchronize: true,
+//   migrations: ['dist/db/migrations/*.js'],
+//   cli: { migrationsDir: 'src/db/migrations' },
+
+//   entities: ['dist/**/*.entity{.ts,.js}'],
+// };
 const config: TypeOrmModuleOptions = {
-  type: 'postgres',
-  username: 'postgres',
-  password: 'p@ssw0rd',
-  port: 5432,
+  type: 'mysql', // Change 'postgres' to 'mysql'
   host: 'localhost',
-  database: 'nestjsm0',
+  port: 3306, // Default MySQL port
+  username: 'root', // Your MySQL username
+  password: 'root', // Your MySQL password
+  database: 'conference', // Your MySQL database name
   synchronize: true,
   migrations: ['dist/db/migrations/*.js'],
   cli: { migrationsDir: 'src/db/migrations' },
-
   entities: ['dist/**/*.entity{.ts,.js}'],
 };
 export default config;
