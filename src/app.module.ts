@@ -13,6 +13,9 @@ import { JwtService } from '@nestjs/jwt';
 import { RolesGuard } from './users/roles.gaurd';
 import { APP_GUARD } from '@nestjs/core';
 import { UserRolesModule } from './user-roles/user-roles.module';
+import { RegistartioncategoriesModule } from './registartioncategories/registartioncategories.module';
+import { CountriesModule } from './countries/countries.module';
+import { SubthemesModule } from './subthemes/subthemes.module';
 
 @Module({
   imports: [
@@ -23,6 +26,9 @@ import { UserRolesModule } from './user-roles/user-roles.module';
     FilesModule,
     FilelinksModule,
     UserRolesModule,
+    RegistartioncategoriesModule,
+    CountriesModule,
+    SubthemesModule,
   ],
   controllers: [AppController],
   providers: [

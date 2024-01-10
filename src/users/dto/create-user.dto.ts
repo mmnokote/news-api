@@ -24,13 +24,6 @@ export class CreateUserDto extends BaseEntity {
   last_name: string;
 
   @ApiProperty({
-    description: 'User age',
-    type: String,
-  })
-  @IsString()
-  age: string;
-
-  @ApiProperty({
     description: 'User sex',
   })
   sex: string;
@@ -55,4 +48,10 @@ export class CreateUserDto extends BaseEntity {
 
   @IsEmail()
   email: string;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'User second name',
+  })
+  countryId: number;
 }

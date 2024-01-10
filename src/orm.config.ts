@@ -12,6 +12,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 //   entities: ['dist/**/*.entity{.ts,.js}'],
 // };
+
 const config: TypeOrmModuleOptions = {
   type: 'mysql', // Change 'postgres' to 'mysql'
   host: 'localhost',

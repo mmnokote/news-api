@@ -35,11 +35,13 @@ async function bootstrap() {
     )
     .setVersion('v1')
     .addTag('List of APIs', 'Restful APIs')
+    .addBearerAuth() // Add this line to enable Bearer token authentication
     .build();
 
   const options: SwaggerDocumentOptions = {
     deepScanRoutes: true,
   };
+
   const document = SwaggerModule.createDocument(app, config, options);
   SwaggerModule.setup('list-of-api', app, document);
   // Customize CORS options

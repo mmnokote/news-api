@@ -1,6 +1,17 @@
 import { BaseEntity } from 'src/base-entity';
+import { Country } from 'src/countries/entities/country.entity';
+import { Registartioncategory } from 'src/registartioncategories/entities/registartioncategory.entity';
 import { Role } from 'src/roles/entities/role.entity';
-import { Column, Entity, JoinTable, OneToMany, ManyToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  OneToMany,
+  ManyToMany,
+  ManyToOne,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -13,14 +24,11 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   last_name: string;
 
-  @Column({ type: 'varchar', nullable: true, length: 1000 })
-  age: string;
+  // @Column({ type: 'varchar', nullable: true, length: 1000 })
+  // age: string;
 
   @Column({ type: 'varchar', nullable: true, length: 1000 })
   phone_number: string;
-
-  @Column({ type: 'varchar', nullable: true, length: 1000 })
-  nin_number: string;
 
   @Column({ type: 'varchar', nullable: true, length: 1000 })
   user_identification: string;
@@ -45,4 +53,22 @@ export class User extends BaseEntity {
   @ManyToMany(() => Role, (role) => role.user, { eager: true })
   @JoinTable()
   roles: Role[];
+
+  @OneToOne(() => Country, (country) => country.user, {
+    onDelete: 'CASCADE',
+    eager: true,
+  })
+  @JoinColumn()
+  country: Country;
+
+  @OneToOne(
+    () => Registartioncategory,
+    (registationcategory) => registationcategory.user,
+    {
+      onDelete: 'CASCADE',
+      eager: true,
+    },
+  )
+  @JoinColumn()
+  registationcategory: Registartioncategory;
 }
