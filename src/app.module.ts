@@ -16,6 +16,7 @@ import { UserRolesModule } from './user-roles/user-roles.module';
 import { RegistartioncategoriesModule } from './registartioncategories/registartioncategories.module';
 import { CountriesModule } from './countries/countries.module';
 import { SubthemesModule } from './subthemes/subthemes.module';
+import { AbstarctsModule } from './abstarcts/abstarcts.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { SubthemesModule } from './subthemes/subthemes.module';
     RegistartioncategoriesModule,
     CountriesModule,
     SubthemesModule,
+    AbstarctsModule,
   ],
   controllers: [AppController],
   providers: [
