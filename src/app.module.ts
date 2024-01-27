@@ -17,6 +17,7 @@ import { RegistartioncategoriesModule } from './registartioncategories/registart
 import { CountriesModule } from './countries/countries.module';
 import { SubthemesModule } from './subthemes/subthemes.module';
 import { AbstarctsModule } from './abstarcts/abstarcts.module';
+import { JisajilisModule } from './jisajilis/jisajilis.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AbstarctsModule } from './abstarcts/abstarcts.module';
     CountriesModule,
     SubthemesModule,
     AbstarctsModule,
+    JisajilisModule,
   ],
   controllers: [AppController],
   providers: [

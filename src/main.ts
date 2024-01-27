@@ -46,7 +46,7 @@ async function bootstrap() {
   SwaggerModule.setup('list-of-api', app, document);
   // Customize CORS options
   const corsOptions: CorsOptions = {
-    origin: 'http://localhost:3000', // Specify your allowed origin(s)
+    origin: 'http://localhost:4000', // Specify your allowed origin(s)
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // Enable credentials (e.g., cookies)
     optionsSuccessStatus: 204, // Set the HTTP status for successful CORS preflight requests

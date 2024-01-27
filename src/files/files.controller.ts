@@ -32,7 +32,10 @@ export class FilesController implements CrudController<FileEntity> {
     FileInterceptor('file', {
       storage: diskStorage({
         destination: (req: Express.Request, file: Express.Multer.File, cb) =>
-          cb(null, '/home/mnokote/ProjectsLive/grm/public'),
+          cb(
+            null,
+            '/home/mmnokote/Projects/conference/bonde-ui/public/uploads',
+          ),
         filename: (req: Express.Request, file: Express.Multer.File, cb) => {
           const [, ext] = file.mimetype.split('/');
           FilesController.genericService.pcoket.filename = `${v4()}.${ext}`;

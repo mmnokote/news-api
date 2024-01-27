@@ -30,8 +30,8 @@ export class AbstarctsService {
     private abstractRepository: Repository<Abstarct>,
   ) {}
 
-  create(createBookDto: CreateAbstarctDto) {
-    return this.abstractRepository.save(createBookDto);
+  create(createAbstactDto: CreateAbstarctDto) {
+    return this.abstractRepository.save(createAbstactDto);
   }
 
   async paginate(options: IPaginationOptions): Promise<Pagination<Abstarct>> {
@@ -39,6 +39,10 @@ export class AbstarctsService {
     queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
 
     return paginate<Abstarct>(queryBuilder, options);
+  }
+
+  async isEmailUnique(email: string): Promise<Abstarct | undefined> {
+    return this.abstractRepository.findOne({ email });
   }
 
   findAll() {

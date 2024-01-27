@@ -16,7 +16,7 @@ export class UsersService {
     // console.log(createUserDto);
     const randomNumber = Math.floor(Math.random() * 9000) + 1000; // Generates a 4-digit random number
 
-    createUserDto.user_identification = 'MS' + randomNumber;
+    createUserDto.user_identification = 'CFN' + randomNumber;
     return this.usersRepository.save(createUserDto);
   }
 

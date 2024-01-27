@@ -33,4 +33,16 @@ export class Abstarct extends BaseEntity {
 
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   results: string;
+
+  @Column({ type: 'varchar', nullable: false })
+  subTheme: string;
+
+  @Column({ type: 'varchar', nullable: false })
+  conclusion: string;
+
+  @Column({ type: 'varchar', nullable: false })
+  recommendations: string;
+
+  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  inline: string;
 }

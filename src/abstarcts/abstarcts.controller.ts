@@ -21,6 +21,7 @@ import {
   ParseIntPipe,
   Query,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 
 import { CreateAbstarctDto } from './dto/create-abstarct.dto';
@@ -31,6 +32,7 @@ import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
 import { Role } from 'src/users/entities/role.enum';
 import { Roles } from 'src/users/roles.decorator';
 import { AbstarctsService } from './abstarcts.service';
+import { EmailUniquePipe } from './email-unique.pipe';
 // @UseGuards(JwtAuthGuard)
 // @Roles(Role.ADMIN)
 @Controller('abstarcts')
