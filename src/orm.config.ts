@@ -40,7 +40,7 @@ const config: TypeOrmModuleOptions = {
 //   cli: { migrationsDir: 'src/db/migrations' },
 //   entities: ['dist/**/*.entity{.ts,.js}'],
 // };
-export default config;
+// export default config;
 
 // import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 // // import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
