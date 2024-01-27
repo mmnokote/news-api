@@ -3,7 +3,7 @@ const config: TypeOrmModuleOptions = {
   type: 'postgres',
   username: 'postgres',
   password: 'p@ABCtscm1s@@2023',
-  port: 5432,
+  port: '172.16.18.193',
   host: 'localhost',
   database: 'confecence',
   synchronize: true,
