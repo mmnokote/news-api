@@ -1,17 +1,19 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+
 const config: TypeOrmModuleOptions = {
   type: 'postgres',
   username: 'postgres',
-  password: 'p@ABCtscm1s@@2023',
+  password: 'ABCtscm1s@@2023', // Update with the correct password
   port: 5432,
   host: '172.16.18.193',
-  database: 'confecence',
+  database: 'conference', // Corrected database name
   synchronize: true,
   migrations: ['dist/db/migrations/*.js'],
   cli: { migrationsDir: 'src/db/migrations' },
-
   entities: ['dist/**/*.entity{.ts,.js}'],
 };
+
+export default config;
 
 // import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 // const config: TypeOrmModuleOptions = {
@@ -57,4 +59,4 @@ const config: TypeOrmModuleOptions = {
 
 //   entities: ['dist/**/*.entity{.ts,.js}'],
 // };
-export default config;
+// export default config;
