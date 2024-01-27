@@ -57,4 +57,4 @@ const config: TypeOrmModuleOptions = {
 
 //   entities: ['dist/**/*.entity{.ts,.js}'],
 // };
-// export default config;
+export default config;
