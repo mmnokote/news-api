@@ -13,7 +13,7 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    // console.log(createUserDto);
+    console.log(createUserDto);
     const randomNumber = Math.floor(Math.random() * 9000) + 1000; // Generates a 4-digit random number
 
     createUserDto.user_identification = 'CFN' + randomNumber;

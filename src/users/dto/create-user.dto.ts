@@ -4,6 +4,30 @@ import { BaseEntity } from 'src/base-entity';
 
 export class CreateUserDto extends BaseEntity {
   @ApiProperty({
+    description: 'salutation',
+  })
+  @IsNotEmpty({ message: 'Salutation is missing.' })
+  salutation: string;
+
+  @ApiProperty({
+    description: 'category',
+  })
+  @IsNotEmpty({ message: 'Registration category is missing.' })
+  registationcategory: object;
+
+  @ApiProperty({
+    description: 'country',
+  })
+  @IsNotEmpty({ message: 'Country  is missing.' })
+  country: object;
+
+  @ApiProperty({
+    description: 'organization',
+  })
+  @IsNotEmpty({ message: 'Organization is missing.' })
+  organization: string;
+
+  @ApiProperty({
     description: 'User first name',
   })
   @IsString()
@@ -15,6 +39,13 @@ export class CreateUserDto extends BaseEntity {
     description: 'User second name',
   })
   middle_name: string;
+
+  @ApiProperty({
+    description: 'User last name',
+  })
+  @IsString()
+  @IsNotEmpty({ message: 'Phone is missing.' })
+  phone_number: string;
 
   @ApiProperty({
     description: 'User last name',
@@ -49,14 +80,20 @@ export class CreateUserDto extends BaseEntity {
   @IsNotEmpty({ message: 'Password is missing.' })
   password: string;
 
+  @ApiProperty({
+    description: 'description',
+  })
+  @IsNotEmpty({ message: 'Description is missing.' })
+  description: string;
+
   @IsEmail()
   @IsNotEmpty({ message: 'Email is missing.' })
   email: string;
 
-  @IsNotEmpty()
-  @ApiProperty({
-    description: 'User country name',
-  })
-  @IsNotEmpty({ message: 'Country is missing.' })
-  countryId: number;
+  // @IsNotEmpty()
+  // @ApiProperty({
+  //   description: 'User country name',
+  // })
+  // @IsNotEmpty({ message: 'Country is missing.' })
+  // countryId: number;
 }
