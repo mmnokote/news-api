@@ -1,34 +1,34 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-
-const config: TypeOrmModuleOptions = {
-  type: 'postgres',
-  username: 'postgres',
-  password: 'ABCtscm1s@@2023', // Update with the correct password
-  port: 5432,
-  host: '172.16.18.193',
-  database: 'conference', // Corrected database name
-  synchronize: true,
-  migrations: ['dist/db/migrations/*.js'],
-  cli: { migrationsDir: 'src/db/migrations' },
-  entities: ['dist/**/*.entity{.ts,.js}'],
-};
-
-export default config;
-
 // import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+
 // const config: TypeOrmModuleOptions = {
 //   type: 'postgres',
 //   username: 'postgres',
-//   password: 'p@ssw0rd',
+//   password: 'ABCtscm1s@@2023', // Update with the correct password
 //   port: 5432,
-//   host: 'localhost',
-//   database: 'confecence',
+//   host: '172.16.18.193',
+//   database: 'conference', // Corrected database name
 //   synchronize: true,
 //   migrations: ['dist/db/migrations/*.js'],
 //   cli: { migrationsDir: 'src/db/migrations' },
-
 //   entities: ['dist/**/*.entity{.ts,.js}'],
 // };
+
+// export default config;
+
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+const config: TypeOrmModuleOptions = {
+  type: 'postgres',
+  username: 'postgres',
+  password: 'p@ssw0rd',
+  port: 5432,
+  host: 'localhost',
+  database: 'confecence',
+  synchronize: true,
+  migrations: ['dist/db/migrations/*.js'],
+  cli: { migrationsDir: 'src/db/migrations' },
+
+  entities: ['dist/**/*.entity{.ts,.js}'],
+};
 
 // const config: TypeOrmModuleOptions = {
 //   type: 'mysql', // Change 'postgres' to 'mysql'
@@ -59,4 +59,4 @@ export default config;
 
 //   entities: ['dist/**/*.entity{.ts,.js}'],
 // };
-// export default config;
+export default config;

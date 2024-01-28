@@ -10,7 +10,7 @@ export class CreateUserDto extends BaseEntity {
   @IsNotEmpty({ message: 'First Name is missing.' })
   first_name: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Middle Name is missing.' })
   @ApiProperty({
     description: 'User second name',
   })
@@ -26,6 +26,7 @@ export class CreateUserDto extends BaseEntity {
   @ApiProperty({
     description: 'User sex',
   })
+  @IsNotEmpty({ message: 'Sex is missing.' })
   sex: string;
 
   @ApiProperty({
@@ -39,19 +40,23 @@ export class CreateUserDto extends BaseEntity {
   @ApiProperty({
     description: 'Username',
   })
+  @IsNotEmpty({ message: 'Username is missing.' })
   username: string;
 
   @ApiProperty({
     description: 'Password',
   })
+  @IsNotEmpty({ message: 'Password is missing.' })
   password: string;
 
   @IsEmail()
+  @IsNotEmpty({ message: 'Email is missing.' })
   email: string;
 
   @IsNotEmpty()
   @ApiProperty({
-    description: 'User second name',
+    description: 'User country name',
   })
+  @IsNotEmpty({ message: 'Country is missing.' })
   countryId: number;
 }
