@@ -6,7 +6,7 @@ const config: TypeOrmModuleOptions = {
   password: 'ABCtscm1s@@2023', // Update with the correct password
   port: 5432,
   host: '172.16.18.193',
-  database: 'conference', // Corrected database name
+  database: 'conferencelive', // Corrected database name
   synchronize: true,
   migrations: ['dist/db/migrations/*.js'],
   cli: { migrationsDir: 'src/db/migrations' },
