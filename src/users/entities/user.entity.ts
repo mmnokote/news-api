@@ -31,6 +31,9 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   organization: string;
 
+  @Column({ type: 'varchar', nullable: true, length: 1000 })
+  group: string;
+
   // @Column({ type: 'varchar', nullable: true, length: 1000 })
   // age: string;
 
@@ -61,17 +64,27 @@ export class User extends BaseEntity {
   @JoinTable()
   roles: Role[];
 
-  @OneToOne(() => Country, (country) => country.user, {
+  @ManyToOne(() => Country, (country) => country.user, {
     onDelete: 'CASCADE',
     eager: true,
   })
-  @JoinColumn()
   country: Country;
 
   @OneToMany(() => Jisajili, (jisajili) => jisajili.user, { eager: true })
   jisajilis: Jisajili[];
 
-  @OneToOne(
+  // @OneToOne(
+  //   () => Registartioncategory,
+  //   (registationcategory) => registationcategory.user,
+  //   {
+  //     onDelete: 'CASCADE',
+  //     eager: true,
+  //   },
+  // )
+  // @JoinColumn()
+  // registationcategory: Registartioncategory;
+
+  @ManyToOne(
     () => Registartioncategory,
     (registationcategory) => registationcategory.user,
     {
@@ -79,6 +92,5 @@ export class User extends BaseEntity {
       eager: true,
     },
   )
-  @JoinColumn()
   registationcategory: Registartioncategory;
 }

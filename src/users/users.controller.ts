@@ -86,34 +86,6 @@ export class UsersController {
   }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService
-      .create(createUserDto)
-      .then((response) => {
-        if (response) {
-          return response;
-        } else {
-          throw new NotFoundException('User not created');
-        }
-      })
-      .catch((error) => {
-        console.log('error', error);
-        if (error.driverError.code === 'ER_DUP_ENTRY') {
-          throw new ConflictException({
-            statusCode: 409,
-            message: 'Conflict',
-            error: 'Duplicate record',
-            detail: error.driverError.sqlMessage,
-          });
-        }
-        throw new InternalServerErrorException({
-          statusCode: 500,
-          message: 'Internal Server Error',
-          // error: 'Something went wrong',
-          error: error.driverError.code,
-        });
-      });
-  }
   // create(@Body() createUserDto: CreateUserDto) {
   //   return this.usersService
   //     .create(createUserDto)
@@ -121,17 +93,45 @@ export class UsersController {
   //       if (response) {
   //         return response;
   //       } else {
-  //         throw new NotFoundException();
+  //         throw new NotFoundException('User not created');
   //       }
   //     })
   //     .catch((error) => {
-  //       // console.log(error);
-  //       if (error.code === '23505') {
-  //         throw new ConflictException(error.detail);
+  //       console.log('error', error);
+  //       if (error.driverError.code === 'ER_DUP_ENTRY') {
+  //         throw new ConflictException({
+  //           statusCode: 409,
+  //           message: 'Conflict',
+  //           error: 'Duplicate record',
+  //           detail: error.driverError.sqlMessage,
+  //         });
   //       }
-  //       throw new InternalServerErrorException();
+  //       throw new InternalServerErrorException({
+  //         statusCode: 500,
+  //         message: 'Internal Server Error',
+  //         // error: 'Something went wrong',
+  //         error: error.driverError.code,
+  //       });
   //     });
   // }
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService
+      .create(createUserDto)
+      .then((response) => {
+        if (response) {
+          return response;
+        } else {
+          throw new NotFoundException();
+        }
+      })
+      .catch((error) => {
+        // console.log(error);
+        if (error.code === '23505') {
+          throw new ConflictException(error.detail);
+        }
+        throw new InternalServerErrorException();
+      });
+  }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)

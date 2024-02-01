@@ -48,6 +48,13 @@ export class CreateUserDto extends BaseEntity {
   phone_number: string;
 
   @ApiProperty({
+    description: 'Registration  name',
+  })
+  @IsString()
+  @IsNotEmpty({ message: 'Group is missing.' })
+  group: string;
+
+  @ApiProperty({
     description: 'User last name',
   })
   @IsString()
@@ -89,11 +96,4 @@ export class CreateUserDto extends BaseEntity {
   @IsEmail()
   @IsNotEmpty({ message: 'Email is missing.' })
   email: string;
-
-  // @IsNotEmpty()
-  // @ApiProperty({
-  //   description: 'User country name',
-  // })
-  // @IsNotEmpty({ message: 'Country is missing.' })
-  // countryId: number;
 }

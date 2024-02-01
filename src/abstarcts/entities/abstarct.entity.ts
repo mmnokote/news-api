@@ -1,13 +1,14 @@
 import { BaseEntity } from 'src/base-entity';
+import { Subtheme } from 'src/subthemes/entities/subtheme.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Column, Entity, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 
 @Entity('abstracts')
 export class Abstarct extends BaseEntity {
   //   @OneToOne(() => User, (user) => user.registationcategory)
   //   user: User;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000, unique: true })
+  @Column({ type: 'varchar', nullable: false, length: 1000 })
   email: string;
 
   @Column({ type: 'varchar', nullable: false, length: 1000 })
@@ -31,11 +32,14 @@ export class Abstarct extends BaseEntity {
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   methodology: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 1000 })
   results: string;
 
-  @Column({ type: 'varchar', nullable: false })
-  subTheme: string;
+  @ManyToOne(() => Subtheme, (subtheme) => subtheme.abstract, {
+    onDelete: 'CASCADE',
+    eager: true,
+  })
+  subTheme: Subtheme;
 
   @Column({ type: 'varchar', nullable: false })
   conclusion: string;
