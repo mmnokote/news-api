@@ -12,9 +12,6 @@ export class CreateUserDto extends BaseEntity {
   @ApiProperty({
     description: 'category',
   })
-  @IsNotEmpty({ message: 'Registration category is missing.' })
-  registationcategory: object;
-
   @ApiProperty({
     description: 'country',
   })

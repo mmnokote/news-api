@@ -13,7 +13,7 @@ const config: TypeOrmModuleOptions = {
   entities: ['dist/**/*.entity{.ts,.js}'],
 };
 
-export default config;
+// export default config;
 
 // import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 // const config: TypeOrmModuleOptions = {
@@ -59,4 +59,4 @@ export default config;
 
 //   entities: ['dist/**/*.entity{.ts,.js}'],
 // };
-// export default config;
+export default config;

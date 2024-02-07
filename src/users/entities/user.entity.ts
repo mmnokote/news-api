@@ -90,6 +90,7 @@ export class User extends BaseEntity {
     {
       onDelete: 'CASCADE',
       eager: true,
+      nullable: true,
     },
   )
   registationcategory: Registartioncategory;
