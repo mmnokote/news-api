@@ -62,9 +62,25 @@ export class UsersService {
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  // async update(id: number, updateUserDto: UpdateUserDto) {
+  //   console.log('updateUserDto', updateUserDto);
+  //   return this.usersRepository.update(id, updateUserDto);
+  // }
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    // Log the received updateUserDto to the console for debugging purposes
     console.log('updateUserDto', updateUserDto);
-    return this.usersRepository.update(id, updateUserDto);
+
+    // Update the user with the specified id using the data provided in updateUserDto
+    const updateResult = await this.usersRepository.update(id, updateUserDto);
+
+    // If the update was successful and the user exists, fetch and return the updated user
+    if (updateResult) {
+      const updatedUser = await this.usersRepository.findOne(id); // Assuming findOne is used to fetch a single user
+      return updatedUser;
+    }
+
+    // If the update failed or the user does not exist, return null or throw an error
+    return null; // or throw new Error('User not found or update failed');
   }
 
   async remove(id: number) {
