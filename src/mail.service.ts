@@ -9,8 +9,10 @@ export class EmailService {
     this.transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-        user: 'tscmis2020@gmail.com',
-        pass: 'titunrmoebralrwa',
+        user: 'iphcctamisemi@gmail.com',
+        pass: 'pqklorpcrfgihukt',
+        // user: 'tscmis2020@gmail.com',
+        // pass: 'titunrmoebralrwa',
       },
     });
   }
@@ -22,29 +24,31 @@ export class EmailService {
       subject: 'Password Recovery',
       html:
         `
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign-Up Successful</title>
-</head>
-<body style="font-family: Arial, sans-serif; text-align: center; background-color: #f2f2f2; padding: 20px;">
-
-    <div style="background-color: #fff; border-radius: 10px; padding: 20px; box-shadow: 0px 0px 10px rgba(0,0,0,0.2);">
-        <h1>Welcome to Our Service!</h1>
-        <p>Your password restoration was successful.</p>
-        <p>Your password  is:</p>
-        <h2 style="color: #007bff;">` +
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Sign-Up Successful</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; text-align: center; background-color: #f2f2f2; padding: 20px;">
+        
+            <div style="background-color: #fff; border-radius: 10px; padding: 20px; box-shadow: 0px 0px 10px rgba(0,0,0,0.2);">
+                <h1>Welcome to Our Service!</h1>
+                <p>Your password restoration was successful.</p>
+                <p>Your password is:</p>
+                <h2 style="color: #007bff;">` +
         body.password +
         `</p>
-</h2>
-        <p>Thank you for joining our platform. We are excited to have you as a member.</p>
-        <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
-        <p>Best regards,<br>Your Team</p>
-    </div>
-
-</body>
-</html>
+        </h2>
+                <p>Thank you for joining our platform. We are excited to have you as a member.</p>
+                <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
+                <p><a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank" style="text-decoration: none; color: #007bff;">Click here to log in</a></p>
+                <p>Best regards,<br>Your Team</p>
+            </div>
+        
+        </body>
+        </html>
+        
 `, // Use the HTML template above
     };
 
