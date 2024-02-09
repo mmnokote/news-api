@@ -132,6 +132,43 @@ export class UsersController {
         throw new InternalServerErrorException();
       });
   }
+  @Post('restore-password')
+  async restorePassword(
+    @Body()
+    { usernameRestore, email }: { usernameRestore: string; email: string },
+  ) {
+    // console.log('email', usernameRestore);
+    try {
+      // Find the user by username
+      const user = await this.usersService.findByUsername(usernameRestore);
+
+      if (!user) {
+        throw new NotFoundException({
+          message: 'User not found',
+        });
+      }
+
+      // Assuming `user` has a password property, replace it with your actual password field
+      const password = user.password;
+
+      const body = {
+        email: email,
+        password: password,
+      };
+      // Send email with the password
+      await this.emailService.sendMail(body);
+
+      return { message: 'Email sent successfully' };
+    } catch (error) {
+      if (error.code === '23505') {
+        throw new ConflictException(error.detail);
+      }
+      // throw new InternalServerErrorException(error.detail);
+      throw new NotFoundException({
+        message: 'User with the provided information not found',
+      });
+    }
+  }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)

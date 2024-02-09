@@ -17,9 +17,9 @@ export class EmailService {
 
   async sendMail(body: any) {
     const mailOptions = {
-      from: 'msimbazi@gmail.com',
+      from: 'tamisemi.go.tz',
       to: body.email,
-      subject: 'Umejisajili kikamilifu',
+      subject: 'Password Recovery',
       html:
         `
 <html lang="en">
@@ -32,10 +32,10 @@ export class EmailService {
 
     <div style="background-color: #fff; border-radius: 10px; padding: 20px; box-shadow: 0px 0px 10px rgba(0,0,0,0.2);">
         <h1>Welcome to Our Service!</h1>
-        <p>Your sign-up was successful.</p>
-        <p>Your identification number is:</p>
+        <p>Your password restoration was successful.</p>
+        <p>Your password  is:</p>
         <h2 style="color: #007bff;">` +
-        body.user_identification +
+        body.password +
         `</p>
 </h2>
         <p>Thank you for joining our platform. We are excited to have you as a member.</p>
