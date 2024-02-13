@@ -5,8 +5,12 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 
 @Entity('abstracts')
 export class Abstarct extends BaseEntity {
-  //   @OneToOne(() => User, (user) => user.registationcategory)
-  //   user: User;
+  @OneToOne(() => User, (user) => user.abstract, {
+    onDelete: 'CASCADE',
+    eager: true,
+  })
+  @JoinColumn()
+  user: User;
 
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   email: string;

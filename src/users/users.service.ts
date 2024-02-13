@@ -19,6 +19,7 @@ export class UsersService {
     createUserDto.user_identification = 'CFN' + randomNumber;
     return this.usersRepository.save(createUserDto);
   }
+
   async findByUsername(username: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ where: { username } });
   }

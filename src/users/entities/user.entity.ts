@@ -1,3 +1,4 @@
+import { Abstarct } from 'src/abstarcts/entities/abstarct.entity';
 import { BaseEntity } from 'src/base-entity';
 import { Country } from 'src/countries/entities/country.entity';
 import { Jisajili } from 'src/jisajilis/entities/jisajili.entity';
@@ -76,16 +77,8 @@ export class User extends BaseEntity {
   @OneToMany(() => Jisajili, (jisajili) => jisajili.user, { eager: true })
   jisajilis: Jisajili[];
 
-  // @OneToOne(
-  //   () => Registartioncategory,
-  //   (registationcategory) => registationcategory.user,
-  //   {
-  //     onDelete: 'CASCADE',
-  //     eager: true,
-  //   },
-  // )
-  // @JoinColumn()
-  // registationcategory: Registartioncategory;
+  @OneToOne(() => Abstarct, (abstract) => abstract.user)
+  abstract: Abstarct;
 
   @ManyToOne(
     () => Registartioncategory,

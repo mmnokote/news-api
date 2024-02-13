@@ -49,6 +49,8 @@ export class CreateAbstarctDto extends BaseEntity {
   @IsNotEmpty({ message: 'SubTheme is missing.' })
   subTheme: object;
 
+  abstract: object;
+
   @ApiProperty({
     description: 'conclusion',
   })
@@ -60,6 +62,12 @@ export class CreateAbstarctDto extends BaseEntity {
   })
   @IsNotEmpty({ message: 'Recommendations is missing.' })
   recommendations: string;
+
+  @IsNotEmpty({ message: 'Affiliation is missing.' })
+  affiliation: string;
+
+  @IsNotEmpty({ message: 'Objective is missing.' })
+  objective: string;
 
   @ApiProperty({
     description: 'inline',
