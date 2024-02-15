@@ -18,6 +18,8 @@ import { CountriesModule } from './countries/countries.module';
 import { SubthemesModule } from './subthemes/subthemes.module';
 import { AbstarctsModule } from './abstarcts/abstarcts.module';
 import { JisajilisModule } from './jisajilis/jisajilis.module';
+import { MenusModule } from './menus/menus.module';
+import { StatusesModule } from './statuses/statuses.module';
 
 @Module({
   imports: [
@@ -33,6 +35,8 @@ import { JisajilisModule } from './jisajilis/jisajilis.module';
     SubthemesModule,
     AbstarctsModule,
     JisajilisModule,
+    MenusModule,
+    StatusesModule,
   ],
   controllers: [AppController],
   providers: [

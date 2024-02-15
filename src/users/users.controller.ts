@@ -56,7 +56,7 @@ export class UsersController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  // @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN)
   findAll() {
     return this.usersService
       .findAll()
@@ -132,6 +132,7 @@ export class UsersController {
         throw new InternalServerErrorException();
       });
   }
+
   @Post('restore-password')
   async restorePassword(
     @Body()
@@ -235,5 +236,9 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
+  }
+  @Patch(':id/change-status')
+  activation(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.activateUser(+id, updateUserDto);
   }
 }

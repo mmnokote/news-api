@@ -43,6 +43,8 @@ export class AbstarctsController {
     return this.abstarctsService.create(createDataDto);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Roles(Role.ADMIN)
   @Get()
   findAll() {
     return this.abstarctsService.findAll();

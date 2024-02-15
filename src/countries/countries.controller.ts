@@ -25,6 +25,8 @@ import { CountriesService } from './countries.service';
 export class CountriesController {
   constructor(private readonly countriesService: CountriesService) {}
 
+  @UseGuards(JwtAuthGuard)
+  @Roles(Role.ADMIN)
   @Post()
   create(@Body() createDataDto: CreateCountryDto) {
     return this.countriesService.create(createDataDto);

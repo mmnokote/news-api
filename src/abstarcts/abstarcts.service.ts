@@ -82,9 +82,11 @@ export class AbstarctsService {
     return this.abstractRepository.findOne({ email });
   }
 
-  findAll() {
-    const abstracts = this.abstractRepository
+  async findAll() {
+    const abstracts = await this.abstractRepository
       .createQueryBuilder('abstracts')
+      .leftJoinAndSelect('abstracts.user', 'user')
+      .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
       .getMany();
     return abstracts;
   }

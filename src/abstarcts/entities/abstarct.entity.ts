@@ -8,6 +8,7 @@ export class Abstarct extends BaseEntity {
   @OneToOne(() => User, (user) => user.abstract, {
     onDelete: 'CASCADE',
     eager: true,
+    nullable: true,
   })
   @JoinColumn()
   user: User;

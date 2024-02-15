@@ -89,4 +89,23 @@ export class UsersService {
   async remove(id: number) {
     return this.usersRepository.delete(id);
   }
+
+  async activateUser(id: number, updateUserDto: UpdateUserDto) {
+    const user = await this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.roles', 'roles')
+      .where('user.id = :id', { id })
+      .getOne();
+    // return user;
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    // Toggle the 'active' status
+    // user.roles = user.roles;
+    user.active = !user.active;
+    // Update the user in the database
+    return this.usersRepository.save(user);
+  }
 }

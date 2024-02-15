@@ -33,13 +33,21 @@ export class UserRolesService {
   remove(id: number) {
     return `This action removes a #${id} userRole`;
   }
-  async assignMenuToUser(
-    userId: number,
-    roleId: number[],
-    menuId: number[],
-  ): Promise<User> {
-    const user = await this.userRepository.findOne(userId);
+
+  async assignMenuToUser(userId: number, roleId: number[]): Promise<User> {
+    const user = await this.userRepository.findOne(userId, {
+      relations: ['roles'],
+    });
+    console.log(user);
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found`);
+    }
+
     const roles = await this.roleRepository.findByIds(roleId);
+    if (!roles || roles.length === 0) {
+      throw new Error(`No roles found with IDs ${roleId.join(', ')}`);
+    }
+
     user.roles = roles;
     return this.userRepository.save(user);
   }

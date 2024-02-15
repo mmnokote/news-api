@@ -2,6 +2,7 @@ import { Abstarct } from 'src/abstarcts/entities/abstarct.entity';
 import { BaseEntity } from 'src/base-entity';
 import { Country } from 'src/countries/entities/country.entity';
 import { Jisajili } from 'src/jisajilis/entities/jisajili.entity';
+import { Menu } from 'src/menus/entities/menu.entity';
 import { Registartioncategory } from 'src/registartioncategories/entities/registartioncategory.entity';
 import { Role } from 'src/roles/entities/role.entity';
 import {
@@ -20,7 +21,7 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   first_name: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 1000 })
   middle_name: string;
 
   @Column({ type: 'varchar', nullable: false, length: 1000 })
@@ -90,4 +91,11 @@ export class User extends BaseEntity {
     },
   )
   registationcategory: Registartioncategory;
+
+  @ManyToMany(() => Menu, (menu) => menu.users, { eager: true })
+  @JoinTable()
+  menus: Menu[];
+
+  @Column({ type: 'boolean', default: false })
+  active: boolean;
 }

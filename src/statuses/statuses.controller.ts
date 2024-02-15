@@ -11,29 +11,30 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CreateSubthemeDto } from './dto/create-subtheme.dto';
-import { UpdateSubthemeDto } from './dto/update-subtheme.dto';
+import { CreateStatusDto } from './dto/create-status.dto';
+import { UpdateStatusDto } from './dto/update-status.dto';
+
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
 import { Role } from 'src/users/entities/role.enum';
 import { Roles } from 'src/users/roles.decorator';
-import { SubthemesService } from './subthemes.service';
+import { StatusesService } from './statuses.service';
 // @UseGuards(JwtAuthGuard)
 // @Roles(Role.ADMIN)
-@Controller('subthemes')
-export class SubthemesController {
-  constructor(private readonly subthemeService: SubthemesService) {}
+@Controller('statuses')
+export class StatusesController {
+  constructor(private readonly statusesService: StatusesService) {}
 
   @UseGuards(JwtAuthGuard)
   @Roles(Role.ADMIN)
   @Post()
-  create(@Body() createDataDto: CreateSubthemeDto) {
-    return this.subthemeService.create(createDataDto);
+  create(@Body() createDataDto: CreateStatusDto) {
+    return this.statusesService.create(createDataDto);
   }
 
   @Get()
   findAll() {
-    return this.subthemeService.findAll();
+    return this.statusesService.findAll();
   }
   // @Get('')
   // async index(
@@ -41,7 +42,7 @@ export class SubthemesController {
   //   @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
   // ): Promise<Pagination<Country>> {
   //   limit = limit > 100 ? 100 : limit;
-  //   return this.subthemeService.paginate({
+  //   return this.statusesService.paginate({
   //     page,
   //     limit,
   //   });
@@ -49,16 +50,16 @@ export class SubthemesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.subthemeService.findOne(+id);
+    return this.statusesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDataDto: UpdateSubthemeDto) {
-    return this.subthemeService.update(+id, updateDataDto);
+  update(@Param('id') id: string, @Body() updateDataDto: UpdateStatusDto) {
+    return this.statusesService.update(+id, updateDataDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.subthemeService.remove(+id);
+    return this.statusesService.remove(+id);
   }
 }
