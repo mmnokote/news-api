@@ -44,7 +44,7 @@ export class AbstarctsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Roles(Role.ADMIN)
+  // @Roles(Role.ADMIN)
   @Get()
   findAll() {
     return this.abstarctsService.findAll();
