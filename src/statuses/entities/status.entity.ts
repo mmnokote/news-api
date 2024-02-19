@@ -9,4 +9,7 @@ export class Status extends BaseEntity {
 
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   code: string;
+
+  @OneToMany(() => Abstarct, (abstract) => abstract.status)
+  abstract: Abstarct[];
 }

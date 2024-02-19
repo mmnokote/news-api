@@ -92,4 +92,6 @@ export class CreateUserDto extends BaseEntity {
   @IsEmail()
   @IsNotEmpty({ message: 'Email is missing.' })
   email: string;
+
+  jisajilis: [];
 }

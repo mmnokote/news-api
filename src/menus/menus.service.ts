@@ -13,7 +13,7 @@ export class MenusService {
   ) {}
 
   async create(createmenuDto: CreateMenuDto) {
-    console.log(createmenuDto);
+    // console.log(createmenuDto);
     return this.menusRepository.save(createmenuDto);
   }
 

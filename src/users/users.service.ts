@@ -70,10 +70,10 @@ export class UsersService {
   //   return this.usersRepository.update(id, updateUserDto);
   // }
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    // Log the received updateUserDto to the console for debugging purposes
-    console.log('updateUserDto', updateUserDto);
+    // Remove the jisajilis property from the updateUserDto
+    delete updateUserDto.jisajilis;
 
-    // Update the user with the specified id using the data provided in updateUserDto
+    // Update the user with the specified id using the modified data in updateUserDto
     const updateResult = await this.usersRepository.update(id, updateUserDto);
 
     // If the update was successful and the user exists, fetch and return the updated user

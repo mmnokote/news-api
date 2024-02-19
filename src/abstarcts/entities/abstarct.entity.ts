@@ -1,4 +1,5 @@
 import { BaseEntity } from 'src/base-entity';
+import { Status } from 'src/statuses/entities/status.entity';
 import { Subtheme } from 'src/subthemes/entities/subtheme.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
@@ -40,6 +41,12 @@ export class Abstarct extends BaseEntity {
   @Column({ type: 'varchar', nullable: true, length: 1000 })
   results: string;
 
+  @ManyToOne(() => Status, (status) => status.abstract, {
+    onDelete: 'CASCADE',
+    eager: true,
+  })
+  status: Status;
+
   @ManyToOne(() => Subtheme, (subtheme) => subtheme.abstract, {
     onDelete: 'CASCADE',
     eager: true,
@@ -54,4 +61,7 @@ export class Abstarct extends BaseEntity {
 
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   inline: string;
+
+  @Column({ type: 'varchar', nullable: true, length: 1000 })
+  rejectionComment: string;
 }

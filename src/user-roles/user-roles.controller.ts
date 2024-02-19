@@ -17,14 +17,14 @@ export class UserRolesController {
 
   @Post()
   create(@Body() createUserRoleDto: CreateUserRoleDto) {
-    // const userId: any = createUserRoleDto.id;
-    // const roleId: any = createUserRoleDto.roles;
-    // const menuId: any = createUserRoleDto.menus;
-    // console.log('roles', roleId);
+    const userId: any = createUserRoleDto.id;
+    const roleId: any = createUserRoleDto.roles;
+    const menuId: any = createUserRoleDto.menus;
+    console.log('roles', roleId);
 
-    const userId = 45;
-    const roleId = [1];
-    return this.userRolesService.assignMenuToUser(userId, roleId);
+    // const userId = 45;
+    // const roleId = [1];
+    return this.userRolesService.assignMenuToUser(userId, roleId, menuId);
   }
 
   @Get()

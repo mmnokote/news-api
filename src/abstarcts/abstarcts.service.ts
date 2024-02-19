@@ -94,9 +94,26 @@ export class AbstarctsService {
   findOne(id: number) {
     return this.abstractRepository.findOne(id);
   }
-
-  update(id: number, updateQueryPriorityDto: UpdateAbstarctDto) {
-    return this.abstractRepository.update(id, updateQueryPriorityDto);
+  async update(id: number, updateQueryPriorityDto: UpdateAbstarctDto) {
+    try {
+      if (updateQueryPriorityDto.status.code === 'AP') {
+        updateQueryPriorityDto.rejectionComment = null;
+      }
+      const result = await this.abstractRepository.update(
+        id,
+        updateQueryPriorityDto,
+      );
+      // Check if the update was successful
+      if (result.affected > 0) {
+        return { message: 'Update successful' };
+      } else {
+        return { message: 'Update failed' };
+      }
+    } catch (error) {
+      // Handle error if the update fails
+      console.error('Update failed:', error.message);
+      throw error; // Rethrow the error to be handled by the caller
+    }
   }
 
   remove(id: number) {

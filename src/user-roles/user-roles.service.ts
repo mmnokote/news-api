@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Role } from 'src/roles/entities/role.entity';
+import { Menu } from 'src/menus/entities/menu.entity';
 
 @Injectable()
 export class UserRolesService {
@@ -13,6 +14,8 @@ export class UserRolesService {
     private userRepository: Repository<User>,
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
+    @InjectRepository(Menu)
+    private menuRepository: Repository<Menu>,
   ) {}
   create(createUserRoleDto: CreateUserRoleDto) {
     return 'This action adds a new userRole';
@@ -34,7 +37,11 @@ export class UserRolesService {
     return `This action removes a #${id} userRole`;
   }
 
-  async assignMenuToUser(userId: number, roleId: number[]): Promise<User> {
+  async assignMenuToUser(
+    userId: number,
+    roleId: number[],
+    menuId: number[],
+  ): Promise<User> {
     const user = await this.userRepository.findOne(userId, {
       relations: ['roles'],
     });
@@ -44,11 +51,16 @@ export class UserRolesService {
     }
 
     const roles = await this.roleRepository.findByIds(roleId);
+    const menus = await this.menuRepository.findByIds(menuId);
     if (!roles || roles.length === 0) {
       throw new Error(`No roles found with IDs ${roleId.join(', ')}`);
     }
+    if (!menus || roles.length === 0) {
+      throw new Error(`No menus found with IDs ${roleId.join(', ')}`);
+    }
 
     user.roles = roles;
+    user.menus = menus;
     return this.userRepository.save(user);
   }
 }

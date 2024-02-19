@@ -44,10 +44,17 @@ export class CreateAbstarctDto extends BaseEntity {
   results: string;
 
   @ApiProperty({
+    description: 'rejectionComment',
+  })
+  rejectionComment: string;
+
+  @ApiProperty({
     description: 'subTheme',
   })
   @IsNotEmpty({ message: 'SubTheme is missing.' })
   subTheme: object;
+
+  status: any;
 
   abstract: object;
 

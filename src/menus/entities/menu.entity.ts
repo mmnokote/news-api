@@ -5,7 +5,7 @@ import { Entity, Column, ManyToMany } from 'typeorm';
 
 @Entity('menus')
 export class Menu extends BaseEntity {
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 1000 })
   description: string;
 
   @Column({ type: 'varchar', nullable: true, length: 1000 })
@@ -23,7 +23,7 @@ export class Menu extends BaseEntity {
   @Column({ type: 'varchar', nullable: true, length: 1000 })
   code: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 1000 })
   uid: string;
 
   @ManyToMany(() => User, (user) => user.menus)
