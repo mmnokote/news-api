@@ -32,6 +32,7 @@ import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
 import { Role } from 'src/users/entities/role.enum';
 import { Roles } from 'src/users/roles.decorator';
 import { AbstarctsService } from './abstarcts.service';
+import { Abstarct } from './entities/abstarct.entity';
 // @UseGuards(JwtAuthGuard)
 // @Roles(Role.ADMIN)
 @Controller('abstarcts')
@@ -39,8 +40,22 @@ export class AbstarctsController {
   constructor(private readonly abstarctsService: AbstarctsService) {}
 
   @Post()
-  create(@Body() createDataDto: CreateAbstarctDto) {
-    return this.abstarctsService.create(createDataDto);
+  async create(
+    @Body() createDataDto: CreateAbstarctDto,
+  ): Promise<{ data: Abstarct; message: string }> {
+    try {
+      const result = await this.abstarctsService.create(createDataDto);
+      return {
+        data: result,
+        message: 'Abstract created successfully',
+      };
+    } catch (error) {
+      // Handle errors here
+      return {
+        data: null,
+        message: error.message || 'Failed to create abstract',
+      };
+    }
   }
 
   @UseGuards(JwtAuthGuard)

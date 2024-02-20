@@ -12,12 +12,21 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
-    console.log(createUserDto);
-    const randomNumber = Math.floor(Math.random() * 9000) + 1000; // Generates a 4-digit random number
+  async create(
+    createUserDto: CreateUserDto,
+  ): Promise<{ user: User; message: string }> {
+    try {
+      const randomNumber = Math.floor(Math.random() * 9000) + 1000; // Generates a 4-digit random number
+      createUserDto.user_identification = 'CFN' + randomNumber;
 
-    createUserDto.user_identification = 'CFN' + randomNumber;
-    return this.usersRepository.save(createUserDto);
+      // Save the user
+      const newUser = await this.usersRepository.save(createUserDto);
+
+      return { user: newUser, message: 'User created successfully' };
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw new Error('Failed to create user');
+    }
   }
 
   async findByUsername(username: string): Promise<User | undefined> {
@@ -69,21 +78,32 @@ export class UsersService {
   //   console.log('updateUserDto', updateUserDto);
   //   return this.usersRepository.update(id, updateUserDto);
   // }
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    // Remove the jisajilis property from the updateUserDto
-    delete updateUserDto.jisajilis;
+  async update(
+    id: number,
+    updateUserDto: UpdateUserDto,
+  ): Promise<{ updatedUser: User | null; message: string }> {
+    try {
+      // Remove the jisajilis property from the updateUserDto
+      delete updateUserDto.jisajilis;
 
-    // Update the user with the specified id using the modified data in updateUserDto
-    const updateResult = await this.usersRepository.update(id, updateUserDto);
+      // Update the user with the specified id using the modified data in updateUserDto
+      const updateResult = await this.usersRepository.update(id, updateUserDto);
 
-    // If the update was successful and the user exists, fetch and return the updated user
-    if (updateResult) {
-      const updatedUser = await this.usersRepository.findOne(id); // Assuming findOne is used to fetch a single user
-      return updatedUser;
+      // If the update was successful and the user exists, fetch and return the updated user
+      if (updateResult) {
+        const updatedUser = await this.usersRepository.findOne(id);
+        if (updatedUser) {
+          return { updatedUser, message: 'User updated successfully' };
+        }
+      }
+
+      // If the user does not exist, return null
+      return { updatedUser: null, message: 'User not found or update failed' };
+    } catch (error) {
+      // Handle any errors that occur during the update operation
+      console.error('Error updating user:', error);
+      throw new Error('Failed to update user');
     }
-
-    // If the update failed or the user does not exist, return null or throw an error
-    return null; // or throw new Error('User not found or update failed');
   }
 
   async remove(id: number) {

@@ -20,12 +20,41 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { name: user.name, sub: user.id };
-    const access_token = this.jwtService.sign(payload);
-    const userx = user;
-    userx.token = access_token;
-    return userx;
+    try {
+      const payload = { name: user.name, sub: user.id };
+      const access_token = this.jwtService.sign(payload);
+      const userx = user;
+      userx.token = access_token;
+      return userx;
+    } catch (error) {
+      // Handle errors here
+      return { userx: null, message: 'Failed to login' };
+    }
   }
+
+  //   async login(user: any): Promise<{ user: any, message: string }> {
+  //   try {
+  //     const payload = { name: user.name, sub: user.id };
+  //     const access_token = this.jwtService.sign(payload);
+  //     const userWithToken = { ...user, token: access_token };
+  //     return { user: userWithToken, message: 'Login successful' };
+  //   } catch (error) {
+  //     // Handle errors here
+  //     return { user: null, message: 'Failed to login' };
+  //   }
+  // }
+
+  //   async login(user: any): Promise<{ user: any, message: string }> {
+  //   try {
+  //     const payload = { name: user.name, sub: user.id };
+  //     const access_token = this.jwtService.sign(payload);
+  //     const userWithToken = { ...user, token: access_token };
+  //     return { user: userWithToken, message: 'Login successful' };
+  //   } catch (error) {
+  //     // Handle errors here
+  //     return { user: null, message: 'Failed to login' };
+  //   }
+  // }
 
   private readonly secretKey = 'SECRET'; // Replace with your actual secret key
 
