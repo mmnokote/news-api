@@ -26,7 +26,7 @@ export class StatusesController {
   constructor(private readonly statusesService: StatusesService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Roles(Role.ADMIN)
+  // @Roles(Role.ADMIN)
   @Post()
   create(@Body() createDataDto: CreateStatusDto) {
     return this.statusesService.create(createDataDto);
