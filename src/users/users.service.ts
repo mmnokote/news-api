@@ -22,7 +22,7 @@ export class UsersService {
       // Save the user
       const newUser = await this.usersRepository.save(createUserDto);
 
-      return { user: newUser, message: 'User created successfully' };
+      return { user: newUser, message: 'Registration completed successfully' };
     } catch (error) {
       console.error('Error creating user:', error);
       throw new Error('Failed to create user');

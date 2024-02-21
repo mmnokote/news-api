@@ -62,6 +62,11 @@ export class Abstarct extends BaseEntity {
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   inline: string;
 
-  @Column({ type: 'varchar', nullable: true, length: 1000 })
+  @Column({
+    type: 'varchar',
+    nullable: true,
+    default: 'Abstract Accepted',
+    length: 1000,
+  })
   rejectionComment: string;
 }

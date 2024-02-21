@@ -23,6 +23,7 @@ import { CreateAbstarctDto } from './dto/create-abstarct.dto';
 import { UpdateAbstarctDto } from './dto/update-abstarct.dto';
 import { Abstarct } from './entities/abstarct.entity';
 import { User } from 'src/users/entities/user.entity';
+import { EmailService } from 'src/mail.service';
 
 @Injectable()
 export class AbstarctsService {
@@ -31,6 +32,7 @@ export class AbstarctsService {
     private abstractRepository: Repository<Abstarct>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private readonly emailService: EmailService,
   ) {}
 
   // create(createAbstactDto: CreateAbstarctDto) {
@@ -94,24 +96,38 @@ export class AbstarctsService {
   findOne(id: number) {
     return this.abstractRepository.findOne(id);
   }
+
   async update(id: number, updateQueryPriorityDto: UpdateAbstarctDto) {
     try {
-      if (updateQueryPriorityDto.status.code === 'AP') {
-        updateQueryPriorityDto.rejectionComment = null;
-      }
+      // if (updateQueryPriorityDto.status.code === 'AP') {
+      //   updateQueryPriorityDto.rejectionComment = null;
+      // }
       const result = await this.abstractRepository.update(
         id,
         updateQueryPriorityDto,
       );
       // Check if the update was successful
       if (result.affected > 0) {
-        return { message: 'Update successful' };
+        // Get the updated abstract to retrieve the email
+        const updatedAbstract = await this.abstractRepository.findOne(id);
+        if (!updatedAbstract) {
+          throw new Error('Abstract not found');
+        }
+        console.log('updatedAbstract', updatedAbstract.status.name);
+        // Send email with the password
+        const body = {
+          email: updatedAbstract.email,
+          ststus: updatedAbstract.status.name,
+          comment: updatedAbstract.rejectionComment,
+        };
+        await this.emailService.sendAbstarctApprovalEmail(body);
+        return { message: 'Approval status set successful' };
       } else {
-        return { message: 'Update failed' };
+        return { message: 'Approval status set failed' };
       }
     } catch (error) {
       // Handle error if the update fails
-      console.error('Update failed:', error.message);
+      console.error('Approval Status failed:', error.message);
       throw error; // Rethrow the error to be handled by the caller
     }
   }

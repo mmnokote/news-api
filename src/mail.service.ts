@@ -17,6 +17,49 @@ export class EmailService {
     });
   }
 
+  async sendAbstarctApprovalEmail(body: any) {
+    const mailOptions = {
+      from: 'tamisemi.go.tz',
+      to: body.email,
+      subject: 'Abstract Submission Feedback',
+      html:
+        `
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Abstract Status Update</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; text-align: center; background-color: #f2f2f2; padding: 20px;">
+        
+            <div style="background-color: #fff; border-radius: 10px; padding: 20px; box-shadow: 0px 0px 10px rgba(0,0,0,0.2);">
+                <h1>Abstract Status Update</h1>
+                <p>Your abstract status has been updated.</p>
+                <p>Your abstract Status is:</p>
+                <h2 style="color: #007bff;">` +
+        body.ststus +
+        `</h2>
+                <p>Comment: <strong>` +
+        body.comment +
+        `</strong></p>
+                <p>Thank you for your submission. If you have any questions or need further assistance, please feel free to contact us.</p>
+                <p>Best regards,<br>Your Team</p>
+            </div>
+        
+        </body>
+        </html>
+        
+`, // Use the HTML template above
+    };
+
+    try {
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log('Email sent: ' + info.response);
+    } catch (error) {
+      console.error('Email error: ' + error.message);
+      throw error;
+    }
+  }
   async sendMail(body: any) {
     const mailOptions = {
       from: 'tamisemi.go.tz',
