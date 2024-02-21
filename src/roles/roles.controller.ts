@@ -20,7 +20,7 @@ export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Roles(Role.ADMIN)
+  // @Roles(Role.ADMIN)
   @Post()
   create(@Body() createRoleDto: CreateRoleDto) {
     return this.rolesService.create(createRoleDto);
