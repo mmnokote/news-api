@@ -57,6 +57,10 @@ export class AbstarctsController {
       };
     }
   }
+  @Post('send-mails')
+  async sendMails() {
+    return await this.abstarctsService.emailSend();
+  }
 
   @UseGuards(JwtAuthGuard)
   // @Roles(Role.ADMIN)

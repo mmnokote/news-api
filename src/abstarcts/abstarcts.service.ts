@@ -24,6 +24,7 @@ import { UpdateAbstarctDto } from './dto/update-abstarct.dto';
 import { Abstarct } from './entities/abstarct.entity';
 import { User } from 'src/users/entities/user.entity';
 import { EmailService } from 'src/mail.service';
+import * as amqp from 'amqplib'; // Import amqplib
 
 @Injectable()
 export class AbstarctsService {
@@ -129,6 +130,33 @@ export class AbstarctsService {
       // Handle error if the update fails
       console.error('Approval Status failed:', error.message);
       throw error; // Rethrow the error to be handled by the caller
+    }
+  }
+
+  async emailSend() {
+    try {
+      // const connection = await amqp.connect('amqp://localhost');
+      const connection = await amqp.connect(
+        'amqp://rabbitmq:Passw0rd123@172.16.18.166:5672',
+      );
+      const channel = await connection.createChannel();
+      const queue = 'email_queue';
+      await channel.assertQueue(queue, { durable: true });
+
+      // Fetch emails from the user repository
+      const users = await this.userRepository.find();
+      for (const user of users) {
+        const message = JSON.stringify({
+          email: user.email,
+          comment: 'comment', // You can customize the comment here
+        });
+        channel.sendToQueue(queue, Buffer.from(message), { persistent: true });
+      }
+
+      return { message: 'Mails sent successful' };
+    } catch (error) {
+      console.error('Failed to send emails:', error.message);
+      throw error;
     }
   }
 

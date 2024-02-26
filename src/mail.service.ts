@@ -17,6 +17,41 @@ export class EmailService {
     });
   }
 
+  async sendPaymentEmail(body: any) {
+    const mailOptions = {
+      from: 'tamisemi.go.tz',
+      to: body.email,
+      subject: 'Payment for IPHCC',
+      html: `
+      <html>
+<body>
+<p>Dear User,</p>
+<p>
+Thank you for registering with our system. To complete your registration, please follow these steps:
+</p>
+<ol>
+<li>Make a payment corresponding to the registration category you selected.</li>
+<li>Upload the payment receipt from your bank to our system.</li>
+</ol>
+<p>
+If you have any questions or need assistance, please contact our support team.
+</p>
+</body>
+</html>
+      
+        
+`, // Use the HTML template above
+    };
+
+    try {
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log('Email sent: ' + info.response);
+    } catch (error) {
+      console.error('Email error: ' + error.message);
+      throw error;
+    }
+  }
+
   async sendAbstarctApprovalEmail(body: any) {
     const mailOptions = {
       from: 'tamisemi.go.tz',
@@ -60,6 +95,7 @@ export class EmailService {
       throw error;
     }
   }
+
   async sendMail(body: any) {
     const mailOptions = {
       from: 'tamisemi.go.tz',

@@ -20,6 +20,8 @@ import { AbstarctsModule } from './abstarcts/abstarcts.module';
 import { JisajilisModule } from './jisajilis/jisajilis.module';
 import { MenusModule } from './menus/menus.module';
 import { StatusesModule } from './statuses/statuses.module';
+import { EmailConsumerService } from './abstarcts/email-consumer.service';
+import { EmailService } from './mail.service';
 
 @Module({
   imports: [
@@ -40,6 +42,8 @@ import { StatusesModule } from './statuses/statuses.module';
   ],
   controllers: [AppController],
   providers: [
+    EmailService,
+    EmailConsumerService,
     AppService,
     {
       provide: APP_GUARD,

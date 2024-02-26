@@ -14,9 +14,15 @@ import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.int
 ////validation pipes
 // import { ValidationPipe } from './pipes/validation.pipe';
 import { ValidationPipe } from '@nestjs/common';
+import { Transport } from '@nestjs/microservices';
+import { EmailConsumerService } from './abstarcts/email-consumer.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const emailConsumerService = app.get(EmailConsumerService);
+  await emailConsumerService.consume();
+
   //using filters and pipes
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
