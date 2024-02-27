@@ -32,6 +32,7 @@ export class UsersService {
   async findByUsername(username: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ where: { username } });
   }
+
   async findAll() {
     const users = this.usersRepository.find();
     return users;

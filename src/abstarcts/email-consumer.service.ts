@@ -11,7 +11,7 @@ export class EmailConsumerService {
 
   async consume() {
     try {
-      //   const connection = await amqp.connect('amqp://localhost');
+      // const connection = await amqp.connect('amqp://localhost');
       const connection = await amqp.connect(
         'amqp://rabbitmq:Passw0rd123@172.16.18.166:5672',
       );

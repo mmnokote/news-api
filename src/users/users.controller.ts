@@ -145,28 +145,32 @@ export class UsersController {
 
       if (!user) {
         throw new NotFoundException({
-          message: 'User not found',
+          message: 'User with the provided information not found',
         });
       }
 
-      // Assuming `user` has a password property, replace it with your actual password field
-      const password = user.password;
+      if (user) {
+        // Assuming `user` has a password property, replace it with your actual password field
+        const password = user.password;
 
-      const body = {
-        email: email,
-        password: password,
-      };
-      // Send email with the password
-      await this.emailService.sendMail(body);
+        const body = {
+          email: email,
+          password: password,
+        };
+        // Send email with the password
+        await this.emailService.sendMail(body);
 
-      return { message: 'Email sent successfully' };
+        return {
+          message: 'Your password has been restored and sent to your email.',
+        };
+      }
     } catch (error) {
       if (error.code === '23505') {
         throw new ConflictException(error.detail);
       }
       // throw new InternalServerErrorException(error.detail);
       throw new NotFoundException({
-        message: 'User with the provided information not found',
+        message: error.details,
       });
     }
   }

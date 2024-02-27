@@ -19,10 +19,15 @@ export class JisajilisController {
   constructor(private readonly jisajilisService: JisajilisService) {}
 
   @Post()
-  create(@Body() createJisajiliDto: CreateJisajiliDto) {
+  async create(
+    @Body() createJisajiliDto: CreateJisajiliDto,
+  ): Promise<{ message: string }> {
     const data: any = createJisajiliDto;
-
-    return this.jisajilisService.create(data);
+    await this.jisajilisService.create(data);
+    return {
+      message:
+        'Saved successfully. Please re-login to see the changes on your account.',
+    };
   }
 
   @Get()
