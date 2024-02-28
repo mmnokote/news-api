@@ -14,31 +14,31 @@ export class Abstarct extends BaseEntity {
   @JoinColumn()
   user: User;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 2000 })
   email: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 2000 })
   title: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 2000 })
   author: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 2000 })
   affiliation: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 2000 })
   presenting_author: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 2000 })
   background: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 2000 })
   objective: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 2000 })
   methodology: string;
 
-  @Column({ type: 'varchar', nullable: true, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 2000 })
   results: string;
 
   @ManyToOne(() => Status, (status) => status.abstract, {
@@ -59,14 +59,14 @@ export class Abstarct extends BaseEntity {
   @Column({ type: 'varchar', nullable: false })
   recommendations: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000 })
+  @Column({ type: 'varchar', nullable: true, length: 2000 })
   inline: string;
 
   @Column({
     type: 'varchar',
     nullable: true,
     default: 'Abstract Accepted',
-    length: 1000,
+    length: 2000,
   })
   rejectionComment: string;
 }

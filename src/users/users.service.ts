@@ -33,8 +33,19 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { username } });
   }
 
+  // async findAll() {
+  //   const users = this.usersRepository.find();
+  //   return users;
+  // }
   async findAll() {
-    const users = this.usersRepository.find();
+    const users = await this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.jisajilis', 'jisajili')
+      // .leftJoinAndSelect('user.countries', 'country')
+      // .leftJoinAndSelect('user.registrationcategories', 'registrationCategory')
+      .orderBy('jisajili.id', 'ASC')
+      .orderBy('user.active', 'DESC')
+      .getMany();
     return users;
   }
 
