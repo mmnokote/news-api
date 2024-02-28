@@ -396,4 +396,4 @@ Temporary Items
 # Local
 .env
 dist
-**/orm.config.ts
+**/src/orm.config.ts
