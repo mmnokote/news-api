@@ -21,18 +21,20 @@ export class EmailService {
     const mailOptions = {
       from: 'tamisemi.go.tz',
       to: body.email,
-      subject: 'Payment for IPHCC',
-      html: `
+      subject: 'Email from IPHCC',
+      html:
+        `
       <html>
 <body>
 <p>Dear User,</p>
 <p>
-Thank you for registering with our system. To complete your registration, please follow these steps:
+Thank you for registering with our system:
 </p>
-<ol>
-<li>Make a payment corresponding to the registration category you selected.</li>
-<li>Upload the payment receipt from your bank to our system.</li>
-</ol>
+<p>
+<p><strong>` +
+        body.comment +
+        `</strong></p>
+</p>
 <p>
 If you have any questions or need assistance, please contact our support team.
 </p>

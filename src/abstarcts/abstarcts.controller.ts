@@ -22,6 +22,7 @@ import {
   Query,
   UseGuards,
   UsePipes,
+  Req,
 } from '@nestjs/common';
 
 import { CreateAbstarctDto } from './dto/create-abstarct.dto';
@@ -58,10 +59,20 @@ export class AbstarctsController {
     }
   }
   @Post('send-mails')
-  async sendMails() {
-    return await this.abstarctsService.emailSend();
+  async sendMails(@Body() createDataDto: any) {
+    return await this.abstarctsService.emailSend(createDataDto);
+  }
+  @Post('abstract-mails')
+  async emailSendForAbstract(@Body() createDataDto: any) {
+    return await this.abstarctsService.emailSendForAbstract(createDataDto);
   }
 
+  @UseGuards(JwtAuthGuard)
+  // @Roles(Role.ADMIN)
+  @Get('myabstarcts')
+  myAbstarcts(@Req() req) {
+    return this.abstarctsService.findAllMyAbs(req);
+  }
   @UseGuards(JwtAuthGuard)
   // @Roles(Role.ADMIN)
   @Get()
@@ -85,8 +96,16 @@ export class AbstarctsController {
     return this.abstarctsService.findOne(+id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateData: UpdateAbstarctDto) {
+    return this.abstarctsService.update(+id, updateData);
+  }
+  @Patch(':id')
+  updateFromUser(
+    @Param('id') id: string,
+    @Body() updateData: UpdateAbstarctDto,
+  ) {
     return this.abstarctsService.update(+id, updateData);
   }
 
