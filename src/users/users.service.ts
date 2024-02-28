@@ -44,7 +44,7 @@ export class UsersService {
       // .leftJoinAndSelect('user.countries', 'country')
       // .leftJoinAndSelect('user.registrationcategories', 'registrationCategory')
       .orderBy('jisajili.id', 'ASC')
-      .orderBy('user.active', 'DESC')
+      // .orderBy('user.active', 'DESC')
       .getMany();
     return users;
   }
