@@ -5,6 +5,7 @@ import { Jisajili } from 'src/jisajilis/entities/jisajili.entity';
 import { Menu } from 'src/menus/entities/menu.entity';
 import { Registartioncategory } from 'src/registartioncategories/entities/registartioncategory.entity';
 import { Role } from 'src/roles/entities/role.entity';
+import { Subtheme } from 'src/subthemes/entities/subtheme.entity';
 import {
   Column,
   Entity,
@@ -42,7 +43,7 @@ export class User extends BaseEntity {
   // @Column({ type: 'varchar', nullable: true, length: 1000 })
   // age: string;
 
-  @Column({ type: 'varchar', nullable: true, length: 1000, unique: true })
+  @Column({ type: 'varchar', nullable: true, length: 1000, unique: false })
   phone_number: string;
 
   @Column({ type: 'varchar', nullable: true, length: 1000 })
@@ -62,7 +63,7 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', nullable: true, default: 'Evlina@1990' })
   password: string;
 
-  @Column({ type: 'varchar', nullable: false, length: 1000, unique: true })
+  @Column({ type: 'varchar', nullable: false, length: 1000, unique: false })
   email: string;
 
   @ManyToMany(() => Role, (role) => role.user, { eager: true })
@@ -74,6 +75,12 @@ export class User extends BaseEntity {
     eager: true,
   })
   country: Country;
+
+  @ManyToOne(() => Subtheme, (subtheme) => subtheme.user, {
+    onDelete: 'CASCADE',
+    eager: true,
+  })
+  subTheme: Subtheme;
 
   @OneToMany(() => Jisajili, (jisajili) => jisajili.user, { eager: true })
   jisajilis: Jisajili[];
