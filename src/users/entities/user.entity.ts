@@ -52,6 +52,9 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   sex: string;
 
+  @Column({ type: 'varchar', nullable: true, length: 1000 })
+  boothCategory: string;
+
   @Column({
     type: 'varchar',
     nullable: true,
