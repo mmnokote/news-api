@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class UsersService {
@@ -28,6 +29,17 @@ export class UsersService {
       throw new Error('Failed to create user');
     }
   }
+
+  // async findByUsernamex(
+  //   username: string,
+  //   phone_number: string,
+  // ): Promise<User | undefined> {
+  //   return this.usersRepository.findOne({
+  //     where: {
+  //       [Op.or]: [{ username }, { phone_number }],
+  //     },
+  //   });
+  // }
 
   async findByUsername(username: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ where: { username } });

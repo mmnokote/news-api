@@ -231,10 +231,10 @@ export class AbstarctsService {
 
   async emailSend(createDataDto) {
     try {
-      const connection = await amqp.connect('amqp://localhost');
-      // const connection = await amqp.connect(
-      //   'amqp://rabbitmq:Passw0rd123@172.16.18.166:5672',
-      // );
+      // const connection = await amqp.connect('amqp://localhost');
+      const connection = await amqp.connect(
+        'amqp://rabbitmq:Passw0rd123@172.16.18.166:5672',
+      );
       const channel = await connection.createChannel();
       const queue = 'email_queue';
       await channel.assertQueue(queue, { durable: true });

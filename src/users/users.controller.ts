@@ -21,6 +21,7 @@ import { TwilioService } from 'twilio.service';
 import { Role } from './entities/role.enum';
 import { Roles } from './roles.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
+import * as amqp from 'amqplib'; // Import amqplib
 
 @Controller('users')
 export class UsersController {
@@ -158,11 +159,29 @@ export class UsersController {
           password: password,
         };
         // Send email with the password
-        await this.emailService.sendMail(body);
+        // const connection = await amqp.connect('amqp://localhost');
+        const connection = await amqp.connect(
+          'amqp://rabbitmq:Passw0rd123@172.16.18.166:5672',
+        );
+        const channel = await connection.createChannel();
+        const queue = 'email_queue';
+        await channel.assertQueue(queue, { durable: true });
+
+        const message = JSON.stringify({
+          email: user.email,
+          comment: user.password,
+          code: 'RESTORE',
+        });
+        channel.sendToQueue(queue, Buffer.from(message), { persistent: true });
 
         return {
           message: 'Your password has been restored and sent to your email.',
         };
+        // await this.emailService.sendMail(body);
+
+        // return {
+        //   message: 'Your password has been restored and sent to your email.',
+        // };
       }
     } catch (error) {
       if (error.code === '23505') {

@@ -44,7 +44,11 @@ export class EmailConsumerService {
   }
 
   async sendEmail(body: any) {
-    await this.emailService.sendPaymentEmail(body);
+    if ((body.code = 'RESTORE')) {
+      await this.emailService.sendMail(body);
+    } else {
+      await this.emailService.sendPaymentEmail(body);
+    }
 
     // Add your email sending logic here
     console.log(`Sending email to ${body.email}`);
