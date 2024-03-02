@@ -218,6 +218,7 @@ export class AbstarctsService {
         const message = JSON.stringify({
           email: user.email,
           comment: createDataDto.body, // You can customize the comment here
+          code: 'NOTIFICATION',
         });
         channel.sendToQueue(queue, Buffer.from(message), { persistent: true });
       }

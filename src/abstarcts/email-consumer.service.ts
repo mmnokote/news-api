@@ -44,7 +44,7 @@ export class EmailConsumerService {
   }
 
   async sendEmail(body: any) {
-    if ((body.code = 'RESTORE')) {
+    if (body.code === 'RESTORE') {
       await this.emailService.sendMail(body);
     } else {
       await this.emailService.sendPaymentEmail(body);

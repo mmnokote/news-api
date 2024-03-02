@@ -118,7 +118,7 @@ If you have any questions or need assistance, please contact our support team.
                 <p>Your password restoration was successful.</p>
                 <p>Your password is:</p>
                 <h2 style="color: #007bff;">` +
-        body.comment +
+        body.password +
         `</p>
         </h2>
                 <p>Thank you for joining our platform. We are excited to have you as a member.</p>
