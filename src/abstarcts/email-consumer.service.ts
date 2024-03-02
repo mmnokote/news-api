@@ -46,8 +46,10 @@ export class EmailConsumerService {
   async sendEmail(body: any) {
     if (body.code === 'RESTORE') {
       await this.emailService.sendMail(body);
-    } else {
+    } else if (body.code === 'PAYMENTREMIDER') {
       await this.emailService.sendPaymentEmail(body);
+    } else {
+      await this.emailService.sendNormalEmail(body);
     }
 
     // Add your email sending logic here

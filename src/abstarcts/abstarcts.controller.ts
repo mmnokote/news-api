@@ -62,6 +62,7 @@ export class AbstarctsController {
   async sendMails(@Body() createDataDto: any) {
     return await this.abstarctsService.emailSend(createDataDto);
   }
+
   @Post('abstract-mails')
   async emailSendForAbstract(@Body() createDataDto: any) {
     return await this.abstarctsService.emailSendForAbstract(createDataDto);

@@ -241,12 +241,19 @@ export class AbstarctsService {
       await channel.assertQueue(queue, { durable: true });
 
       // Fetch emails from the user repository
-      const users = await this.userRepository.find();
+      const users = await this.userRepository
+        .createQueryBuilder('user')
+        .leftJoin('user.jisajilis', 'jisajili')
+        .where('user.active = :active', { active: false })
+        .andWhere('jisajili.id IS NULL')
+        .getMany();
+      // console.log('users', users);
+
       for (const user of users) {
         const message = JSON.stringify({
           email: user.email,
-          comment:
-            'Make a payment corresponding to the registration category you selected and upload the payment receipt from your bank to our system', // You can customize the comment here
+          comment: '', // You can customize the comment here
+          code: 'PAYMENTREMIDER',
         });
         channel.sendToQueue(queue, Buffer.from(message), { persistent: true });
       }

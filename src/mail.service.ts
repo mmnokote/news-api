@@ -17,7 +17,7 @@ export class EmailService {
     });
   }
 
-  async sendPaymentEmail(body: any) {
+  async sendNormalEmail(body: any) {
     const mailOptions = {
       from: 'tamisemi.go.tz',
       to: body.email,
@@ -35,11 +35,52 @@ Thank you for registering with our system:
         body.comment +
         `</strong></p>
 </p>
-<p>
-If you have any questions or need assistance, please contact our support team.
-</p>
+<p>Thank you for joining our platform. We are excited to have you as a member.</p>
+<p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
+<p><a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank" style="text-decoration: none; color: #007bff;">Click here to log in</a></p>
+<p>Best regards,<br>Your Team</p>
 </body>
 </html>
+      
+        
+`, // Use the HTML template above
+    };
+
+    try {
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log('Email sent: ' + info.response);
+    } catch (error) {
+      console.error('Email error: ' + error.message);
+      throw error;
+    }
+  }
+  async sendPaymentEmail(body: any) {
+    const mailOptions = {
+      from: 'tamisemi.go.tz',
+      to: body.email,
+      subject: 'Payment Reminder from IPHCC',
+      html: `
+        <html>
+        <body>
+        <p>Dear User,</p>
+        <p>
+        Thank you for registering with our system:
+        </p>
+        
+        Please follow these steps to complete your registration:
+        </p>
+        <ol>
+          <li>Login to your account on our system.</li>
+          <li>Print an invoice from your profile.</li>
+          <li>Make a payment corresponding to the registration category you selected.</li>
+          <li>Upload the payment receipt from your bank to our system.</li>
+        </ol>
+        <p>Thank you for joining our platform. We are excited to have you as a member.</p>
+        <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
+        <p><a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank" style="text-decoration: none; color: #007bff;">Click here to log in</a></p>
+        <p>Best regards,<br>Your Team</p>
+        </body>
+        </html>
       
         
 `, // Use the HTML template above
@@ -79,8 +120,10 @@ If you have any questions or need assistance, please contact our support team.
                 <p>Comment: <strong>` +
         body.comment +
         `</strong></p>
-                <p>Thank you for your submission. If you have any questions or need further assistance, please feel free to contact us.</p>
-                <p>Best regards,<br>Your Team</p>
+        <p>Thank you for joining our platform. We are excited to have you as a member.</p>
+        <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
+        <p><a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank" style="text-decoration: none; color: #007bff;">Click here to log in</a></p>
+        <p>Best regards,<br>Your Team</p>
             </div>
         
         </body>
@@ -118,7 +161,7 @@ If you have any questions or need assistance, please contact our support team.
                 <p>Your password restoration was successful.</p>
                 <p>Your password is:</p>
                 <h2 style="color: #007bff;">` +
-        body.password +
+        body.comment +
         `</p>
         </h2>
                 <p>Thank you for joining our platform. We are excited to have you as a member.</p>
