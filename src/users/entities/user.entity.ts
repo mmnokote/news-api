@@ -88,8 +88,11 @@ export class User extends BaseEntity {
   @OneToMany(() => Jisajili, (jisajili) => jisajili.user, { eager: true })
   jisajilis: Jisajili[];
 
-  @OneToOne(() => Abstarct, (abstract) => abstract.user)
-  abstract: Abstarct;
+  @OneToMany(() => Abstarct, (abstract) => abstract.user, { eager: true })
+  abstract: Abstarct[];
+
+  // @OneToOne(() => Abstarct, (abstract) => abstract.user)
+  // abstract: Abstarct;
 
   @ManyToOne(
     () => Registartioncategory,

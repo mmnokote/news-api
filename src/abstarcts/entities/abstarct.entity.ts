@@ -6,12 +6,15 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 
 @Entity('abstracts')
 export class Abstarct extends BaseEntity {
-  @OneToOne(() => User, (user) => user.abstract, {
-    onDelete: 'CASCADE',
-    eager: true,
-    nullable: true,
-  })
-  @JoinColumn()
+  // @OneToOne(() => User, (user) => user.abstract, {
+  //   onDelete: 'CASCADE',
+  //   eager: true,
+  //   nullable: true,
+  // })
+  // @JoinColumn()
+  // user: User;
+
+  @ManyToOne(() => User, (user) => user.abstract)
   user: User;
 
   @Column({ type: 'varchar', nullable: true, length: 5000 })
