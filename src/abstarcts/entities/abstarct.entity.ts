@@ -68,7 +68,7 @@ export class Abstarct extends BaseEntity {
   @Column({
     type: 'varchar',
     nullable: true,
-    default: 'Abstract Accepted',
+    default: 'Abstract Submited',
     length: 5000,
   })
   rejectionComment: string;
