@@ -25,6 +25,29 @@ export class UsersService {
 
       return { user: newUser, message: 'Registration completed successfully' };
     } catch (error) {
+      if (error) {
+        return {
+          user: null,
+          message: 'User already exists. Login to your account to proceed',
+        };
+      }
+      // Re-throw the error if it's not a duplicate entry error
+      throw error;
+    }
+  }
+
+  async create2(
+    createUserDto: CreateUserDto,
+  ): Promise<{ user: User; message: string }> {
+    try {
+      const randomNumber = Math.floor(Math.random() * 9000) + 1000; // Generates a 4-digit random number
+      createUserDto.user_identification = 'CFN' + randomNumber;
+
+      // Save the user
+      const newUser = await this.usersRepository.save(createUserDto);
+
+      return { user: newUser, message: 'Registration completed successfully' };
+    } catch (error) {
       console.error('Error creating user:', error);
       throw new Error('Failed to create user');
     }

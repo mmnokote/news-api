@@ -126,11 +126,11 @@ export class UsersController {
         }
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
         if (error.code === '23505') {
-          throw new ConflictException(error.detail);
+          // throw new ConflictException(error.detail);
         }
-        throw new InternalServerErrorException();
+        // throw new InternalServerErrorException();
       });
   }
 
