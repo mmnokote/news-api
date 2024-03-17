@@ -113,7 +113,10 @@ export class AbstarctsService {
 
   async update(id: number, updateQueryPriorityDto: UpdateAbstarctDto) {
     try {
-      if (updateQueryPriorityDto.status.code === 'AP') {
+      if (
+        updateQueryPriorityDto.status &&
+        updateQueryPriorityDto.status.code === 'AP'
+      ) {
         updateQueryPriorityDto.rejectionComment = 'Abstract Accepted';
       }
       const result = await this.abstractRepository.update(
