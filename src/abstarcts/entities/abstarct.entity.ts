@@ -72,4 +72,7 @@ export class Abstarct extends BaseEntity {
     length: 5000,
   })
   rejectionComment: string;
+
+  @Column({ nullable: true })
+  path_file: string;
 }

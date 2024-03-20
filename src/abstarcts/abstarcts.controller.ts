@@ -23,6 +23,9 @@ import {
   UseGuards,
   UsePipes,
   Req,
+  InternalServerErrorException,
+  NotFoundException,
+  Query as QR,
 } from '@nestjs/common';
 
 import { CreateAbstarctDto } from './dto/create-abstarct.dto';
@@ -79,6 +82,23 @@ export class AbstarctsController {
   @Get()
   findAll() {
     return this.abstarctsService.findAll();
+  }
+
+  @Get('filter')
+  filterAbstracts(@QR('regSearchTerm') regSearchTerm: string) {
+    // return `Search=${regSearchTerm}`;
+    return this.abstarctsService
+      .filterAbstracts(`${regSearchTerm}`)
+      .then((response) => {
+        if (response) {
+          return response;
+        } else {
+          throw new InternalServerErrorException();
+        }
+      })
+      .catch((error) => {
+        throw new NotFoundException(error);
+      });
   }
   // @Get('')
   // async index(
