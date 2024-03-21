@@ -162,7 +162,7 @@ Thank you for registering with our system:
                 <li>We highly recommend registering for the conference if you haven't already. You can do so through our online portal, <a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank">HERE</a>.</li>
                 <li>If you are unable to attend the conference, kindly inform us as soon as possible.</li>
             </ul>
-            <p>Also, your abstract will be published in the Pan African Medical Journal (PAMJ). To facilitate this, we kindly request you send us your abstract to iphcctamisemi@gmail.com in a Word document following reviewers comments and the attached guideline below by 8:00 PM on Friday, 22 and March 2023.</p>
+            <p>Also, your abstract will be published in the Pan African Medical Journal (PAMJ). To facilitate this, we kindly request you send us your abstract to iphcctamisemi@gmail.com in a Word document addressing reviewers comments (If any) and format your abstract in accordance to guideline attached in the portal by 8:00 PM on Friday, 22 and March 2023.</p>
             <p>For any inquiries or assistance.</p>
             <ul>
                 <li>Registration: +25686697117 or +255784985240</li>
