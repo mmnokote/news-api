@@ -82,8 +82,5 @@ export class CreateAbstarctDto extends BaseEntity {
   @IsNotEmpty({ message: 'Inline is missing.' })
   inline: string;
 
-  @IsString()
-  path_file: any;
-
   userId: any;
 }
