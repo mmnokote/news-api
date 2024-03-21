@@ -143,7 +143,7 @@ export class AbstarctsService {
           if (body.ststus == 'Rejected') {
             await this.emailService.sendAbstarctApprovalEmailR(body);
           }
-          if (body.ststus == 'Approved') {
+          if (body.ststus == 'Accepted') {
             await this.emailService.sendAbstarctApprovalEmailA(body);
           }
         }
