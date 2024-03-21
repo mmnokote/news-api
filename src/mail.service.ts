@@ -151,7 +151,7 @@ Thank you for registering with our system:
         <body style="font-family: Arial, sans-serif; text-align: left; background-color: #f2f2f2; padding: 20px;">
         
             <h2>Subject: Congratulations! Your Abstract for IPHC 2024 Has Been Accepted!</h2>
-            <p>Dear User,</p>
+            <p>Dear Applicant,</p>
             <p>We are delighted to inform you that your abstract, ` +
         body.title +
         `, has been selected for presentation at the International Primary Healthcare Conference (IPHC 2024)!</p>
