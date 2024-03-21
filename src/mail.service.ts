@@ -158,7 +158,7 @@ Thank you for registering with our system:
             <p>The conference will be held from March 25th to 27th, 2024, at the Jakaya Kikwete Convention Center in Dodoma, Tanzania.</p>
             <p>To ensure a smooth presentation;</p>
             <ul>
-                <li>Please upload your PowerPoint presentation (PPT) to the registration portal by 8:00 PM on Friday, March 22nd, 2024. We've attached a sample to guide you for the required presentation format.</li>
+                <li>Please upload your PowerPoint presentation (PPT) to the registration portal by 8:00 PM on Friday, March 22nd, 2024. To access the required presentation format, <a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank">please log in to your portal</a> account and download the attached sample documents in the "My Abstract Menu"</li>
                 <li>We highly recommend registering for the conference if you haven't already. You can do so through our online portal, <a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank">HERE</a>.</li>
                 <li>If you are unable to attend the conference, kindly inform us as soon as possible.</li>
             </ul>
