@@ -130,15 +130,22 @@ export class AbstarctsService {
         if (!updatedAbstract) {
           throw new Error('Abstract not found');
         }
-        // console.log('updatedAbstract', updatedAbstract.status.name);
+        console.log('updatedAbstract title', updatedAbstract.title);
         // Send email with the password
         if (updatedAbstract.status) {
           const body = {
             email: updatedAbstract.email,
             ststus: updatedAbstract.status.name,
             comment: updatedAbstract.rejectionComment,
+            title: updatedAbstract.title,
           };
-          await this.emailService.sendAbstarctApprovalEmail(body);
+          // console.log('dataaaaa', body);
+          if (body.ststus == 'Rejected') {
+            await this.emailService.sendAbstarctApprovalEmailR(body);
+          }
+          if (body.ststus == 'Approved') {
+            await this.emailService.sendAbstarctApprovalEmailA(body);
+          }
         }
         if (updatedAbstract.status) {
           return { message: 'Approval status set successful' };
@@ -154,6 +161,7 @@ export class AbstarctsService {
       throw error; // Rethrow the error to be handled by the caller
     }
   }
+
   async updateFromUser(id: number, updateQueryPriorityDto: UpdateAbstarctDto) {
     try {
       // if (updateQueryPriorityDto.status.code === 'AP') {

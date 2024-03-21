@@ -84,4 +84,6 @@ export class CreateAbstarctDto extends BaseEntity {
 
   @IsString()
   path_file: string;
+
+  userId: any;
 }

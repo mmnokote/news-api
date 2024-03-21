@@ -75,4 +75,7 @@ export class Abstarct extends BaseEntity {
 
   @Column({ nullable: true })
   path_file: string;
+
+  @Column({ nullable: true })
+  template: string;
 }

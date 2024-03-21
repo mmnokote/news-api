@@ -95,7 +95,47 @@ Thank you for registering with our system:
     }
   }
 
-  async sendAbstarctApprovalEmail(body: any) {
+  async sendAbstarctApprovalEmailR(body: any) {
+    const mailOptions = {
+      from: 'tamisemi.go.tz',
+      to: body.email,
+      subject: 'Abstract Submission Feedback',
+      html: `
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Rejection Email</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; text-align: left; background-color: #f2f2f2; padding: 20px;">
+        
+            <h2>Subject: IPHC 2024 Abstract Update & Invitation to Participate</h2>
+            <p>Dear User,</p>
+            <p>Thank you for submitting your abstract to the International Primary Healthcare Conference (IPHC 2024) in Dodoma. The review process was highly competitive, and we received many excellent submissions.</p>
+            <p>While your abstract was not selected for presentation this year, we were very impressed with your work. We apologize for the misunderstanding caused by an error in our system, which may have indicated that your abstract was accepted.</p>
+            <p>We encourage you to register and attend IPHC 2024 at the Jakaya Kikwete Convention Center from March 25th to 27th. It will be a fantastic opportunity to learn from leading experts, network with colleagues, and stay updated on advancements in primary healthcare in Tanzania.</p>
+            <p><strong>Registration:</strong> To register, please visit our online portal <a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank"><a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank" style="text-decoration: none; color: #007bff;">Click here to log in</a></a>.</p>
+            <p>Should you encounter any difficulties with registration, please don't hesitate to contact us: +25686697117 or +255784985240</p>
+            <p>We look forward to welcoming you to Dodoma next week</p>
+            <p>Regards,<br>IPHC Secretariat</p>
+        
+        </body>
+        </html>
+        
+        
+`,
+    };
+
+    try {
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log('Email sent: ' + info.response);
+    } catch (error) {
+      console.error('Email error: ' + error.message);
+      throw error;
+    }
+  }
+
+  async sendAbstarctApprovalEmailA(body: any) {
     const mailOptions = {
       from: 'tamisemi.go.tz',
       to: body.email,
@@ -106,30 +146,35 @@ Thank you for registering with our system:
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Abstract Status Update</title>
+            <title>IPHC 2024 Abstract Update & Invitation to Participate</title>
         </head>
-        <body style="font-family: Arial, sans-serif; text-align: center; background-color: #f2f2f2; padding: 20px;">
+        <body style="font-family: Arial, sans-serif; text-align: left; background-color: #f2f2f2; padding: 20px;">
         
-            <div style="background-color: #fff; border-radius: 10px; padding: 20px; box-shadow: 0px 0px 10px rgba(0,0,0,0.2);">
-                <h1>Abstract Status Update</h1>
-                <p>Your abstract status has been updated.</p>
-                <p>Your abstract Status is:</p>
-                <h2 style="color: #007bff;">` +
-        body.ststus +
-        `</h2>
-                <p>Comment: <strong>` +
-        body.comment +
-        `</strong></p>
-        <p>Thank you for joining our platform. We are excited to have you as a member.</p>
-        <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
-        <p><a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank" style="text-decoration: none; color: #007bff;">Click here to log in</a></p>
-        <p>Best regards,<br>Your Team</p>
-            </div>
+            <h2>Subject: Congratulations! Your Abstract for IPHC 2024 Has Been Accepted!</h2>
+            <p>Dear User,</p>
+            <p>We are delighted to inform you that your abstract, ` +
+        body.title +
+        `, has been selected for presentation at the International Primary Healthcare Conference (IPHC 2024)!</p>
+            <p>The conference will be held from March 25th to 27th, 2024, at the Jakaya Kikwete Convention Center in Dodoma, Tanzania.</p>
+            <p>To ensure a smooth presentation;</p>
+            <ul>
+                <li>Please upload your PowerPoint presentation (PPT) to the registration portal by 8:00 PM on Friday, March 22nd, 2024. We've attached a sample to guide you for the required presentation format.</li>
+                <li>We highly recommend registering for the conference if you haven't already. You can do so through our online portal, <a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank">HERE</a>.</li>
+                <li>If you are unable to attend the conference, kindly inform us as soon as possible.</li>
+            </ul>
+            <p>Also, your abstract will be published in the Pan African Medical Journal (PAMJ). To facilitate this, we kindly request you send us your abstract to iphcctamisemi@gmail.com in a Word document following reviewers comments and the attached guideline below by 8:00 PM on Friday, 22 and March 2023.</p>
+            <p>For any inquiries or assistance.</p>
+            <ul>
+                <li>Registration: +25686697117 or +255784985240</li>
+                <li>Abstract-related issues: +255687756470</li>
+            </ul>
+            <p>We look forward to welcoming you to Dodoma and your insightful presentation at IPHC 2024!</p>
+            <p>Regards,<br>IPHC Secretariat</p>
         
         </body>
         </html>
         
-`, // Use the HTML template above
+`,
     };
 
     try {
