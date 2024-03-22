@@ -44,7 +44,7 @@ export class FilesController implements CrudController<FileEntity> {
         },
       }),
       limits: {
-        fileSize: 1e7, //100MB
+        fileSize: 1e7, //10MB
         files: 1,
       },
     }),

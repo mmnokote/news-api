@@ -75,7 +75,8 @@ Thank you for registering with our system:
           <p>Thank you for registering for the International Primary Healthcare Conference (IPHC 2024) in Dodoma. We are excited to have you join us for this event.</p>
           <p>The conference will be held from March 25th to 27th, 2024, at the Jakaya Kikwete Convention Center in Dodoma, Tanzania.</p>
       
-          <p>Don't forget to download the QR code and bring it with you, either printed or on your phone, to the conference.</p>
+          <p>Don't forget to download the QR code <span style="color: red;">from your registered account in the system</span> and bring it with you, either printed or on your phone, to the conference.</p>
+
           <p>We look forward to welcoming you to Dodoma next week.</p>
           <p>Regards,<br>IPHC Secretariat</p>
       </body>
