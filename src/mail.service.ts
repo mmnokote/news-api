@@ -58,6 +58,43 @@ Thank you for registering with our system:
     const mailOptions = {
       from: 'tamisemi.go.tz',
       to: body.email,
+      subject: 'IPHC 2024 Welcoming',
+      html: `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Welcoming</title>
+      </head>
+      <body style="font-family: Arial, sans-serif; text-align: left; background-color: #f2f2f2; padding: 20px;">
+      
+          <h2>Subject: IPHC 2024 Invitation to Participate</h2>
+      
+          <p>Dear Participant,</p>
+          <p>Thank you for registering for the International Primary Healthcare Conference (IPHC 2024) in Dodoma. We are excited to have you join us for this event.</p>
+          <p>The conference will be held from March 25th to 27th, 2024, at the Jakaya Kikwete Convention Center in Dodoma, Tanzania.</p>
+      
+          <p>Don't forget to download the QR code and bring it with you, either printed or on your phone, to the conference.</p>
+          <p>We look forward to welcoming you to Dodoma next week.</p>
+          <p>Regards,<br>IPHC Secretariat</p>
+      </body>
+      </html>       
+`, // Use the HTML template above
+    };
+
+    try {
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log('Email sent: ' + info.response);
+    } catch (error) {
+      console.error('Email error: ' + error.message);
+      throw error;
+    }
+  }
+  async sendPaymentEmail2(body: any) {
+    const mailOptions = {
+      from: 'tamisemi.go.tz',
+      to: body.email,
       subject: 'Payment Reminder from IPHCC',
       html: `
         <html>
