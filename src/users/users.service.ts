@@ -28,7 +28,51 @@ export class UsersService {
       if (error) {
         return {
           user: null,
-          message: 'User already exists. Login to your account to proceed',
+          message: 'Applicant already exists. Login to your account to proceed',
+        };
+      }
+      // Re-throw the error if it's not a duplicate entry error
+      throw error;
+    }
+  }
+
+  async verifyQR(
+    dataDto: any,
+  ): Promise<{ user: User | null; message: string }> {
+    try {
+      // Find the user
+      const newUser = await this.usersRepository.findOne({
+        user_identification: dataDto.id,
+        verified: false,
+        active: true,
+      });
+      const newUserWhoVerified = await this.usersRepository.findOne({
+        user_identification: dataDto.id,
+        verified: true,
+        active: true,
+      });
+      const newUserWithReceipt = await this.usersRepository.findOne({
+        user_identification: dataDto.id,
+        verified: false,
+        active: false,
+      });
+      if (newUserWhoVerified) {
+        return {
+          user: newUserWhoVerified,
+          message: 'Applicant already Verified',
+        };
+      } else if (newUser) {
+        return { user: newUser, message: 'Applicant retrieved successfully' };
+      } else if (newUserWithReceipt) {
+        return { user: newUserWithReceipt, message: 'UnActivated Applicant' };
+      } else {
+        return { user: null, message: 'No Applicant with this QR Code' };
+      }
+    } catch (error) {
+      if (error) {
+        return {
+          user: null,
+          message: error,
         };
       }
       // Re-throw the error if it's not a duplicate entry error
@@ -49,7 +93,7 @@ export class UsersService {
       return { user: newUser, message: 'Registration completed successfully' };
     } catch (error) {
       console.error('Error creating user:', error);
-      throw new Error('Failed to create user');
+      throw new Error('Failed to create Applicant');
     }
   }
 
@@ -140,12 +184,15 @@ export class UsersService {
       if (updateResult) {
         const updatedUser = await this.usersRepository.findOne(id);
         if (updatedUser) {
-          return { updatedUser, message: 'User updated successfully' };
+          return { updatedUser, message: 'Applicant updated successfully' };
         }
       }
 
       // If the user does not exist, return null
-      return { updatedUser: null, message: 'User not found or update failed' };
+      return {
+        updatedUser: null,
+        message: 'Applicant not found or update failed',
+      };
     } catch (error) {
       // Handle any errors that occur during the update operation
       console.error('Error updating user:', error);
