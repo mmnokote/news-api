@@ -100,6 +100,22 @@ export class AbstarctsController {
         throw new NotFoundException(error);
       });
   }
+  @Get('filter/ByStatus')
+  ByStatus(@QR('regSearchTerm') regSearchTerm: string) {
+    // return `Search=${regSearchTerm}`;
+    return this.abstarctsService
+      .filterAbstractsByStatus(`${regSearchTerm}`)
+      .then((response) => {
+        if (response) {
+          return response;
+        } else {
+          throw new InternalServerErrorException();
+        }
+      })
+      .catch((error) => {
+        throw new NotFoundException(error);
+      });
+  }
   // @Get('')
   // async index(
   //   @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,

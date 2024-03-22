@@ -302,6 +302,32 @@ export class AbstarctsService {
 
     return queries;
   }
+  async filterAbstractsByStatus(data: string) {
+    const entityManager = getManager();
+
+    const rawQuery = `
+    SELECT
+      a.id,
+      a."email" as email,
+      a."author" as author,
+      a."title" as title,
+      json_build_object(
+        'first_name', u.first_name,
+        'last_name', u.last_name
+      ) as user,
+      json_build_object(
+        'name', st.name
+      ) as sub_theme
+    FROM abstracts a
+    LEFT JOIN users u ON a."userId" = u.id
+    LEFT JOIN subthemes st ON a."subThemeId" = st.id
+    WHERE a."statusId" = $1;
+    `;
+
+    const queries: any[] = await entityManager.query(rawQuery, [data]);
+
+    return queries;
+  }
 
   remove(id: number) {
     return this.abstractRepository.delete(id);
