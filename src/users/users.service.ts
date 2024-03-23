@@ -120,8 +120,8 @@ export class UsersService {
     const users = await this.usersRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.jisajilis', 'jisajili')
-      // .leftJoinAndSelect('user.countries', 'country')
-      // .leftJoinAndSelect('user.registrationcategories', 'registrationCategory')
+      .leftJoinAndSelect('user.country', 'country')
+      .leftJoinAndSelect('user.registationcategory', 'registrationCategory')
       .orderBy('jisajili.id', 'ASC')
       // .orderBy('user.active', 'DESC')
       .getMany();
@@ -147,6 +147,9 @@ export class UsersService {
     console.log('dataz', data);
     const user = this.usersRepository
       .createQueryBuilder('user')
+      .leftJoinAndSelect('user.jisajilis', 'jisajili')
+      .leftJoinAndSelect('user.country', 'country')
+      .leftJoinAndSelect('user.registationcategory', 'registrationCategory')
       .where('user.first_name ILIKE :data', { data: `%${data}%` })
       .orWhere('user.last_name ILIKE :data', { data: `%${data}%` })
       .orWhere('user.middle_name ILIKE :data', { data: `%${data}%` })
