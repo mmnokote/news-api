@@ -70,10 +70,10 @@ export class UsersController {
   }
 
   @Get('users/oneUser')
-  searchUserByIdentification(@QR('regSearchTerm') regSearchTerm: string) {
+  searchUserByIdentification(@QR('regSearch') regSearch: string) {
     // return `Search=${regSearchTerm}`;
     return this.usersService
-      .seachOneByID(`${regSearchTerm}`)
+      .seachOneByID(`${regSearch}`)
       .then((response) => {
         if (response) {
           return response;

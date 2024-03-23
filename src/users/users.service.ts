@@ -147,7 +147,11 @@ export class UsersService {
     console.log('dataz', data);
     const user = this.usersRepository
       .createQueryBuilder('user')
-      .where('user.user_identification = :data', { data: data })
+      .where('user.first_name ILIKE :data', { data: `%${data}%` })
+      .orWhere('user.last_name ILIKE :data', { data: `%${data}%` })
+      .orWhere('user.middle_name ILIKE :data', { data: `%${data}%` })
+      .orWhere('user.phone_number ILIKE :data', { data: `%${data}%` })
+      .orWhere('user.email ILIKE :data', { data: `%${data}%` })
       .getMany();
     if ((await user).length > 0) {
       return user;
