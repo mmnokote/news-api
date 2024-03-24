@@ -76,7 +76,7 @@ export class EmailService {
         
             <p>Dear Abstract Presenter,</p>
             <p>This is a final reminder to submit your presentation materials for the upcoming IPHC 2024 conference.</p>
-            <p>As instructed in our previous email, please submit your PPT for presentation and abstract Word document for publication by Sunday, March 24th, 2024, at 2:00 PM EAT.</p>
+            <p>As instructed in our previous email, please submit your PPT for presentation and abstract Word document for publication by Sunday, March 24th, 2024, at 3:00 PM EAT.</p>
             <p>Please, send your PPT and abstract in a Word document via email (iphcctamisemi@gmail.com).</p>
             <p>We kindly ask you to adhere to these instructions and deadlines to avoid inconvenience.</p>
             <p>Thank you for your cooperation.</p>
