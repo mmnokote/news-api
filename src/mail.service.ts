@@ -22,27 +22,29 @@ export class EmailService {
       from: 'tamisemi.go.tz',
       to: body.email,
       subject: 'Email from IPHCC',
-      html:
-        `
-      <html>
-<body>
-<p>Dear User,</p>
-<p>
-Thank you for registering with our system:
-</p>
-<p>
-<p><strong>` +
-        body.comment +
-        `</strong></p>
-</p>
-<p>Thank you for joining our platform. We are excited to have you as a member.</p>
-<p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
-<p><a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank" style="text-decoration: none; color: #007bff;">Click here to log in</a></p>
-<p>Best regards,<br>Your Team</p>
-</body>
-</html>
-      
+      html: `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Final Reminder: Abstract Presentation Materials Due Today</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; text-align: left; background-color: #f2f2f2; padding: 20px;">
         
+            <h2>Final Reminder: Abstract Presentation Materials Due Today</h2>
+        
+            <p>Dear Abstract Presenter,</p>
+            <p>This is a final reminder to submit your presentation materials for the upcoming IPHC 2024 conference.</p>
+            <p>As instructed in our previous email, please submit your PPT for presentation and abstract Word document for publication by Sunday, March 24th, 2024, at 2:00 PM EAT.</p>
+            <p>Please, send your PPT and abstract in a Word document via email (iphcctamisemi@gmail.com).</p>
+            <p>We kindly ask you to adhere to these instructions and deadlines to avoid inconvenience.</p>
+            <p>Thank you for your cooperation.</p>
+            <p>Sincerely,<br>The IPHC 2024 Team</p>
+        
+        </body>
+        </html>
+          
 `, // Use the HTML template above
     };
 
@@ -178,29 +180,40 @@ Thank you for registering with our system:
       from: 'tamisemi.go.tz',
       to: body.email,
       subject: 'Abstract Submission Feedback',
-      html: `
-        <!DOCTYPE html>
+      html:
+        `
         <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Final Reminder: Abstract Presentation Materials Due Today</title>
+            <title>IPHC 2024 Abstract Update & Invitation to Participate</title>
         </head>
         <body style="font-family: Arial, sans-serif; text-align: left; background-color: #f2f2f2; padding: 20px;">
         
-            <h2>Final Reminder: Abstract Presentation Materials Due Today</h2>
-        
-            <p>Dear Abstract Presenter,</p>
-            <p>This is a final reminder to submit your presentation materials for the upcoming IPHC 2024 conference.</p>
-            <p>As instructed in our previous email, please submit your PPT for presentation and abstract Word document for publication by Sunday, March 24th, 2024, at 2:00 PM EAT.</p>
-            <p>Please, send your PPT and abstract in a Word document via email (iphcctamisemi@gmail.com).</p>
-            <p>We kindly ask you to adhere to these instructions and deadlines to avoid inconvenience.</p>
-            <p>Thank you for your cooperation.</p>
-            <p>Sincerely,<br>The IPHC 2024 Team</p>
+            <h2>Subject: Congratulations! Your Abstract for IPHC 2024 Has Been Accepted!</h2>
+            <p>Dear Applicant,</p>
+            <p>We are delighted to inform you that your abstract, ` +
+        body.title +
+        `, has been selected for presentation at the International Primary Healthcare Conference (IPHC 2024)!</p>
+            <p>The conference will be held from March 25th to 27th, 2024, at the Jakaya Kikwete Convention Center in Dodoma, Tanzania.</p>
+            <p>To ensure a smooth presentation;</p>
+            <ul>
+                <li>Please upload your PowerPoint presentation (PPT) to the registration portal by 8:00 PM on Friday, March 22nd, 2024. To access the required presentation format, <a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank">please log in to your portal</a> account and download the attached sample documents in the "My Abstract Menu"</li>
+                <li>We highly recommend registering for the conference if you haven't already. You can do so through our online portal, <a href="https://iphcconference.tamisemi.go.tz/authentication" target="_blank">HERE</a>.</li>
+                <li>If you are unable to attend the conference, kindly inform us as soon as possible.</li>
+            </ul>
+            <p>Also, your abstract will be published in the Pan African Medical Journal (PAMJ). To facilitate this, we kindly request you send us your abstract to iphcctamisemi@gmail.com in a Word document addressing reviewers comments (If any) and format your abstract in accordance to guideline attached in the portal by 8:00 PM on Friday, 22 and March 2023.</p>
+            <p>For any inquiries or assistance.</p>
+            <ul>
+                <li>Registration: +25686697117 or +255784985240</li>
+                <li>Abstract-related issues: +255687756470</li>
+            </ul>
+            <p>We look forward to welcoming you to Dodoma and your insightful presentation at IPHC 2024!</p>
+            <p>Regards,<br>IPHC Secretariat</p>
         
         </body>
         </html>
-              
+        
 `,
     };
 
