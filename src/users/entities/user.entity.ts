@@ -114,4 +114,7 @@ export class User extends BaseEntity {
 
   @Column({ type: 'boolean', default: false })
   verified: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  mannual: boolean;
 }
