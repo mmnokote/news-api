@@ -212,18 +212,21 @@ export class AbstarctsService {
       const entityManager = getManager();
 
       const rawQuery = `
-    SELECT DISTINCT ON (a.id)
-      a."userId" FROM
-    abstracts a
-      WHERE a."email" IS NULL
-    ;
+      SELECT DISTINCT ON (a.id)
+        a."userId" FROM
+      abstracts a
+        a."rejectionComment" = 'Abstract Accepted'
+      ;
   `;
-
+      // const rawQuery = `
+      // SELECT DISTINCT ON (a.id)
+      //   a."userId" FROM
+      // abstracts a
+      //   WHERE a."email" IS NULL
+      // ;
       const abstracts: any[] = await entityManager.query(rawQuery);
 
-      const userIds = abstracts
-        .filter((abstract) => abstract.rejectionComment === 'Abstract Accepted')
-        .map((abstract) => abstract.userId);
+      const userIds = abstracts.map((abstract) => abstract.userId);
       console.log('userIds', userIds);
       const users = await this.userRepository.findByIds(userIds);
 
