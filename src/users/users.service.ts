@@ -122,7 +122,7 @@ export class UsersService {
       .leftJoinAndSelect('user.jisajilis', 'jisajili')
       .leftJoinAndSelect('user.country', 'country')
       .leftJoinAndSelect('user.registationcategory', 'registrationCategory')
-      .orderBy('jisajili.id', 'ASC')
+      .orderBy('jisajili.id', 'DESC')
       // .orderBy('user.active', 'DESC')
       .getMany();
     return users;
