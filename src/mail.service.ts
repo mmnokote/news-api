@@ -108,7 +108,8 @@ export class EmailService {
         <p>IPHC 2024 Conference Program Now Available!</p>
         <p>Dear IPHC 2024 Delegates,</p>
         <p>We are thrilled to announce that the official conference program for IPHC 2024 is now available!</p>
-        <p>The program details all the exciting sessions, workshops, and networking events planned for the conference. You can access the program by visiting our website <a href="https://iphcconference.tamisemi.go.tz/IPHC_2024_Program_Book.pdf" target="_blank" style="text-decoration: none; color: #007bff;">HERE</a>.</p>
+        <p>The program details all the exciting sessions, workshops, and networking events planned for the conference. You can access the program by visiting our website <a href="https://iphcconference.tamisemi.go.tz/document-page" target="_blank" style="text-decoration: none; color: #007bff;">HERE</a>.</p>
+        <p>You can access other documents  <a href="https://iphcconference.tamisemi.go.tz/IPHC_2024_Program_Book.pdf" target="_blank" style="text-decoration: none; color: #007bff;">HERE</a>.</p>
         <p>We encourage you to review the program and start planning your schedule to maximize your learning and networking opportunities at IPHC 2024.</p>
         <p>Don't forget: Attending IPHC 2024 will provide you with valuable CPD points.</p>
         <p>We look forward to seeing you at the conference!</p>
