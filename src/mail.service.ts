@@ -96,7 +96,38 @@ export class EmailService {
       throw error;
     }
   }
+
   async sendPaymentEmail(body: any) {
+    const mailOptions = {
+      from: 'tamisemi.go.tz',
+      to: body.email,
+      subject: 'IPHC 2024 Conference Program Book',
+      html: `
+      <html>
+      <body>
+        <p>IPHC 2024 Conference Program Now Available!</p>
+        <p>Dear IPHC 2024 Delegates,</p>
+        <p>We are thrilled to announce that the official conference program for IPHC 2024 is now available!</p>
+        <p>The program details all the exciting sessions, workshops, and networking events planned for the conference. You can access the program by visiting our website <a href="https://iphcconference.tamisemi.go.tz/IPHC_2024_Program_Book.pdf" target="_blank" style="text-decoration: none; color: #007bff;">HERE</a>.</p>
+        <p>We encourage you to review the program and start planning your schedule to maximize your learning and networking opportunities at IPHC 2024.</p>
+        <p>Don't forget: Attending IPHC 2024 will provide you with valuable CPD points.</p>
+        <p>We look forward to seeing you at the conference!</p>
+        <p>Sincerely, IPHC 2024 Secretariat</p>
+      </body>
+    </html>     
+`, // Use the HTML template above
+    };
+
+    try {
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log('Email sent: ' + info.response);
+    } catch (error) {
+      console.error('Email error: ' + error.message);
+      throw error;
+    }
+  }
+
+  async sendPaymentEmail2(body: any) {
     const mailOptions = {
       from: 'tamisemi.go.tz',
       to: body.email,
@@ -134,7 +165,8 @@ export class EmailService {
       throw error;
     }
   }
-  async sendPaymentEmail2(body: any) {
+
+  async sendPaymentEmail1(body: any) {
     const mailOptions = {
       from: 'tamisemi.go.tz',
       to: body.email,
