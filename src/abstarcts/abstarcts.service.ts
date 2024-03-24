@@ -221,7 +221,9 @@ export class AbstarctsService {
 
       const abstracts: any[] = await entityManager.query(rawQuery);
 
-      const userIds = abstracts.map((abstract) => abstract.userId);
+      const userIds = abstracts
+        .filter((abstract) => abstract.rejectionComment === 'Abstract Accepted')
+        .map((abstract) => abstract.userId);
       console.log('userIds', userIds);
       const users = await this.userRepository.findByIds(userIds);
 

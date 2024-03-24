@@ -17,6 +17,46 @@ export class EmailService {
     });
   }
 
+  async sendNormalEmail1(body: any) {
+    const mailOptions = {
+      from: 'tamisemi.go.tz',
+      to: body.email,
+      subject: 'Email from IPHCC',
+      html: `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Final Reminder: Abstract Presentation Materials Due Today</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; text-align: left; background-color: #f2f2f2; padding: 20px;">
+        
+            <h2>Final Reminder: Abstract Presentation Materials Due Today</h2>
+        
+            <p>Dear Abstract Presenter,</p>
+            <p>This is a final reminder to submit your presentation materials for the upcoming IPHC 2024 conference.</p>
+            <p>As instructed in our previous email, please submit your PPT for presentation and abstract Word document for publication by Sunday, March 24th, 2024, at 2:00 PM EAT.</p>
+            <p>Please, send your PPT and abstract in a Word document via email (iphcctamisemi@gmail.com).</p>
+            <p>We kindly ask you to adhere to these instructions and deadlines to avoid inconvenience.</p>
+            <p>Thank you for your cooperation.</p>
+            <p>Sincerely,<br>The IPHC 2024 Team</p>
+        
+        </body>
+        </html>
+          
+`, // Use the HTML template above
+    };
+
+    try {
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log('Email sent: ' + info.response);
+    } catch (error) {
+      console.error('Email error: ' + error.message);
+      throw error;
+    }
+  }
+
   async sendNormalEmail(body: any) {
     const mailOptions = {
       from: 'tamisemi.go.tz',
