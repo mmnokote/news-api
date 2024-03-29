@@ -14,7 +14,7 @@ const config: TypeOrmModuleOptions = {
   cli: { migrationsDir: 'src/db/migrations' },
   entities: ['dist/**/*.entity{.ts,.js}'],
 };
-
+// pg_dump -U postgres -d conferencelive -h 172.16.18.193 > mmm.sql
 // import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 // const config: TypeOrmModuleOptions = {
 //   type: 'postgres',

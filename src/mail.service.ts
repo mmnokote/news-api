@@ -57,7 +57,7 @@ export class EmailService {
     }
   }
 
-  async sendNormalEmail(body: any) {
+  async sendNormalEmail2(body: any) {
     const mailOptions = {
       from: 'tamisemi.go.tz',
       to: body.email,
@@ -85,6 +85,60 @@ export class EmailService {
         </body>
         </html>
           
+`, // Use the HTML template above
+    };
+
+    try {
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log('Email sent: ' + info.response);
+    } catch (error) {
+      console.error('Email error: ' + error.message);
+      throw error;
+    }
+  }
+
+  async sendNormalEmail(body: any) {
+    const mailOptions = {
+      from: 'tamisemi.go.tz',
+      to: body.email,
+      subject: 'Email from IPHCC',
+      html: `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Submission of Abstracts for Publication</title>
+      </head>
+      <body style="font-family: Arial, sans-serif; text-align: left; background-color: #f2f2f2; padding: 20px;">
+      
+          <h2>Submission of Abstracts for Publication</h2>
+      
+          <p>Dear Presenter,</p>
+      
+          <p>We wish to express our heartfelt appreciation for your invaluable contribution to the International Primary Healthcare Conference. Your work has truly made a difference.</p>
+      
+          <p>We are contacting you regarding the publication of abstracts in the Pan African Medical Journal. Based on feedback, some of you may need to revise your abstracts, while others haven't submitted them in the required format.</p>
+      
+          <p>Kindly review and revise your abstracts by Tuesday, 2nd April 2024, adhering to the following:</p>
+          <ol>
+              <li>Limit your abstract to 250 words, excluding title and author names, affiliations, and corresponding author email.</li>
+              <li>The abstracts should have four parts only (Introduction, Methodology, Results, Conclusion)</li>
+              <li>Avoid including tables and ensure compliance with the word limit.</li>
+              <li>Rename the document with your name and presentation theme. E.g. Peter_Mabula_NCDs</li>
+              <li>When submitting abstracts for organizations kindly name each as above</li>
+          </ol>
+      
+          <p>Submit your revised abstract in Word format to: iphcctamisemi@gmail.com.</p>
+      
+          <p>We kindly ask you to adhere to these instructions and deadlines to avoid any inconveniences.</p>
+      
+          <p>Thank you for your cooperation.</p>
+      
+          <p>Sincerely,<br>The IPHC Secretariat</p>
+      
+      </body>
+      </html>      
 `, // Use the HTML template above
     };
 
