@@ -23,9 +23,27 @@ export class RolesGuard implements CanActivate {
     }
 
     const user = context.switchToHttp().getRequest();
-    // const { user } = context.switchToHttp().getRequest();
-    const token = user.rawHeaders[11]?.replace('Bearer ', '');
-    console.log('token', user.rawHeaders);
+    // console.log('user user user', user.rawHeaders);
+
+    // To ensure you always get the correct index for the Authorization header,
+    //  you can iterate over the rawHeaders array to find the index dynamically.
+    //  Here's the code to find the token index:
+
+    let tokenIndex: number | undefined;
+    user.rawHeaders.forEach((header, index) => {
+      if (header.toLowerCase() === 'authorization') {
+        tokenIndex = index + 1;
+      }
+    });
+    console.log('tokenIndex', tokenIndex);
+
+    if (tokenIndex === undefined) {
+      // console.log('Authorization header not found');
+      return false;
+    }
+
+    const token = user.rawHeaders[tokenIndex]?.replace('Bearer ', '');
+    console.log('token', token);
 
     const decoded = await this.authService.verifyToken(token);
     const user1 = await this.userService.findOne(decoded.sub);

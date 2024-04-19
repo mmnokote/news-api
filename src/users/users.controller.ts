@@ -31,6 +31,7 @@ export class UsersController {
     private readonly twilioService: TwilioService,
   ) {}
 
+  @Roles(Role.EMAIL)
   @Post('sendMail')
   async sendEmail(@Body() body) {
     // const { to, subject, text } = body;
@@ -38,6 +39,7 @@ export class UsersController {
     return { message: 'Email sent successfully' };
   }
 
+  @Roles(Role.EMAIL)
   @Post('sendSubmissionMail')
   async sendsubmissionEmail(@Body() body) {
     console.log('bbbbbody', body);
@@ -57,7 +59,7 @@ export class UsersController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  // @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN)
   findAll() {
     return this.usersService
       .findAll()
@@ -105,6 +107,8 @@ export class UsersController {
         // throw new InternalServerErrorException();
       });
   }
+  @UseGuards(JwtAuthGuard)
+  @Roles(Role.ADMIN)
   @Post('verifyQR')
   verifyQR(@Body() dataDto: any) {
     return this.usersService
@@ -220,7 +224,7 @@ export class UsersController {
   }
   @Get('users/search')
   @UseGuards(JwtAuthGuard)
-  // @Roles(Role.USER)
+  @Roles(Role.ADMIN)
   searchUser(@QR('regSearchTerm') regSearchTerm: string) {
     // return `Search=${regSearchTerm}`;
     return this.usersService
@@ -247,10 +251,12 @@ export class UsersController {
     return this.usersService.update(+id, updateUserDto);
   }
 
+  @Roles(Role.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
+  @Roles(Role.ADMIN)
   @Patch(':id/change-status')
   activation(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.activateUser(+id, updateUserDto);

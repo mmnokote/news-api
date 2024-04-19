@@ -1,14 +1,3 @@
-// import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-// import { AbstarctsService } from './abstarcts.service';
-// import { CreateAbstarctDto } from './dto/create-abstarct.dto';
-// import { UpdateAbstarctDto } from './dto/update-abstarct.dto';
-
-// @Controller('abstarcts')
-// export class AbstarctsController {
-//   constructor(private readonly abstarctsService: AbstarctsService) {}
-
-// }
-
 import {
   Controller,
   Get,
@@ -61,24 +50,27 @@ export class AbstarctsController {
       };
     }
   }
+
+  @Roles(Role.EMAIL)
   @Post('send-mails')
   async sendMails(@Body() createDataDto: any) {
     return await this.abstarctsService.emailSend(createDataDto);
   }
 
+  @Roles(Role.EMAIL)
   @Post('abstract-mails')
   async emailSendForAbstract(@Body() createDataDto: any) {
     return await this.abstarctsService.emailSendForAbstract(createDataDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  // @Roles(Role.ADMIN)
+  // @Roles(Role.USER)
   @Get('myabstarcts')
   myAbstarcts(@Req() req) {
     return this.abstarctsService.findAllMyAbs(req);
   }
   @UseGuards(JwtAuthGuard)
-  // @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN)
   @Get()
   findAll() {
     return this.abstarctsService.findAll();
@@ -100,6 +92,7 @@ export class AbstarctsController {
         throw new NotFoundException(error);
       });
   }
+  @Roles(Role.ADMIN)
   @Get('filter/ByStatus')
   ByStatus(@QR('regSearchTerm') regSearchTerm: string) {
     // return `Search=${regSearchTerm}`;
