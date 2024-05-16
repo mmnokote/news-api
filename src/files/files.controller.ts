@@ -34,8 +34,8 @@ export class FilesController implements CrudController<FileEntity> {
         destination: (req: Express.Request, file: Express.Multer.File, cb) =>
           cb(
             null,
-            '/home/mmnokote/Projects/News/News_F/public/uploads',
-            // '/var/www/html/dist/uploads',
+            // '/home/mmnokote/Projects/News/News_F/public/uploads',
+            '/var/www/html/news-api/dist/uploads',
           ),
         filename: (req: Express.Request, file: Express.Multer.File, cb) => {
           const [, ext] = file.mimetype.split('/');
