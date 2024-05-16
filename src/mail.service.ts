@@ -10,9 +10,7 @@ export class EmailService {
       service: 'Gmail',
       auth: {
         user: 'iphcctamisemi@gmail.com',
-        pass: 'pqklorpcrfgihukt',
-        // user: 'tscmis2020@gmail.com',
-        // pass: 'titunrmoebralrwa',
+        pass: 'nypyvhicrsjmqvsz',
       },
     });
   }

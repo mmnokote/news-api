@@ -63,17 +63,30 @@ export class AbstarctsController {
     return await this.abstarctsService.emailSendForAbstract(createDataDto);
   }
 
-  @UseGuards(JwtAuthGuard)
-  // @Roles(Role.USER)
+  // @UseGuards(JwtAuthGuard)
+  // // @Roles(Role.USER)
+  // @Get('myabstarcts')
+  // myAbstarcts(@Req() req) {
+  //   return this.abstarctsService.findAllMyAbs(req);
+  // }
+  // @UseGuards(JwtAuthGuard)
   @Get('myabstarcts')
-  myAbstarcts(@Req() req) {
-    return this.abstarctsService.findAllMyAbs(req);
+  async myAbstarcts(@Query('q') query: string, @Req() req) {
+    return this.abstarctsService.findAllMyAbs(req, query);
   }
+
   @UseGuards(JwtAuthGuard)
   @Roles(Role.ADMIN)
   @Get()
   findAll() {
     return this.abstarctsService.findAll();
+  }
+
+  // @UseGuards(JwtAuthGuard)
+  // @Roles(Role.ADMIN)
+  @Get('getabstractdata')
+  getAbstractData() {
+    return this.abstarctsService.getAbstractData();
   }
 
   @Get('filter')

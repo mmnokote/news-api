@@ -37,41 +37,16 @@ export class AbstarctsService {
     private readonly emailService: EmailService,
   ) {}
 
-  // create(createAbstactDto: CreateAbstarctDto) {
-
-  //   return this.abstractRepository.save(createAbstactDto);
-  // }
   async create(createAbstactDto: CreateAbstarctDto) {
-    const { email } = createAbstactDto;
-
-    // Find user by email
-    let user = await this.userRepository.findOne({ email });
-
-    if (!user) {
-      throw new NotFoundException({
-        message:
-          'Invalid email provided. Please ensure you use the email address associated with your registration.',
-      });
-    }
-
     const abstractEntity: any = this.abstractRepository.create({
-      email: createAbstactDto.email,
       title: createAbstactDto.title,
       author: createAbstactDto.author,
-      affiliation: createAbstactDto.affiliation,
-      presenting_author: createAbstactDto.presenting_author,
-      background: createAbstactDto.background,
-      objective: createAbstactDto.objective,
-      methodology: createAbstactDto.methodology,
-      results: createAbstactDto.results,
+      description: createAbstactDto.description,
       subTheme: createAbstactDto.subTheme,
-      conclusion: createAbstactDto.conclusion,
-      recommendations: createAbstactDto.recommendations,
-      inline: createAbstactDto.inline,
+      content: createAbstactDto.content,
     });
-
-    abstractEntity.user = user;
     // Save abstract to database
+
     return this.abstractRepository.save(abstractEntity);
   }
 
@@ -82,29 +57,82 @@ export class AbstarctsService {
     return paginate<Abstarct>(queryBuilder, options);
   }
 
-  async isEmailUnique(email: string): Promise<Abstarct | undefined> {
-    return this.abstractRepository.findOne({ email });
-  }
-
   async findAll() {
     const abstracts = await this.abstractRepository
       .createQueryBuilder('abstracts')
       .leftJoinAndSelect('abstracts.user', 'user')
       .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
-      .where('abstracts.email IS NOT NULL')
+
       .getMany();
     return abstracts;
   }
-  async findAllMyAbs(req: any) {
-    // console.log('req', req.user.id);
-    const id = req.user.id;
-    const abstracts = await this.abstractRepository
+
+  async getAbstractData(): Promise<any> {
+    const abstracts = await this.abstractRepository.find();
+
+    return {
+      status: 'ok',
+      totalResults: abstracts.length,
+      articles: abstracts.map((abstract) => ({
+        source: {
+          id: null,
+          name: abstract.subTheme.name, // Assuming Subtheme has a name property
+        },
+        author: abstract.author,
+        title: abstract.title,
+        description: abstract.description,
+        url: abstract.url,
+        urlToImage: abstract.urlToImage,
+        publishedAt: abstract.createdAt.toISOString(),
+        content: abstract.content,
+      })),
+    };
+  }
+
+  // async findAllMyAbs(req: any) {
+  //   // console.log('req', req.user.id);
+  //   const id = req.user.id;
+  //   const abstracts = await this.abstractRepository
+  //     .createQueryBuilder('abstracts')
+  //     .leftJoinAndSelect('abstracts.user', 'user')
+  //     .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
+  //     .where('abstracts.userId = :id', { id })
+  //     .getMany();
+  //   return abstracts;
+  // }
+
+  async findAllMyAbs(req: any, query: string) {
+    let queryBuilder = this.abstractRepository
       .createQueryBuilder('abstracts')
       .leftJoinAndSelect('abstracts.user', 'user')
-      .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
-      .where('abstracts.userId = :id', { id })
-      .getMany();
-    return abstracts;
+      .leftJoinAndSelect('abstracts.subTheme', 'sub_theme');
+
+    if (query) {
+      // Add additional condition to the query where subTheme name is equal to the query parameter
+      queryBuilder = queryBuilder.andWhere('sub_theme.name = :name', {
+        name: query,
+      });
+    }
+
+    const abstracts = await queryBuilder.getMany();
+
+    return {
+      status: 'ok',
+      totalResults: abstracts.length,
+      articles: abstracts.map((abstract) => ({
+        source: {
+          id: null,
+          name: abstract.subTheme.name, // Assuming Subtheme has a name property
+        },
+        author: abstract.author,
+        title: abstract.title,
+        description: abstract.description,
+        url: abstract.url,
+        urlToImage: abstract.urlToImage,
+        publishedAt: abstract.createdAt.toISOString(),
+        content: abstract.content,
+      })),
+    };
   }
 
   findOne(id: number) {
@@ -117,7 +145,7 @@ export class AbstarctsService {
         updateQueryPriorityDto.status &&
         updateQueryPriorityDto.status.code === 'AP'
       ) {
-        updateQueryPriorityDto.rejectionComment = 'Abstract Accepted';
+        updateQueryPriorityDto = updateQueryPriorityDto;
       }
       const result = await this.abstractRepository.update(
         id,
@@ -134,9 +162,7 @@ export class AbstarctsService {
         // Send email with the password
         if (updatedAbstract.status) {
           const body = {
-            email: updatedAbstract.email,
             ststus: updatedAbstract.status.name,
-            comment: updatedAbstract.rejectionComment,
             title: updatedAbstract.title,
           };
           // console.log('dataaaaa', body);

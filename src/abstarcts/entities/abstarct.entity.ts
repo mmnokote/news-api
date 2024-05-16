@@ -6,19 +6,8 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 
 @Entity('abstracts')
 export class Abstarct extends BaseEntity {
-  // @OneToOne(() => User, (user) => user.abstract, {
-  //   onDelete: 'CASCADE',
-  //   eager: true,
-  //   nullable: true,
-  // })
-  // @JoinColumn()
-  // user: User;
-
   @ManyToOne(() => User, (user) => user.abstract)
   user: User;
-
-  @Column({ type: 'varchar', nullable: true, length: 5000 })
-  email: string;
 
   @Column({ type: 'varchar', nullable: true, length: 5000 })
   title: string;
@@ -27,22 +16,10 @@ export class Abstarct extends BaseEntity {
   author: string;
 
   @Column({ type: 'varchar', nullable: true, length: 5000 })
-  affiliation: string;
-
+  description: string;
+  
   @Column({ type: 'varchar', nullable: true, length: 5000 })
-  presenting_author: string;
-
-  @Column({ type: 'varchar', nullable: true, length: 5000 })
-  background: string;
-
-  @Column({ type: 'varchar', nullable: true, length: 5000 })
-  objective: string;
-
-  @Column({ type: 'varchar', nullable: true, length: 5000 })
-  methodology: string;
-
-  @Column({ type: 'varchar', nullable: true, length: 5000 })
-  results: string;
+  url: string;
 
   @ManyToOne(() => Status, (status) => status.abstract, {
     onDelete: 'CASCADE',
@@ -56,26 +33,9 @@ export class Abstarct extends BaseEntity {
   })
   subTheme: Subtheme;
 
-  @Column({ type: 'varchar', nullable: false })
-  conclusion: string;
-
-  @Column({ type: 'varchar', nullable: false })
-  recommendations: string;
-
-  @Column({ type: 'varchar', nullable: true, length: 5000 })
-  inline: string;
-
-  @Column({
-    type: 'varchar',
-    nullable: true,
-    default: 'Under review',
-    length: 5000,
-  })
-  rejectionComment: string;
-
   @Column({ nullable: true })
-  path_file: string;
+  urlToImage: string;
 
-  @Column({ nullable: true })
-  template: string;
+  @Column({ type: 'text', nullable: true })
+  content: string;
 }
