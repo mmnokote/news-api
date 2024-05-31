@@ -17,8 +17,29 @@ export class NotificationService {
     private subthemeRepository: Repository<Notification>,
   ) {}
 
-  create(createBookDto: CreateNotificationDto) {
-    return this.subthemeRepository.save(createBookDto);
+  async create(
+    createNotificationDto: CreateNotificationDto,
+  ): Promise<{ statusCode: number; message: string }> {
+    try {
+      const result = await this.subthemeRepository.save(createNotificationDto);
+
+      if (result) {
+        return {
+          statusCode: 200,
+          message: 'Notification created successfully',
+        };
+      }
+
+      return {
+        statusCode: 400,
+        message: 'Failed to create notification',
+      };
+    } catch (error) {
+      return {
+        statusCode: 500,
+        message: 'Internal server error',
+      };
+    }
   }
 
   async paginate(
@@ -54,7 +75,30 @@ export class NotificationService {
   //   return this.subthemeRepository.delete(id);
   // }
 
-  removeByFcmToken(fcmToken: string) {
-    return this.subthemeRepository.delete({ fcmToken: fcmToken });
+  async removeByFcmToken(
+    fcmToken: string,
+  ): Promise<{ statusCode: number; message: string }> {
+    try {
+      const result = await this.subthemeRepository.delete({
+        fcmToken: fcmToken,
+      });
+
+      if (result.affected === 0) {
+        return {
+          statusCode: 404,
+          message: 'FCM token not found',
+        };
+      }
+
+      return {
+        statusCode: 200,
+        message: 'Notification preference updated successfully',
+      };
+    } catch (error) {
+      return {
+        statusCode: 500,
+        message: 'Internal server error',
+      };
+    }
   }
 }
