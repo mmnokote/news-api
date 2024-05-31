@@ -12,6 +12,11 @@ export class CreateAbstarctDto extends BaseEntity {
   title: string;
 
   @ApiProperty({
+    description: 'Url',
+  })
+  url: string;
+
+  @ApiProperty({
     description: 'Author name',
   })
   @IsNotEmpty({ message: 'Author Name is missing.' })

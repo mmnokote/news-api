@@ -40,13 +40,13 @@ export class AbstarctsController {
       const result = await this.abstarctsService.create(createDataDto);
       return {
         data: result,
-        message: 'Abstract created successfully',
+        message: 'News created successfully',
       };
     } catch (error) {
       // Handle errors here
       return {
         data: null,
-        message: error.message || 'Failed to create abstract',
+        message: error.message || 'Failed to create news',
       };
     }
   }

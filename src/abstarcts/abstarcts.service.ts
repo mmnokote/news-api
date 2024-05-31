@@ -44,6 +44,7 @@ export class AbstarctsService {
       description: createAbstactDto.description,
       subTheme: createAbstactDto.subTheme,
       content: createAbstactDto.content,
+      url: createAbstactDto.url,
     });
     // Save abstract to database
 

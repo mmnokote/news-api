@@ -22,6 +22,7 @@ import { MenusModule } from './menus/menus.module';
 import { StatusesModule } from './statuses/statuses.module';
 import { EmailConsumerService } from './abstarcts/email-consumer.service';
 import { EmailService } from './mail.service';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { EmailService } from './mail.service';
     JisajilisModule,
     MenusModule,
     StatusesModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [
