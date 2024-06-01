@@ -14,14 +14,16 @@ import { Notification } from './entities/notification.entity';
 export class NotificationService {
   constructor(
     @InjectRepository(Notification)
-    private subthemeRepository: Repository<Notification>,
+    private notificationRepository: Repository<Notification>,
   ) {}
 
   async create(
     createNotificationDto: CreateNotificationDto,
   ): Promise<{ statusCode: number; message: string }> {
     try {
-      const result = await this.subthemeRepository.save(createNotificationDto);
+      const result = await this.notificationRepository.save(
+        createNotificationDto,
+      );
 
       if (result) {
         return {
@@ -45,18 +47,20 @@ export class NotificationService {
   async paginate(
     options: IPaginationOptions,
   ): Promise<Pagination<Notification>> {
-    const queryBuilder = this.subthemeRepository.createQueryBuilder('c');
+    const queryBuilder = this.notificationRepository.createQueryBuilder('c');
     queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
 
     return paginate<Notification>(queryBuilder, options);
   }
 
   findAll() {
-    const countries = this.subthemeRepository.createQueryBuilder().getMany();
+    const countries = this.notificationRepository
+      .createQueryBuilder()
+      .getMany();
     return countries;
 
     // const id = 3;
-    // return this.subthemeRepository
+    // return this.notificationRepository
     //   .createQueryBuilder('countries')
     //   .leftJoinAndSelect('countries.reader', 'reader')
     //   .where('reader.id = :readerId', { readerId: id })
@@ -64,22 +68,22 @@ export class NotificationService {
   }
 
   findOne(id: number) {
-    return this.subthemeRepository.findOne(id);
+    return this.notificationRepository.findOne(id);
   }
 
   update(id: number, updateQueryPriorityDto: UpdateNotificationDto) {
-    return this.subthemeRepository.update(id, updateQueryPriorityDto);
+    return this.notificationRepository.update(id, updateQueryPriorityDto);
   }
 
   // remove(id: number) {
-  //   return this.subthemeRepository.delete(id);
+  //   return this.notificationRepository.delete(id);
   // }
 
   async removeByFcmToken(
     fcmToken: string,
   ): Promise<{ statusCode: number; message: string }> {
     try {
-      const result = await this.subthemeRepository.delete({
+      const result = await this.notificationRepository.delete({
         fcmToken: fcmToken,
       });
 

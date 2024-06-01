@@ -32,6 +32,14 @@ import { Abstarct } from './entities/abstarct.entity';
 export class AbstarctsController {
   constructor(private readonly abstarctsService: AbstarctsService) {}
 
+  @Post('abstract-notifications/:abstractId')
+  async sendNotificationsForAbstract(
+    @Param('abstractId') abstractId: string,
+    @Body() notificationData: { title: string; body: string },
+  ) {
+    return await this.abstarctsService.sendNotificationsForAbstract(abstractId);
+  }
+
   @Post()
   async create(
     @Body() createDataDto: CreateAbstarctDto,

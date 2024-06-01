@@ -23,6 +23,7 @@ import { StatusesModule } from './statuses/statuses.module';
 import { EmailConsumerService } from './abstarcts/email-consumer.service';
 import { EmailService } from './mail.service';
 import { NotificationModule } from './notification/notification.module';
+import { FirebaseAdminService } from './firebase/firebase-admin.service';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { NotificationModule } from './notification/notification.module';
   ],
   controllers: [AppController],
   providers: [
+    FirebaseAdminService,
     EmailService,
     EmailConsumerService,
     AppService,
@@ -52,5 +54,6 @@ import { NotificationModule } from './notification/notification.module';
       useClass: RolesGuard,
     },
   ],
+  exports: [FirebaseAdminService],
 })
 export class AppModule {}

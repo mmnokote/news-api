@@ -1,15 +1,3 @@
-// import { Injectable } from '@nestjs/common';
-// import { CreateAbstarctDto } from './dto/create-abstarct.dto';
-// import { UpdateAbstarctDto } from './dto/update-abstarct.dto';
-
-// @Injectable()
-// export class AbstarctsService {
-//   create(createAbstarctDto: CreateAbstarctDto) {
-//     return 'This action adds a new abstarct';
-//   }
-
-// }
-
 import { Abstract, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getManager } from 'typeorm';
@@ -26,6 +14,8 @@ import { User } from 'src/users/entities/user.entity';
 import { EmailService } from 'src/mail.service';
 import * as amqp from 'amqplib'; // Import amqplib
 import { getRepository, IsNull } from 'typeorm';
+import { Notification } from '../notification/entities/notification.entity';
+import { FirebaseAdminService } from '../firebase/firebase-admin.service';
 
 @Injectable()
 export class AbstarctsService {
@@ -35,7 +25,34 @@ export class AbstarctsService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private readonly emailService: EmailService,
+
+    @InjectRepository(Notification)
+    private readonly notificationsRepository: Repository<Notification>,
+    private readonly firebaseAdminService: FirebaseAdminService,
   ) {}
+
+  async sendNotificationsForAbstract(abstractId: string): Promise<void> {
+    const abstract = await this.abstractRepository.findOne(abstractId);
+
+    if (!abstract) {
+      throw new NotFoundException('Abstract not found');
+    }
+
+    const notifications = await this.notificationsRepository.find();
+
+    const notificationData = {
+      title: 'New Abstract Published', // You can customize this title as needed
+      body: abstract.title,
+    };
+
+    for (const notification of notifications) {
+      await this.firebaseAdminService.sendNotification(
+        notification.fcmToken,
+        notificationData.title,
+        notificationData.body,
+      );
+    }
+  }
 
   async create(createAbstactDto: CreateAbstarctDto) {
     const abstractEntity: any = this.abstractRepository.create({
