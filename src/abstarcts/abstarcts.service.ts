@@ -35,13 +35,13 @@ export class AbstarctsService {
     const abstract = await this.abstractRepository.findOne(abstractId);
 
     if (!abstract) {
-      throw new NotFoundException('Abstract not found');
+      throw new NotFoundException('Article not found');
     }
 
     const notifications = await this.notificationsRepository.find();
 
     const notificationData = {
-      title: 'New Abstract Published', // You can customize this title as needed
+      title: 'New Article Published', // You can customize this title as needed
       body: abstract.title,
     };
 
