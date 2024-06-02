@@ -20,7 +20,7 @@ import {
 import { CreateAbstarctDto } from './dto/create-abstarct.dto';
 import { UpdateAbstarctDto } from './dto/update-abstarct.dto';
 
-import { Pagination } from 'nestjs-typeorm-paginate';
+import { IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
 import { Role } from 'src/users/entities/role.enum';
 import { Roles } from 'src/users/roles.decorator';
@@ -83,11 +83,23 @@ export class AbstarctsController {
     return this.abstarctsService.findAllMyAbs(req, query);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Roles(Role.ADMIN)
-  @Get()
-  findAll() {
-    return this.abstarctsService.findAll();
+  // @UseGuards(JwtAuthGuard)
+  // @Roles(Role.ADMIN)
+  // @Get()
+  // findAll() {
+  //   return this.abstarctsService.findAll();
+  // }
+
+  @Get('')
+  async index(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+  ): Promise<Pagination<Abstarct>> {
+    limit = limit > 100 ? 100 : limit;
+    return this.abstarctsService.paginate({
+      page,
+      limit,
+    });
   }
 
   // @UseGuards(JwtAuthGuard)
@@ -98,21 +110,13 @@ export class AbstarctsController {
   }
 
   @Get('filter')
-  filterAbstracts(@QR('regSearchTerm') regSearchTerm: string) {
-    // return `Search=${regSearchTerm}`;
-    return this.abstarctsService
-      .filterAbstracts(`${regSearchTerm}`)
-      .then((response) => {
-        if (response) {
-          return response;
-        } else {
-          throw new InternalServerErrorException();
-        }
-      })
-      .catch((error) => {
-        throw new NotFoundException(error);
-      });
+  async filterAbstracts(
+    @Query('regSearchTerm') regSearchTerm: string,
+    @Query() options: IPaginationOptions,
+  ): Promise<Pagination<Abstarct>> {
+    return this.abstarctsService.filterAbstracts(regSearchTerm, options);
   }
+
   @Roles(Role.ADMIN)
   @Get('filter/ByStatus')
   ByStatus(@QR('regSearchTerm') regSearchTerm: string) {
@@ -130,17 +134,6 @@ export class AbstarctsController {
         throw new NotFoundException(error);
       });
   }
-  // @Get('')
-  // async index(
-  //   @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
-  //   @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
-  // ): Promise<Pagination<Country>> {
-  //   limit = limit > 100 ? 100 : limit;
-  //   return this.abstarctsService.paginate({
-  //     page,
-  //     limit,
-  //   });
-  // }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

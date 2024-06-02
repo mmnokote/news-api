@@ -68,22 +68,33 @@ export class AbstarctsService {
     return this.abstractRepository.save(abstractEntity);
   }
 
+  // async paginate(options: IPaginationOptions): Promise<Pagination<Abstarct>> {
+  //   const queryBuilder = this.abstractRepository
+  //     .createQueryBuilder('c')
+  //     .leftJoinAndSelect('c.subTheme', 'st')
+  //     .orderBy('c.id', 'DESC');
+
+  //   return paginate<Abstarct>(queryBuilder, options);
+  // }
+
   async paginate(options: IPaginationOptions): Promise<Pagination<Abstarct>> {
-    const queryBuilder = this.abstractRepository.createQueryBuilder('c');
-    queryBuilder.orderBy('c.name', 'DESC'); // Or whatever you need to do
+    const queryBuilder = this.abstractRepository
+      .createQueryBuilder('c')
+      .leftJoinAndSelect('c.subTheme', 'subTheme') // Ensure subTheme is eagerly loaded
+      .orderBy('c.id', 'DESC');
 
     return paginate<Abstarct>(queryBuilder, options);
   }
 
-  async findAll() {
-    const abstracts = await this.abstractRepository
-      .createQueryBuilder('abstracts')
-      .leftJoinAndSelect('abstracts.user', 'user')
-      .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
+  // async findAll() {
+  //   const abstracts = await this.abstractRepository
+  //     .createQueryBuilder('abstracts')
+  //     .leftJoinAndSelect('abstracts.user', 'user')
+  //     .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
 
-      .getMany();
-    return abstracts;
-  }
+  //     .getMany();
+  //   return abstracts;
+  // }
 
   async getAbstractData(): Promise<any> {
     const abstracts = await this.abstractRepository.find();
@@ -320,32 +331,41 @@ export class AbstarctsService {
     }
   }
 
-  async filterAbstracts(data: string) {
+  async filterAbstracts(
+    regSearchTerm: string,
+    options: IPaginationOptions,
+  ): Promise<Pagination<Abstarct>> {
     const entityManager = getManager();
 
-    const rawQuery = `
-    SELECT
-      a.id,
-      a."email" as email,
-      a."author" as author,
-      a."title" as title,
-      json_build_object(
-        'first_name', u.first_name,
-        'last_name', u.last_name
-      ) as user,
-      json_build_object(
-        'name', st.name
-      ) as sub_theme
-    FROM abstracts a
-    LEFT JOIN users u ON a."userId" = u.id
-    LEFT JOIN subthemes st ON a."subThemeId" = st.id
-    WHERE a."subThemeId" = $1;
-    `;
+    const queryBuilder = entityManager
+      .createQueryBuilder(Abstarct, 'a')
+      .leftJoinAndSelect('a.subTheme', 'st')
+      .where('a.subThemeId = :subThemeId', { subThemeId: regSearchTerm });
 
-    const queries: any[] = await entityManager.query(rawQuery, [data]);
-
-    return queries;
+    return paginate<Abstarct>(queryBuilder, options);
   }
+  // async filterAbstracts(data: string) {
+  //   const entityManager = getManager();
+
+  //   const rawQuery = `
+  //   SELECT
+  //     a.id,
+  //     a."author" as author,
+  //     a."title" as title,
+  //     a."url" as url,
+  //     a."description" as description,
+  //     json_build_object(
+  //       'name', st.name
+  //     ) as sub_theme
+  //   FROM abstracts a
+  //   LEFT JOIN subthemes st ON a."subThemeId" = st.id
+  //   WHERE a."subThemeId" = $1;
+  //   `;
+
+  //   const queries: any[] = await entityManager.query(rawQuery, [data]);
+
+  //   return queries;
+  // }
   async filterAbstractsByStatus(data: string) {
     const entityManager = getManager();
 

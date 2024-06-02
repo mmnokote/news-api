@@ -17,7 +17,7 @@ export class Abstarct extends BaseEntity {
 
   @Column({ type: 'varchar', nullable: true, length: 5000 })
   description: string;
-  
+
   @Column({ type: 'varchar', nullable: true, length: 5000 })
   url: string;
 
