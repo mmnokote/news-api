@@ -136,7 +136,8 @@ export class AbstarctsService {
     let queryBuilder = this.abstractRepository
       .createQueryBuilder('abstracts')
       .leftJoinAndSelect('abstracts.user', 'user')
-      .leftJoinAndSelect('abstracts.subTheme', 'sub_theme');
+      .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
+      .where('abstracts.published = :published', { published: true });
 
     if (query) {
       // Add additional condition to the query where subTheme name is equal to the query parameter
