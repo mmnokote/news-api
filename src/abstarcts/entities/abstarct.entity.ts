@@ -36,6 +36,9 @@ export class Abstarct extends BaseEntity {
   @Column({ nullable: true })
   urlToImage: string;
 
+  @Column({ nullable: true })
+  display_path: string;
+
   @Column({ type: 'text', nullable: true })
   content: string;
 }

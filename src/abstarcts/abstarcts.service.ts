@@ -86,16 +86,6 @@ export class AbstarctsService {
     return paginate<Abstarct>(queryBuilder, options);
   }
 
-  // async findAll() {
-  //   const abstracts = await this.abstractRepository
-  //     .createQueryBuilder('abstracts')
-  //     .leftJoinAndSelect('abstracts.user', 'user')
-  //     .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
-
-  //     .getMany();
-  //   return abstracts;
-  // }
-
   async getAbstractData(): Promise<any> {
     const abstracts = await this.abstractRepository.find();
 
@@ -117,18 +107,6 @@ export class AbstarctsService {
       })),
     };
   }
-
-  // async findAllMyAbs(req: any) {
-  //   // console.log('req', req.user.id);
-  //   const id = req.user.id;
-  //   const abstracts = await this.abstractRepository
-  //     .createQueryBuilder('abstracts')
-  //     .leftJoinAndSelect('abstracts.user', 'user')
-  //     .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
-  //     .where('abstracts.userId = :id', { id })
-  //     .getMany();
-  //   return abstracts;
-  // }
 
   async findAllMyAbs(req: any, query: string) {
     let queryBuilder = this.abstractRepository
@@ -187,8 +165,7 @@ export class AbstarctsService {
         if (!updatedAbstract) {
           throw new Error('Abstract not found');
         }
-        console.log('updatedAbstract title', updatedAbstract.title);
-        // Send email with the password
+        // console.log('updatedAbstract title', updatedAbstract.title);
         if (updatedAbstract.status) {
           const body = {
             ststus: updatedAbstract.status.name,
@@ -205,7 +182,7 @@ export class AbstarctsService {
         if (updatedAbstract.status) {
           return { message: 'Approval status set successful' };
         } else if (!updatedAbstract.status) {
-          return { message: 'Abstract updated  successful' };
+          return { message: 'News updated  successful' };
         }
       } else {
         return { message: 'Approval Status failed' };
@@ -214,120 +191,6 @@ export class AbstarctsService {
       // Handle error if the update fails
       console.error('Approval Status failed:', error.message);
       throw error; // Rethrow the error to be handled by the caller
-    }
-  }
-
-  async updateFromUser(id: number, updateQueryPriorityDto: UpdateAbstarctDto) {
-    try {
-      // if (updateQueryPriorityDto.status.code === 'AP') {
-      //   updateQueryPriorityDto.rejectionComment = null;
-      // }
-      const result = await this.abstractRepository.update(
-        id,
-        updateQueryPriorityDto,
-      );
-      // Check if the update was successful
-      if (result.affected > 0) {
-        // Get the updated abstract to retrieve the email
-        const updatedAbstract = await this.abstractRepository.findOne(id);
-        if (!updatedAbstract) {
-          throw new Error('Abstract not found');
-        }
-        // console.log('updatedAbstract', updatedAbstract.status.name);
-        // Send email with the password
-        // const body = {
-        //   email: updatedAbstract.email,
-        //   ststus: updatedAbstract.status.name,
-        //   comment: updatedAbstract.rejectionComment,
-        // };
-        // await this.emailService.sendAbstarctApprovalEmail(body);
-        return { message: 'Approval status set successful' };
-      } else {
-        return { message: 'Approval status set failed' };
-      }
-    } catch (error) {
-      // Handle error if the update fails
-      console.error('Approval Status failed:', error.message);
-      throw error; // Rethrow the error to be handled by the caller
-    }
-  }
-
-  async emailSendForAbstract(createDataDto) {
-    try {
-      // const connection = await amqp.connect('amqp://localhost');
-      const connection = await amqp.connect(
-        'amqp://rabbitmq:Passw0rd123@172.16.18.166:5672',
-      );
-      const channel = await connection.createChannel();
-      const queue = 'email_queue';
-      await channel.assertQueue(queue, { durable: true });
-
-      // Fetch emails from the user repository
-
-      const entityManager = getManager();
-
-      const rawQuery = `
-    SELECT DISTINCT ON (a.id)
-      a."userId" FROM
-    abstracts a
-      WHERE a."rejectionComment" = 'Abstract Accepted'
-    ;
-  `;
-
-      const abstracts: any[] = await entityManager.query(rawQuery);
-
-      const userIds = abstracts.map((abstract) => abstract.userId);
-      console.log('userIds', userIds);
-      const users = await this.userRepository.findByIds(userIds);
-
-      for (const user of users) {
-        const message = JSON.stringify({
-          email: user.email,
-          comment: createDataDto.body, // You can customize the comment here
-          code: 'NOTIFICATION',
-        });
-        channel.sendToQueue(queue, Buffer.from(message), { persistent: true });
-      }
-
-      return { message: 'Mails sent successful' };
-    } catch (error) {
-      console.error('Failed to send emails:', error.message);
-      throw error;
-    }
-  }
-
-  async emailSend(createDataDto) {
-    try {
-      // const connection = await amqp.connect('amqp://localhost');
-      const connection = await amqp.connect(
-        'amqp://rabbitmq:Passw0rd123@172.16.18.166:5672',
-      );
-      const channel = await connection.createChannel();
-      const queue = 'email_queue';
-      await channel.assertQueue(queue, { durable: true });
-
-      // Fetch emails from the user repository
-      const users = await this.userRepository
-        .createQueryBuilder('user')
-        .leftJoin('user.jisajilis', 'jisajili')
-        .where('user.active = :active', { active: false })
-        .andWhere('jisajili.id IS NULL')
-        .getMany();
-      // console.log('users', users);
-
-      for (const user of users) {
-        const message = JSON.stringify({
-          email: user.email,
-          comment: '', // You can customize the comment here
-          code: 'PAYMENTREMIDER',
-        });
-        channel.sendToQueue(queue, Buffer.from(message), { persistent: true });
-      }
-
-      return { message: 'Mails sent successful' };
-    } catch (error) {
-      console.error('Failed to send emails:', error.message);
-      throw error;
     }
   }
 

@@ -17,6 +17,7 @@ export class FilesService extends TypeOrmCrudService<FileEntity> {
     file: Express.Multer.File,
     newFileName: string,
   ): Promise<FileEntity> {
+    // console.log('ffffffffffffffffffffffff', file);
     return this.fileRepo.save(this.mapUploadFile(file, newFileName));
   }
 
@@ -24,10 +25,11 @@ export class FilesService extends TypeOrmCrudService<FileEntity> {
     file: Express.Multer.File,
     newFileName: string,
   ): Partial<FileEntity> {
-    const { originalname, mimetype, size } = file;
+    const { originalname, mimetype, size, filename } = file;
 
     return {
       original_name: originalname,
+      dispaly_path: filename,
       size,
       current_name: newFileName,
       extension: mimetype.split('/')[1],

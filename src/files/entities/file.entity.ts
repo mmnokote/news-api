@@ -14,6 +14,11 @@ export class FileEntity extends BaseEntity {
   @IsEmpty({ always: true })
   current_name: string;
 
+  @Column({ type: 'varchar', nullable: true, length: 1000 })
+  @IsString({ always: true })
+  @IsEmpty({ always: true })
+  dispaly_path: string;
+
   @Column({ type: 'varchar', nullable: false, length: 1000 })
   @IsString({ always: true })
   @IsEmpty({ always: true })

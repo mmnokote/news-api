@@ -59,36 +59,10 @@ export class AbstarctsController {
     }
   }
 
-  @Roles(Role.EMAIL)
-  @Post('send-mails')
-  async sendMails(@Body() createDataDto: any) {
-    return await this.abstarctsService.emailSend(createDataDto);
-  }
-
-  @Roles(Role.EMAIL)
-  @Post('abstract-mails')
-  async emailSendForAbstract(@Body() createDataDto: any) {
-    return await this.abstarctsService.emailSendForAbstract(createDataDto);
-  }
-
-  // @UseGuards(JwtAuthGuard)
-  // // @Roles(Role.USER)
-  // @Get('myabstarcts')
-  // myAbstarcts(@Req() req) {
-  //   return this.abstarctsService.findAllMyAbs(req);
-  // }
-  // @UseGuards(JwtAuthGuard)
   @Get('myabstarcts')
   async myAbstarcts(@Query('q') query: string, @Req() req) {
     return this.abstarctsService.findAllMyAbs(req, query);
   }
-
-  // @UseGuards(JwtAuthGuard)
-  // @Roles(Role.ADMIN)
-  // @Get()
-  // findAll() {
-  //   return this.abstarctsService.findAll();
-  // }
 
   @Get('')
   async index(
@@ -143,13 +117,6 @@ export class AbstarctsController {
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateData: UpdateAbstarctDto) {
-    return this.abstarctsService.update(+id, updateData);
-  }
-  @Patch(':id')
-  updateFromUser(
-    @Param('id') id: string,
-    @Body() updateData: UpdateAbstarctDto,
-  ) {
     return this.abstarctsService.update(+id, updateData);
   }
 

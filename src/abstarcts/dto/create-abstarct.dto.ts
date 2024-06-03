@@ -37,7 +37,7 @@ export class CreateAbstarctDto extends BaseEntity {
   @ApiProperty({
     description: 'subTheme',
   })
-  @IsNotEmpty({ message: 'SubTheme is missing.' })
+  @IsNotEmpty({ message: 'Category is missing.' })
   subTheme: object;
 
   status: any;

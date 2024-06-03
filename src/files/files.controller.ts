@@ -78,33 +78,4 @@ export class FilesController implements CrudController<FileEntity> {
     const filename = `http://75.119.149.23/uploads/${FilesController.genericService.pcoket.filename}`;
     return this.service.dbSave(file, filename);
   }
-
-  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-  // async uploadfile(
-  //   @UploadedFile() file: Express.Multer.File,
-  // ): Promise<{ message: string }> {
-  //   await this.service.dbSave(
-  //     file,
-  //     FilesController.genericService.pcoket.filename,
-  //   );
-  //   return {
-  //     message:
-  //       'Payment document uploaded successfully. Please proceed to save your form to complete.',
-  //   };
-  // }
-
-  // @Post('upload')
-  // @UseInterceptors(FileInterceptor('file'))
-  // async uploadfile(
-  //   @UploadedFile() file: Express.Multer.File,
-  // ): Promise<{ message: string }> {
-  //   await this.service.dbSave(
-  //     file,
-  //     FilesController.genericService.pcoket.filename,
-  //   );
-  //   return {
-  //     message:
-  //       'Payment uploaded successfully. Please log out and log in again to see the changes.',
-  //   };
-  // }
 }
