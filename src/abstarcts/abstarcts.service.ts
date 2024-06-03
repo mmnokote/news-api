@@ -87,8 +87,31 @@ export class AbstarctsService {
     return paginate<Abstarct>(queryBuilder, options);
   }
 
+  // async getAbstractData(): Promise<any> {
+  //   const abstracts = await this.abstractRepository.find();
+
+  //   return {
+  //     status: 'ok',
+  //     totalResults: abstracts.length,
+  //     articles: abstracts.map((abstract) => ({
+  //       source: {
+  //         id: null,
+  //         name: abstract.subTheme.name, // Assuming Subtheme has a name property
+  //       },
+  //       author: abstract.author,
+  //       title: abstract.title,
+  //       description: abstract.description,
+  //       url: abstract.url,
+  //       urlToImage: abstract.urlToImage,
+  //       publishedAt: abstract.createdAt.toISOString(),
+  //       content: abstract.content,
+  //     })),
+  //   };
+  // }
   async getAbstractData(): Promise<any> {
-    const abstracts = await this.abstractRepository.find();
+    const abstracts = await this.abstractRepository.find({
+      where: { published: true },
+    });
 
     return {
       status: 'ok',
