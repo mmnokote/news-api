@@ -93,7 +93,7 @@ export class AbstarctsController {
   @Get('')
   async index(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    @Query('limit', new DefaultValuePipe(5), ParseIntPipe) limit = 5,
   ): Promise<Pagination<Abstarct>> {
     limit = limit > 100 ? 100 : limit;
     return this.abstarctsService.paginate({

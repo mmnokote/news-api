@@ -80,7 +80,7 @@ export class AbstarctsService {
   async paginate(options: IPaginationOptions): Promise<Pagination<Abstarct>> {
     const queryBuilder = this.abstractRepository
       .createQueryBuilder('c')
-      .leftJoinAndSelect('c.subTheme', 'subTheme') // Ensure subTheme is eagerly loaded
+      .leftJoinAndSelect('c.subTheme', 'sub_theme') // Ensure subTheme is eagerly loaded
       .orderBy('c.id', 'DESC');
 
     return paginate<Abstarct>(queryBuilder, options);
