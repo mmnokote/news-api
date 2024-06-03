@@ -61,7 +61,7 @@ export class FilesController implements CrudController<FileEntity> {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: '/var/www/html/news-api/dist/uploads',
+        destination: '/var/www/html/news-ui/dist/uploads',
         filename: (req: Express.Request, file: Express.Multer.File, cb) => {
           const [, ext] = file.mimetype.split('/');
           FilesController.genericService.pcoket.filename = `${v4()}.${ext}`; // Set the filename
@@ -79,7 +79,7 @@ export class FilesController implements CrudController<FileEntity> {
     return this.service.dbSave(file, filename);
   }
 
-  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
   // async uploadfile(
   //   @UploadedFile() file: Express.Multer.File,
   // ): Promise<{ message: string }> {
