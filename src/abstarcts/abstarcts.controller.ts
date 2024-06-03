@@ -37,7 +37,13 @@ export class AbstarctsController {
     @Param('abstractId') abstractId: string,
     @Body() notificationData: { title: string; body: string },
   ) {
-    return await this.abstarctsService.sendNotificationsForAbstract(abstractId);
+    const result = await this.abstarctsService.sendNotificationsForAbstract(
+      abstractId,
+    );
+    return {
+      data: result,
+      message: 'Notification sent successfully',
+    };
   }
 
   @Post()
@@ -123,5 +129,10 @@ export class AbstarctsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.abstarctsService.remove(+id);
+  }
+
+  @Patch('publish/:id')
+  async togglePublish(@Param('id') id: string) {
+    return this.abstarctsService.togglePublish(+id);
   }
 }

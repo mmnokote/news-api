@@ -56,7 +56,7 @@ export class FilesController implements CrudController<FileEntity> {
   //   );
   // }
 
-  prod;
+  // prod
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('file', {

@@ -46,11 +46,12 @@ export class AbstarctsService {
     };
 
     for (const notification of notifications) {
-      await this.firebaseAdminService.sendNotification(
+      const result = await this.firebaseAdminService.sendNotification(
         notification.fcmToken,
         notificationData.title,
         notificationData.body,
       );
+      console.log('Notification Result:', result.message);
     }
   }
 
@@ -258,5 +259,20 @@ export class AbstarctsService {
 
   remove(id: number) {
     return this.abstractRepository.delete(id);
+  }
+
+  async togglePublish(id: number): Promise<{ message: string }> {
+    const abstract = await this.abstractRepository.findOne(id);
+    if (!abstract) {
+      throw new NotFoundException(`Abstract with ID ${id} not found`);
+    }
+
+    abstract.published = !abstract.published;
+    await this.abstractRepository.save(abstract);
+
+    const message = abstract.published
+      ? 'News published successfully'
+      : 'News unpublished successfully';
+    return { message };
   }
 }

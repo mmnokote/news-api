@@ -18,7 +18,7 @@ export class Abstarct extends BaseEntity {
   @Column({ type: 'varchar', nullable: true, length: 5000 })
   description: string;
 
-  @Column({ type: 'varchar', nullable: true, length: 5000 })
+  @Column({ type: 'varchar', nullable: true, length: 5000, default: null })
   url: string;
 
   @ManyToOne(() => Status, (status) => status.abstract, {
@@ -41,4 +41,7 @@ export class Abstarct extends BaseEntity {
 
   @Column({ type: 'text', nullable: true })
   content: string;
+
+  @Column({ default: false })
+  published: boolean;
 }
