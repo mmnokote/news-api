@@ -65,18 +65,8 @@ export class AbstarctsService {
       url: createAbstactDto.url,
     });
     // Save abstract to database
-
     return this.abstractRepository.save(abstractEntity);
   }
-
-  // async paginate(options: IPaginationOptions): Promise<Pagination<Abstarct>> {
-  //   const queryBuilder = this.abstractRepository
-  //     .createQueryBuilder('c')
-  //     .leftJoinAndSelect('c.subTheme', 'st')
-  //     .orderBy('c.id', 'DESC');
-
-  //   return paginate<Abstarct>(queryBuilder, options);
-  // }
 
   async paginate(options: IPaginationOptions): Promise<Pagination<Abstarct>> {
     const queryBuilder = this.abstractRepository
@@ -87,27 +77,6 @@ export class AbstarctsService {
     return paginate<Abstarct>(queryBuilder, options);
   }
 
-  // async getAbstractData(): Promise<any> {
-  //   const abstracts = await this.abstractRepository.find();
-
-  //   return {
-  //     status: 'ok',
-  //     totalResults: abstracts.length,
-  //     articles: abstracts.map((abstract) => ({
-  //       source: {
-  //         id: null,
-  //         name: abstract.subTheme.name, // Assuming Subtheme has a name property
-  //       },
-  //       author: abstract.author,
-  //       title: abstract.title,
-  //       description: abstract.description,
-  //       url: abstract.url,
-  //       urlToImage: abstract.urlToImage,
-  //       publishedAt: abstract.createdAt.toISOString(),
-  //       content: abstract.content,
-  //     })),
-  //   };
-  // }
   async getAbstractData(): Promise<any> {
     const abstracts = await this.abstractRepository.find({
       where: { published: true },
@@ -137,7 +106,8 @@ export class AbstarctsService {
       .createQueryBuilder('abstracts')
       .leftJoinAndSelect('abstracts.user', 'user')
       .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
-      .where('abstracts.published = :published', { published: true });
+      .where('abstracts.published = :published', { published: true })
+      .orderBy('abstracts.id', 'DESC');
 
     if (query) {
       // Add additional condition to the query where subTheme name is equal to the query parameter
