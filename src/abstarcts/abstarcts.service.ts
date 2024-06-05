@@ -43,6 +43,18 @@ export class AbstarctsService {
     const notificationData = {
       title: 'New Article Published', // You can customize this title as needed
       body: abstract.title,
+      data: {
+        newsImage: abstract.urlToImage || '', // Assuming `abstract.imageUrl` contains the URL of the image
+        newsTitle: abstract.title || 'No Title',
+        newsDate: abstract.createdAt
+          ? abstract.createdAt.toISOString().split('T')[0]
+          : 'No Date', // Assuming `abstract.publicationDate` is a Date object
+        author: abstract.author || 'Unknown',
+        description: abstract.description || 'No Description',
+        content: abstract.content || 'No Content',
+        source: 'MnNews',
+        url: abstract.url || '', // Assuming `abstract.url` contains the URL of the full article
+      },
     };
 
     for (const notification of notifications) {
@@ -50,6 +62,7 @@ export class AbstarctsService {
         notification.fcmToken,
         notificationData.title,
         notificationData.body,
+        notificationData.data,
       );
       console.log('Notification Result:', result.message);
     }

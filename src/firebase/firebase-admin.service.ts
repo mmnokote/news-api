@@ -20,34 +20,11 @@ const datastore = new Datastore({
 
 @Injectable()
 export class FirebaseAdminService {
-  // async sendNotification(
-  //   token: string,
-  //   title: string,
-  //   body: string,
-  // ): Promise<void> {
-  //   const message = {
-  //     notification: {
-  //       title: title,
-  //       body: body,
-  //     },
-  //     token: token,
-  //   };
-
-  //   try {
-  //     await admin.messaging().send(message);
-  //     console.log('Notification sent successfully');
-
-  //     // Store the notification in Datastore
-  //     await this.storeNotification(token, title, body);
-  //   } catch (error) {
-  //     console.error('Error sending notification:', error);
-  //   }
-  // }
-
   async sendNotification(
     token: string,
     title: string,
     body: string,
+    data: any,
   ): Promise<{ message: string }> {
     const message = {
       notification: {
@@ -55,6 +32,16 @@ export class FirebaseAdminService {
         body: body,
       },
       token: token,
+      data: {
+        newsImage: data.newsImage,
+        newsTitle: data.newsTitle,
+        newsDate: data.newsDate,
+        author: data.author,
+        description: data.description,
+        content: data.content,
+        source: data.source,
+        url: data.url,
+      },
     };
 
     try {
