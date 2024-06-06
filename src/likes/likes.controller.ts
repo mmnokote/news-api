@@ -1,5 +1,5 @@
 // src/likes/likes.controller.ts
-import { Controller, Post, Body, Param } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get } from '@nestjs/common';
 import { LikesService } from './likes.service';
 import { CreateLikeDto } from './dto/create-like.dto';
 
@@ -13,5 +13,10 @@ export class LikesController {
     @Body() createLikeDto: CreateLikeDto,
   ) {
     return this.likesService.likePost(+postId, createLikeDto);
+  }
+
+  @Get(':postId/count')
+  async getLikesCount(@Param('postId') postId: string) {
+    return this.likesService.getLikesCount(+postId);
   }
 }
