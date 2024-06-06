@@ -30,4 +30,8 @@ export class LikesService {
 
     return this.likeRepository.save(like);
   }
+
+  async getLikesCount(postId: number): Promise<number> {
+    return this.likeRepository.count({ where: { post: { id: postId } } });
+  }
 }
