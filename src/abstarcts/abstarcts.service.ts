@@ -103,6 +103,7 @@ export class AbstarctsService {
           id: null,
           name: abstract.subTheme.name, // Assuming Subtheme has a name property
         },
+        id: abstract.id,
         author: abstract.author,
         title: abstract.title,
         description: abstract.description,
@@ -139,6 +140,7 @@ export class AbstarctsService {
           id: null,
           name: abstract.subTheme.name, // Assuming Subtheme has a name property
         },
+        id: abstract.id,
         author: abstract.author,
         title: abstract.title,
         description: abstract.description,

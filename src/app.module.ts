@@ -24,6 +24,7 @@ import { EmailConsumerService } from './abstarcts/email-consumer.service';
 import { EmailService } from './mail.service';
 import { NotificationModule } from './notification/notification.module';
 import { FirebaseAdminService } from './firebase/firebase-admin.service';
+import { LikesModule } from './likes/likes.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { FirebaseAdminService } from './firebase/firebase-admin.service';
     MenusModule,
     StatusesModule,
     NotificationModule,
+    LikesModule,
   ],
   controllers: [AppController],
   providers: [
