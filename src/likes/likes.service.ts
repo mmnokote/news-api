@@ -32,6 +32,6 @@ export class LikesService {
   }
 
   async getLikesCount(postId: number): Promise<number> {
-    return this.likeRepository.count({ where: { post: { id: postId } } });
+    return this.likeRepository.count({ where: { abstract: { id: postId } } });
   }
 }
