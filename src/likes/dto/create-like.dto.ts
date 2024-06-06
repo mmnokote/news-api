@@ -5,7 +5,6 @@ export class CreateLikeDto {
   @ApiProperty({
     description: 'News',
   })
-  @IsNotEmpty({ message: 'news is missing.' })
   abstract: string;
 
   @ApiProperty({
