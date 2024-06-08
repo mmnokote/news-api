@@ -66,8 +66,12 @@ export class AbstarctsController {
   }
 
   @Get('myabstarcts')
-  async myAbstarcts(@Query('q') query: string, @Req() req) {
-    return this.abstarctsService.findAllMyAbs(req, query);
+  async myAbstarcts(
+    @Query('q') query: string,
+    @Query('fcmToken') fcmToken: string,
+    @Req() req,
+  ) {
+    return this.abstarctsService.findAllMyAbs(req, query, fcmToken);
   }
 
   @Get('')
