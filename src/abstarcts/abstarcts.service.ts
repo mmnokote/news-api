@@ -115,13 +115,57 @@ export class AbstarctsService {
     };
   }
 
+  // async findAllMyAbs(req: any, query: string) {
+  //   let queryBuilder = this.abstractRepository
+  //     .createQueryBuilder('abstracts')
+  //     .leftJoinAndSelect('abstracts.user', 'user')
+  //     .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
+  //     .where('abstracts.published = :published', { published: true })
+  //     .orderBy('abstracts.id', 'DESC');
+
+  //   if (query) {
+  //     // Add additional condition to the query where subTheme name is equal to the query parameter
+  //     queryBuilder = queryBuilder.andWhere('sub_theme.name = :name', {
+  //       name: query,
+  //     });
+  //   }
+
+  //   const abstracts = await queryBuilder.getMany();
+
+  //   return {
+  //     status: 'ok',
+  //     totalResults: abstracts.length,
+  //     articles: abstracts.map((abstract) => ({
+  //       source: {
+  //         id: null,
+  //         name: abstract.subTheme.name, // Assuming Subtheme has a name property
+  //       },
+  //       id: abstract.id,
+  //       author: abstract.author,
+  //       title: abstract.title,
+  //       description: abstract.description,
+  //       url: abstract.url,
+  //       urlToImage: abstract.urlToImage,
+  //       publishedAt: abstract.createdAt.toISOString(),
+  //       content: abstract.content,
+  //     })),
+  //   };
+  // }
   async findAllMyAbs(req: any, query: string) {
+    const fcmToken = 'xyz'; // Assuming fcmToken is stored in req.user
     let queryBuilder = this.abstractRepository
       .createQueryBuilder('abstracts')
-      .leftJoinAndSelect('abstracts.user', 'user')
       .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
+      .leftJoin('abstracts.likes', 'likes')
+      .addSelect('COUNT(likes.id)', 'likeCount')
+      .addSelect(
+        `SUM(CASE WHEN likes.fcmToken = :fcmToken THEN 1 ELSE 0 END) > 0`,
+        'isLiked',
+      )
+      .setParameter('fcmToken', fcmToken) // Ensure the fcmToken is set as a parameter
       .where('abstracts.published = :published', { published: true })
-      .orderBy('abstracts.id', 'DESC');
+      .orderBy('abstracts.id', 'DESC')
+      .groupBy('abstracts.id, sub_theme.id');
 
     if (query) {
       // Add additional condition to the query where subTheme name is equal to the query parameter
@@ -130,7 +174,7 @@ export class AbstarctsService {
       });
     }
 
-    const abstracts = await queryBuilder.getMany();
+    const abstracts = await queryBuilder.getRawMany();
 
     return {
       status: 'ok',
@@ -138,16 +182,18 @@ export class AbstarctsService {
       articles: abstracts.map((abstract) => ({
         source: {
           id: null,
-          name: abstract.subTheme.name, // Assuming Subtheme has a name property
+          name: abstract.subThemeName, // Assuming Subtheme has a name property
         },
-        id: abstract.id,
-        author: abstract.author,
-        title: abstract.title,
-        description: abstract.description,
-        url: abstract.url,
-        urlToImage: abstract.urlToImage,
-        publishedAt: abstract.createdAt.toISOString(),
-        content: abstract.content,
+        id: abstract.abstracts_id,
+        author: abstract.abstracts_author,
+        title: abstract.abstracts_title,
+        description: abstract.abstracts_description,
+        url: abstract.abstracts_url,
+        urlToImage: abstract.abstracts_urlToImage,
+        publishedAt: new Date(abstract.abstracts_createdAt).toISOString(),
+        content: abstract.abstracts_content,
+        likeCount: parseInt(abstract.likeCount, 10),
+        isLiked: abstract.isLiked,
       })),
     };
   }

@@ -53,6 +53,12 @@ export class Abstarct extends BaseEntity {
   @Column({ default: false })
   published: boolean;
 
+  @Column({ default: false })
+  isLiked: boolean;
+
+  @Column({ default: 1 })
+  likeCount: number;
+
   @OneToMany(() => Like, (like) => like.abstract)
   likes: Like[];
 }
