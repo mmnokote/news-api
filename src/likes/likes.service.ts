@@ -31,7 +31,15 @@ export class LikesService {
     return this.likeRepository.save(like);
   }
 
-  async getLikesCount(postId: number): Promise<number> {
-    return this.likeRepository.count({ where: { abstract: { id: postId } } });
+  async getLikesCount(postId: number): Promise<{ like_count: number }> {
+    const count = await this.likeRepository.count({
+      where: { abstract: { id: postId } },
+    });
+    return { like_count: count };
   }
+
+  // async getLikesCount(abstractId: number): Promise<{ like_count: number }> {
+  //   const count = await this.likeRepository.count({ where: { abstractId } });
+  //   return { like_count: count };
+  // }
 }
