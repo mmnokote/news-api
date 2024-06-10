@@ -10,6 +10,9 @@ export class Like {
   @Column()
   fcmToken: string;
 
+  @Column()
+  abstractId: number;
+
   @ManyToOne(() => Abstarct, (abstarct) => abstarct.likes)
   abstract: Abstarct;
 }
