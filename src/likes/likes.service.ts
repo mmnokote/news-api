@@ -15,7 +15,25 @@ export class LikesService {
     private readonly abstractRepository: Repository<Abstarct>,
   ) {}
 
-  async likePost(postId: number, createLikeDto: CreateLikeDto): Promise<Like> {
+  // async likePost(postId: number, createLikeDto: CreateLikeDto): Promise<Like> {
+  //   const abstract = await this.abstractRepository.findOne({
+  //     where: { id: postId },
+  //   });
+  //   if (!abstract) {
+  //     throw new Error('Post not found');
+  //   }
+
+  //   const like = this.likeRepository.create({
+  //     fcmToken: createLikeDto.fcmToken,
+  //     abstract,
+  //   });
+
+  //   return this.likeRepository.save(like);
+  // }
+  async likePost(
+    postId: number,
+    createLikeDto: CreateLikeDto,
+  ): Promise<Like | void> {
     const abstract = await this.abstractRepository.findOne({
       where: { id: postId },
     });
@@ -23,12 +41,21 @@ export class LikesService {
       throw new Error('Post not found');
     }
 
+    const existingLike = await this.likeRepository.findOne({
+      where: { fcmToken: createLikeDto.fcmToken, abstractId: postId },
+    });
+
+    if (existingLike) {
+      await this.likeRepository.delete(existingLike.id);
+      return; // Return void if it was a dislike
+    }
+
     const like = this.likeRepository.create({
       fcmToken: createLikeDto.fcmToken,
       abstract,
     });
 
-    return this.likeRepository.save(like);
+    return this.likeRepository.save(like); // Return the saved like
   }
 
   async getLikesCount(postId: number): Promise<{ like_count: number }> {
