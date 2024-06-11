@@ -152,6 +152,54 @@ export class AbstarctsService {
   //   };
   // }
 
+  async findLikedAbs(req: any, query: string, fcmToken: string) {
+    console.log('fcmToken', fcmToken);
+    let queryBuilder = this.abstractRepository
+      .createQueryBuilder('abstracts')
+      .leftJoinAndSelect('abstracts.user', 'user')
+      .leftJoinAndSelect('abstracts.subTheme', 'sub_theme')
+      .leftJoin('abstracts.likes', 'likes')
+      .addSelect('COUNT(likes.id)', 'likeCount')
+      .addSelect(
+        `SUM(CASE WHEN likes.fcmToken = :fcmToken THEN 1 ELSE 0 END) > 0`,
+        'isLiked',
+      )
+      .where('abstracts.published = :published', { published: true })
+      .andWhere('likes.fcmToken = :fcmToken', { fcmToken }) // Ensure the fcmToken is used for filtering
+      .orderBy('abstracts.id', 'DESC')
+      .groupBy('abstracts.id, sub_theme.id, user.id, likes.fcmToken'); // Include likes.fcmToken in the group by
+
+    if (query) {
+      // Add additional condition to the query where subTheme name is equal to the query parameter
+      queryBuilder = queryBuilder.andWhere('sub_theme.name = :name', {
+        name: query,
+      });
+    }
+
+    const abstracts = await queryBuilder.getRawMany();
+
+    return {
+      status: 'ok',
+      totalResults: abstracts.length,
+      articles: abstracts.map((abstract) => ({
+        source: {
+          id: null,
+          name: abstract.sub_theme_name || 'MnNews',
+        },
+        id: abstract.abstracts_id,
+        author: abstract.abstracts_author,
+        title: abstract.abstracts_title,
+        description: abstract.abstracts_description,
+        url: abstract.abstracts_url,
+        urlToImage: abstract.abstracts_urlToImage,
+        publishedAt: new Date(abstract.abstracts_createdAt).toISOString(),
+        content: abstract.abstracts_content,
+        likeCount: parseInt(abstract.likeCount, 10),
+        isLiked: abstract.isLiked,
+      })),
+    };
+  }
+
   async findAllMyAbs(req: any, query: string, fcmToken: string) {
     console.log('fcmToken', fcmToken);
     let queryBuilder = this.abstractRepository

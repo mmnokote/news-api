@@ -73,6 +73,14 @@ export class AbstarctsController {
   ) {
     return this.abstarctsService.findAllMyAbs(req, query, fcmToken);
   }
+  @Get('myabstarcts/myLikes')
+  async myLikedAbs(
+    @Query('q') query: string,
+    @Query('fcmToken') fcmToken: string,
+    @Req() req,
+  ) {
+    return this.abstarctsService.findLikedAbs(req, query, fcmToken);
+  }
 
   @Get('')
   async index(
